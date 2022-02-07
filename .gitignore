@@ -50,3 +50,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#MAIN
+*.o
+.DS_Store
+*.d
+miniRT
+libft.a
+./build/
+.vscode*
