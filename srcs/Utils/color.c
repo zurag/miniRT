@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,35 +12,18 @@
 
 #include "miniRT.h"
 
-int	main(int argc, char **argv)
+int	gradient(int startcolor, int endcolor, int iter, int iter_max)
 {
-	(void)argc;
-	(void)argv;
-	t_vars	vars;
-	t_data	img;
-//	char	*str;
-//	double d = 0.0;
+	double	increment[3];
+	int		new[3];
+	int		newcolor;
 
-
-
-	init(&vars);
-	if (argc > 1)
-	{
-		parser(argv, &vars);
-//		process_drawing()
-	}
-	printf("Just check = %f\n", vars.cyl->height);
-	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
-	my_mlx_pixel_put(&img, vars.x, vars.y, BLACK);
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
-//	else
-//	{
-//		write(1, &"Wrong input! Change something", 29);
-//		exit(0);
-//	}
-	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
-	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);
-	mlx_loop(vars.mlx);
-	return (0);
+	increment[0] = ((endcolor >> 16) - (startcolor >> 16)) / (iter + 1);
+	increment[1] = ((endcolor >> 8) & 0xFF - (startcolor >> 8) & 0xFF) / (iter + 1);
+	increment[2] = ((endcolor & 0xFF) - (startcolor & 0xFF)) / (iter + 1);
+	new[0] = ((startcolor) >> 16) + fabs(iter_max * increment[0]);
+	new[1] = (((startcolor) >> 8) & 0xFF) + fabs(iter_max * increment[1]);
+	new[2] = ((startcolor) & 0xFF) + fabs(iter_max * increment[2]);
+	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
+	return (newcolor);
 }
