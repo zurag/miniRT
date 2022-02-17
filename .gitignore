@@ -59,3 +59,6 @@ miniRT
 libft.a
 ./build/
 .vscode*
+.idea
+cmake-build-debug
+CMakeLists.txt
