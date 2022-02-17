@@ -20,7 +20,7 @@ INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(HEADERS_DIR)
 
 HEADERS_LIST = \
 				miniRT.h
-HEADERS_DIR	=	./srcs/includes/
+HEADERS_DIR	=	./includes/
 HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
 LIBFT	=	$(LIBFT_DIRECTORY)libft.a
