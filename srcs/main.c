@@ -10,36 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
 
+#include "miniRT.h"
 
-
-void	print_vect(t_vect *vec, char *name)
+int	main(int argc, char **argv)
 {
-	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
-}
+	(void)argc;
+	(void)argv;
+	t_vars	vars;
+	t_data	img;
+//	char	*str;
+//	double d = 0.0;
 
 
 
-int	main()
-{
-	void	*mlx;
-	void	*wind;
-
-	mlx = mlx_init();
-	t_vect	*sphere_center = new_vector(3, 2, -32);
-	t_sphere	*sphere = new_sphere(sphere_center, 12/2);
-	t_vect	*cam_origin = new_vector(0, 0, 0);
-	t_vect	*cam_direction = new_vector(0, 0, -1);
-	t_camera	*cam = new_camera(cam_origin, cam_direction, 70);
-	t_scene	*scene = new_scene(cam, sphere);
-	scene->width = 800;
-	scene->hight = 600;
-	wind = mlx_new_window(mlx, scene->width, scene->hight, "test");
-	ray_tracing(mlx, wind, scene);
-	free(scene);
-	mlx_loop(mlx);
-
-	// printf("%f", dot_product(new_vector(0, 0, 1), new_vector(0, 0, -1)));
+	init(&vars);
+	if (argc > 1)
+	{
+		parser(argv, &vars);
+//		process_drawing()
+	}
+	printf("Just check = %f\n", vars.cyl->height);
+	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
+	my_mlx_pixel_put(&img, vars.x, vars.y, BLACK);
+	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+//	else
+//	{
+//		write(1, &"Wrong input! Change something", 29);
+//		exit(0);
+//	}
+	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
+	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);
+	mlx_loop(vars.mlx);
 	return (0);
 }

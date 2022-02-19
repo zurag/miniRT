@@ -1,62 +1,68 @@
+
 NAME		= miniRT
 
-CC			= gcc
-RM			= rm -rf
+SOURCES_LIST	= 	srcs/main.c \
+					srcs/Parser/parser_root.c \
+					srcs/Parser/parser_utils.c \
+					srcs/Parser/parse_capital.c \
+					srcs/Parser/parse_lowercase.c \
+					srcs/Utils/init_and_hooks.c \
+					srcs/Utils/init_and_hooks1.c \
+					srcs/Utils/color.c \
 
-CFLAGS		= -Wall -Wextra  -I $(MINILIBX_INC) -MMD -march=native -O2 -msse4a -flto -pipe #-Werror
 
-# Project builds and dirs
-SRCDIR = ./srcs/
-SRCNAMES = $(shell ls $(SRCDIR) | grep -E ".+\.c")
-SRC = $(addprefix $(SRCDIR), $(SRCNAMES))
-INC = ./includes/
-BUILDDIR = ./build/
-BUILDOBJS = $(addprefix $(BUILDDIR), $(SRCNAMES:.c=.o))
 
-# Libft builds and dirs
-LIBDIR = ./libft/
-LIBFT = ./libft/libft.a
-LIBINC = ./libft/includes/
+CC		= gcc
+CFLAGS	=	-Werror -Wall -Wextra -MMD -march=native -O2 -msse4a -flto -pipe
+LIBRARIES = -lmlx -lm -lft\
+	-L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY)\
+	-Wno-deprecated-declarations\
+	-framework OpenGL -framework AppKit
+INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(HEADERS_DIR)
 
-# Lib minilibx
-MINILIBX_DIR = ./minilibx/
-MINILIBX_INC = ./minilibx/mlx.h
-MLX = libmlx.dylib
+HEADERS_LIST = \
+				miniRT.h
+HEADERS_DIR	=	./includes/
+HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
-all: $(BUILDDIR) $(LIBFT) $(MLX) $(NAME)
 
-# Object dir rule
-$(BUILDDIR):
-	mkdir -p $(BUILDDIR)
+LIBFT	=	$(LIBFT_DIRECTORY)libft.a
+LIBFT_DIRECTORY = ./libft/
+LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
-# Objects rule
-$(BUILDDIR)%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) -I$(LIBINC) -I$(INC) -I$(MINILIBX_INC) -o $@ -c $<
+MINILIBX =	$(MINILIBX_DIRECTORY)libmlx.a
+MINILIBX_DIRECTORY = ./minilibx_opengl/
+MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)mlx.h
 
-# Project file rule
-$(NAME): $(BUILDOBJS)
-	$(CC) $(CFLAGS) $(BUILDOBJS) $(LIBFT) -I $(INC) -I $(MINILIBX_INC) $(MLX) -o $(NAME)
+OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
-# minilibx rule
-$(MLX):
-	make -C $(MINILIBX_DIR)
-	mv $(addprefix $(MINILIBX_DIR), $(MLX)) .
 
-# Libft rule
+.PHONY:	all clean fclean re
+
+all	: 	$(NAME)
+
+$(NAME): $(LIBFT) $(MINILIBX) $(OBJECTS)
+		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
+
+%.o : %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
+
 
 $(LIBFT):
-	make -C $(LIBDIR)
+		@$(MAKE) -sC $(LIBFT_DIRECTORY)
+
+
+$(MINILIBX):
+		@$(MAKE) -sC $(MINILIBX_DIRECTORY)
 
 clean:
-	$(RM) $(BUILDDIR)
-	make -C $(LIBDIR) clean
-	make -C $(MINILIBX_DIR) clean
+		@$(MAKE) clean -sC $(LIBFT_DIRECTORY)
+		@$(MAKE) clean -sC $(MINILIBX_DIRECTORY)
+		@rm -f $(OBJECTS)
 
-fclean: clean
-	$(RM) $(NAME)
-	make -C $(LIBDIR) fclean
-	make -C $(MINILIBX_DIR) clean
+fclean:	clean
+		@rm -f $(NAME)
+		@rm -f $(LIBFT)
+		@rm -f $(MINILIBX)
 
-re: fclean all
-
-.PHONY: all clean fclean re
+re:		fclean all
