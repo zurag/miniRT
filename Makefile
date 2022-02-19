@@ -1,4 +1,5 @@
-NAME	=	miniRT
+
+NAME		= miniRT
 
 SOURCES_LIST	= 	srcs/main.c \
 					srcs/Parser/parser_root.c \
@@ -10,8 +11,9 @@ SOURCES_LIST	= 	srcs/main.c \
 					srcs/Utils/color.c \
 
 
+
 CC		= gcc
-CFLAGS	=	-Werror -Wall -Wextra
+CFLAGS	=	-Werror -Wall -Wextra -MMD -march=native -O2 -msse4a -flto -pipe
 LIBRARIES = -lmlx -lm -lft\
 	-L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY)\
 	-Wno-deprecated-declarations\
@@ -23,6 +25,7 @@ HEADERS_LIST = \
 HEADERS_DIR	=	./includes/
 HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
+
 LIBFT	=	$(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
@@ -32,6 +35,7 @@ MINILIBX_DIRECTORY = ./minilibx_opengl/
 MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)mlx.h
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
+
 
 .PHONY:	all clean fclean re
 
@@ -43,8 +47,10 @@ $(NAME): $(LIBFT) $(MINILIBX) $(OBJECTS)
 %.o : %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
 
+
 $(LIBFT):
 		@$(MAKE) -sC $(LIBFT_DIRECTORY)
+
 
 $(MINILIBX):
 		@$(MAKE) -sC $(MINILIBX_DIRECTORY)
