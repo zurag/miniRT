@@ -1,60 +1,62 @@
-NAME		= minishell
+NAME	=	miniRT
 
-CC			= gcc
-RM			= rm -rf
+SOURCES_LIST	= 	srcs/main.c \
+					srcs/Parser/parser_root.c \
+					srcs/Parser/parser_utils.c \
+					srcs/Parser/parse_capital.c \
+					srcs/Parser/parse_lowercase.c \
+					srcs/Utils/init_and_hooks.c \
+					srcs/Utils/init_and_hooks1.c \
+					srcs/Utils/color.c \
 
-CFLAGS		= -Wall -Wextra -Werror -I $(MINILIBX_INC) -MMD -march=native -O2 -msse4a -flto -pipe 
 
-# Project builds and dirs
-SRCDIR = ./srcs/
-SRCNAMES = $(shell ls $(SRCDIR) | grep -E ".+\.c")
-SRC = $(addprefix $(SRCDIR), $(SRCNAMES))
-INC = ./includes/
-BUILDDIR = ./build/
-BUILDOBJS = $(addprefix $(BUILDDIR), $(SRCNAMES:.c=.o))
+CC		= gcc
+CFLAGS	=	-Werror -Wall -Wextra
+LIBRARIES = -lmlx -lm -lft\
+	-L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY)\
+	-Wno-deprecated-declarations\
+	-framework OpenGL -framework AppKit
+INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(HEADERS_DIR)
 
-# Libft builds and dirs
-LIBDIR = ./libft/
-LIBFT = ./libft/libft.a
-LIBINC = ./libft/includes/
+HEADERS_LIST = \
+				miniRT.h
+HEADERS_DIR	=	./includes/
+HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 
-# Lib minilibx
-MINILIBX_DIR = ./minilibx/
-MINILIBX_INC = ./minilibx/mlx.h
-MINILIBX = libmlx.dylib
+LIBFT	=	$(LIBFT_DIRECTORY)libft.a
+LIBFT_DIRECTORY = ./libft/
+LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
-all: $(BUILDDIR) $(LIBFT) $(NAME)
+MINILIBX =	$(MINILIBX_DIRECTORY)libmlx.a
+MINILIBX_DIRECTORY = ./minilibx_opengl/
+MINILIBX_HEADERS = $(MINILIBX_DIRECTORY)mlx.h
 
-# Object dir rule
-$(BUILDDIR):
-	mkdir -p $(BUILDDIR)
+OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
-# Objects rule
-$(BUILDDIR)%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) -I$(LIBINC) -I$(INC) -o $@ -c $<
+.PHONY:	all clean fclean re
 
-# Project file rule
-$(NAME): $(BUILDOBJS)
-	$(CC) $(CFLAGS) $(BUILDOBJS) $(LIBFT) -I $(INC) -I $(MINILIBX_INC) -L $(MINILIBX) -o $(NAME)
+all	: 	$(NAME)
 
-# minilibx rule
+$(NAME): $(LIBFT) $(MINILIBX) $(OBJECTS)
+		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
 
-$(MINILIBX):
-	make -C $(MINILIBX_DIR)
-
-# Libft rule
+%.o : %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
 
 $(LIBFT):
-	make -C $(LIBDIR)
+		@$(MAKE) -sC $(LIBFT_DIRECTORY)
+
+$(MINILIBX):
+		@$(MAKE) -sC $(MINILIBX_DIRECTORY)
 
 clean:
-	$(RM) $(BUILDDIR)
-	make -C $(LIBDIR) clean
+		@$(MAKE) clean -sC $(LIBFT_DIRECTORY)
+		@$(MAKE) clean -sC $(MINILIBX_DIRECTORY)
+		@rm -f $(OBJECTS)
 
-fclean: clean
-	$(RM) $(NAME)
-	make -C $(LIBDIR) fclean
+fclean:	clean
+		@rm -f $(NAME)
+		@rm -f $(LIBFT)
+		@rm -f $(MINILIBX)
 
-re: fclean all
-
-.PHONY: all clean fclean re
+re:		fclean all
