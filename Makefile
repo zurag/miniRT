@@ -1,9 +1,9 @@
-NAME		= minishell
+NAME		= miniRT
 
 CC			= gcc
 RM			= rm -rf
 
-CFLAGS		= -Wall -Wextra -Werror -I $(MINILIBX_INC) -MMD -march=native -O2 -msse4a -flto -pipe 
+CFLAGS		= -Wall -Wextra  -I $(MINILIBX_INC) -MMD -march=native -O2 -msse4a -flto -pipe #-Werror
 
 # Project builds and dirs
 SRCDIR = ./srcs/
@@ -21,9 +21,9 @@ LIBINC = ./libft/includes/
 # Lib minilibx
 MINILIBX_DIR = ./minilibx/
 MINILIBX_INC = ./minilibx/mlx.h
-MINILIBX = libmlx.dylib
+MLX = libmlx.dylib
 
-all: $(BUILDDIR) $(LIBFT) $(NAME)
+all: $(BUILDDIR) $(LIBFT) $(MLX) $(NAME)
 
 # Object dir rule
 $(BUILDDIR):
@@ -31,16 +31,16 @@ $(BUILDDIR):
 
 # Objects rule
 $(BUILDDIR)%.o:$(SRCDIR)%.c
-	$(CC) $(CFLAGS) -I$(LIBINC) -I$(INC) -o $@ -c $<
+	$(CC) $(CFLAGS) -I$(LIBINC) -I$(INC) -I$(MINILIBX_INC) -o $@ -c $<
 
 # Project file rule
 $(NAME): $(BUILDOBJS)
-	$(CC) $(CFLAGS) $(BUILDOBJS) $(LIBFT) -I $(INC) -I $(MINILIBX_INC) -L $(MINILIBX) -o $(NAME)
+	$(CC) $(CFLAGS) $(BUILDOBJS) $(LIBFT) -I $(INC) -I $(MINILIBX_INC) $(MLX) -o $(NAME)
 
 # minilibx rule
-
-$(MINILIBX):
+$(MLX):
 	make -C $(MINILIBX_DIR)
+	mv $(addprefix $(MINILIBX_DIR), $(MLX)) .
 
 # Libft rule
 
@@ -50,10 +50,12 @@ $(LIBFT):
 clean:
 	$(RM) $(BUILDDIR)
 	make -C $(LIBDIR) clean
+	make -C $(MINILIBX_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
 	make -C $(LIBDIR) fclean
+	make -C $(MINILIBX_DIR) clean
 
 re: fclean all
 
