@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.c                                           :+:      :+:    :+:   */
+/*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,9 @@
 
 #include "miniRT.h"
 
-void	sphere()
+void	put_numbers_vec(char **num, t_vect *vec)
 {
-	;
+	vec->x = ft_atof(num[0]);
+	vec->y = ft_atof(num[1]);
+	vec->z = ft_atof(num[2]);
 }

@@ -2,15 +2,22 @@
 NAME		= miniRT
 
 SOURCES_LIST	= 	srcs/main.c \
-					srcs/Parser/parser_root.c \
-					srcs/Parser/parser_utils.c \
+					srcs/vector.c \
 					srcs/Parser/parse_capital.c \
 					srcs/Parser/parse_lowercase.c \
+					srcs/Parser/parser_root.c \
+					srcs/Parser/parser_utils.c \
+					srcs/Parser/parser_utils1.c \
 					srcs/Utils/init_and_hooks.c \
 					srcs/Utils/init_and_hooks1.c \
 					srcs/Utils/color.c \
-
-
+					srcs/Figures/camera.c \
+					srcs/Figures/cylinder.c \
+					srcs/Figures/plane.c \
+					srcs/Figures/sphere.c \
+					srcs/Figures/scene.c \
+					srcs/Raytracer/intersect.c \
+					srcs/Raytracer/raytrace_root.c \
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -MMD -march=native -O2 -msse4a -flto -pipe

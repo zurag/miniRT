@@ -12,6 +12,11 @@
 
 #include "miniRT.h"
 
+int	color(int red, int green, int blue)
+{
+	return ( red << 16 | green << 8 | blue);
+}
+
 int	gradient(int startcolor, int endcolor, int iter, int iter_max)
 {
 	double	increment[3];

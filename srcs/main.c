@@ -30,10 +30,10 @@ int	main(int argc, char **argv)
 		parser(argv, &vars);
 //		process_drawing()
 	}
+	raytrace(var)
 	printf("Just check = %f\n", vars.cyl->height);
 	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
-	my_mlx_pixel_put(&img, vars.x, vars.y, BLACK);
 	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
 //	else
 //	{

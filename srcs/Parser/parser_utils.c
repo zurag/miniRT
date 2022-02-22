@@ -30,7 +30,7 @@ char	**numbers(char *line, int *i)
 	return (tmp_arr);
 }
 
-void	put_numbers(char **num, double *x, double *y, double *z)
+void	put_numbers(char **num, float *x, float *y, float *z)
 {
 	if (x)
 		*x = ft_atof(num[0]);
@@ -44,10 +44,8 @@ void	put_numbers_atoi(char **num, int *x, int *y, int *z)
 {
 	if (x)
 		*x = ft_atoi(num[0]);
-
 	if (y)
 		*y = ft_atoi(num[1]);
-	printf("check\n");
 	if (z)
 		*z = ft_atoi(num[2]);
 }
