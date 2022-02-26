@@ -88,7 +88,7 @@ typedef struct s_vars {
 
 typedef struct	s_amb {
 	char 		*id;
-	float 		light_ratio;
+	float 		l_rat;
 	int 		red;
 	int 		green;
 	int			blue;

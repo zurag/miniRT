@@ -34,8 +34,8 @@ void	raytrace(t_vars *vars, t_scene *scene)
 			x_ray = x_angle * vplane->x_pixel;
 			ray = new_vector(x_ray, y_ray, -1);
 			vect_normalize(ray);
-			if (intersect(vars->camera, ray, vars->sph))
-				color = 167772215;
+			if (sphere_intersect(vars->camera, ray, vars->sph))
+				color = 167772215 * (vars->amb->l_rat + m(скаляр от вектора));
 			else
 				color = 0;
 			my_mlx_pixel_put(vars->mlx, vars->x, vars->y, color);
@@ -52,15 +52,17 @@ t_vplane	*get_view_plane(float width, float height, float fov)
 {
 	t_vplane	*vplane;
 	float		aspect_ratio;
+//	float		x;
 
-	fov = 1;
+//	fov = 1;
+//	x = 2 * tag((double)fov / 2);
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		return (NULL);
-	aspect_ratio = width / height;
-	vplane->width = 1;
-	vplane->height = vplane->width / aspect_ratio;
-	vplane->x_pixel = vplane->width / width;
-	vplane->y_pixel = vplane->height / height;
+	aspect_ratio = width * pow(height, (-1));
+	vplane->width = 2 * tan((double)fov * 0.5);
+	vplane->height = vplane->width * pow(aspect_ratio, -1);
+	vplane->x_pixel = vplane->width * pow(width, -1);
+	vplane->y_pixel = vplane->height * pow(height, -1);
 	return (vplane);
 }
