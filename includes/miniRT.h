@@ -54,13 +54,15 @@ typedef struct s_sph	t_sph;
 typedef struct s_cyl	t_cyl;
 typedef struct s_plane	t_plane;
 
-typedef struct s_vect{
+typedef struct s_vect
+{
 	float	x;
 	float	y;
 	float	z;
 }				t_vect;
 
-typedef struct s_data {
+typedef struct s_data
+{
 	void		*img;
 	char		*addr;
 	int			bpp;
@@ -68,11 +70,12 @@ typedef struct s_data {
 	int			endian;
 }				t_data;
 
-typedef struct s_vars {
+typedef struct s_vars
+{
 	void		*mlx;
 	void		*win;
-	int 		x;
-	int 		y;
+	int			x;
+	int			y;
 	t_data		*img;
 	t_amb		*amb;
 	t_camera	*camera;
@@ -83,66 +86,73 @@ typedef struct s_vars {
 }				t_vars;
 //PARSING
 
-typedef struct	s_amb {
-	char 		*id;
-	float 		l_rat;
-	int 		red;
-	int 		green;
+typedef struct s_amb
+{
+	char		*id;
+	float		l_rat;
+	int			red;
+	int			green;
 	int			blue;
 }				t_amb;
 
-typedef struct	s_camera {
-	char 		*id;
+typedef struct s_camera
+{
+	char		*id;
 	t_vect		*d_origin;
 	t_vect		*nv_direction;
-	int 		fov;
+	int			fov;
 }				t_camera;
 
-typedef struct	s_light {
-	char 		*id;
+typedef struct s_light
+{
+	char		*id;
 	t_vect		*d_point;
-	float 		bright;
+	float		bright;
 }				t_light;
 
-typedef struct	s_plane {
-	char 		*id;
+typedef struct s_plane
+{
+	char		*id;
 	t_vect		*d_coordinates;
 	t_vect		*nv_orientation;
-	int 		red;
-	int 		green;
-	int 		blue;
+	int			red;
+	int			green;
+	int			blue;
 }				t_plane;
 
-typedef struct	s_sph {
-	char 		*id;
+typedef struct s_sph
+{
+	char		*id;
 	t_vect		*center;
-	float 		diam;
-	int 		red;
-	int 		green;
-	int 		blue;
+	float		diam;
+	int			red;
+	int			green;
+	int			blue;
 }				t_sph;
 
-typedef struct	s_cyl {
-	char 		*id;
+typedef struct s_cyl
+{
+	char		*id;
 	t_vect		*d_coordinates;
 	t_vect		*nv_orientation;
-	float 		diam;
-	float 		height;
-	int 		red;
-	int 		green;
-	int 		blue;
+	float		diam;
+	float		height;
+	int			red;
+	int			green;
+	int			blue;
 }				t_cyl;
 
-typedef	struct	s_matrix {
+typedef struct s_matrix
+{
 	float		mat[4][4];
 }				t_matrix;
 
-typedef struct	s_vplane
+typedef struct s_vplane
 {
-	float 		width;
-	float 		height;
-	float 		x_pixel;
-	float 		y_pixel;
+	float		width;
+	float		height;
+	float		x_pixel;
+	float		y_pixel;
 }				t_vplane;
 
 typedef struct s_scene
@@ -173,7 +183,7 @@ void		put_numbers_vec(char **num, t_vect *vec);
 // Figures
 
 void		init(t_vars *vars);
-t_amb 		*init_amb(void);
+t_amb		*init_amb(void);
 t_camera	*new_camera(void);
 t_light		*new_light(void);
 t_plane		*new_plane(void);

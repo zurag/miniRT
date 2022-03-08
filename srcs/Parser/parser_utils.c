@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/07 19:52:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/08 19:27:25 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ char	**numbers(char *line, int *i)
 	int		j;
 
 	j = *i;
-//	printf("line[%d] = |%c|\n", j, line[j]);
 	while (line[*i] != ' ' && line[*i] != '\0')
 		(*i)++;
-//	printf("line[%d] = |%c|\n", j, line[j]);
 	tmp = ft_substr(line, j, *i - j);
 	printf("tmp = |%s|\n", tmp);
 	tmp_arr = ft_split(tmp, ',');
@@ -96,7 +94,8 @@ float	ft_atof(const char *str)
 	}
 	while ((c = *str++) != '\0' && ft_isdigit(c))
 		res = res * 10.0 + (c - '0');
-	if (c == '.') {
+	if (c == '.')
+	{
 		while ((c = *str++) != '\0' && ft_isdigit(c))
 		{
 			res = res * 10.0 + (c - '0');

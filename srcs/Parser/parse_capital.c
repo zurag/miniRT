@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/07 19:52:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/08 19:26:49 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse_ambient(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		printf("nums[0] = |%s|\n", nums[0]);
@@ -56,7 +56,7 @@ void	parse_camera(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
@@ -67,7 +67,7 @@ void	parse_camera(char *line, t_vars *vars)
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->camera->fov, NULL, NULL);
 		free(nums);
-	};
+	}
 }
 
 void	parse_light(char *line, t_vars *vars)
@@ -85,7 +85,7 @@ void	parse_light(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
@@ -94,9 +94,5 @@ void	parse_light(char *line, t_vars *vars)
 		else if (j == 3)
 			put_numbers(nums, &vars->light->bright, NULL, NULL);
 		free(*nums);
-		//BONUS
-//		vars->light->red = ft_atoi(nums[0]);
-//		vars->light->green = ft_atoi(nums[1]);
-//		vars->light->blue = ft_atoi(nums[2]);
 	}
 }

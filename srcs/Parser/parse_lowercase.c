@@ -27,7 +27,7 @@ void	parse_plane(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
@@ -57,7 +57,7 @@ void	parse_sphere(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
@@ -87,7 +87,7 @@ void	parse_cylinder(char *line, t_vars *vars)
 		if (line[i] == '\0')
 		{
 			free(*nums);
-			break;
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
