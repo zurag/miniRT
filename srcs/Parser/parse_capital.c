@@ -33,7 +33,7 @@ void	parse_ambient(char *line, t_vars *vars)
 		printf("nums[0] = |%s|\n", nums[0]);
 		j++;
 		if (j == 2)
-			put_numbers(nums, &vars->amb->light_ratio, NULL, NULL);
+			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
 		if (j == 3)
 			put_numbers_atoi(nums, &vars->amb->red, &vars->amb->green,
 				&vars->amb->blue);
@@ -61,9 +61,9 @@ void	parse_camera(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->camera->d_origin);
+			put_numbers_vec(nums, vars->camera->d_origin);
 		else if (j == 3)
-			put_numbers_vec(nums, &vars->camera->nv_direction);
+			put_numbers_vec(nums, vars->camera->nv_direction);
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->camera->fov, NULL, NULL);
 		free(nums);
@@ -90,7 +90,7 @@ void	parse_light(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->light->d_point);
+			put_numbers_vec(nums, vars->light->d_point);
 		else if (j == 3)
 			put_numbers(nums, &vars->light->bright, NULL, NULL);
 		free(*nums);

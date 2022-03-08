@@ -26,9 +26,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
-
-
-
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -148,6 +145,14 @@ typedef struct	s_vplane
 	float 		y_pixel;
 }				t_vplane;
 
+typedef struct s_scene
+{
+	t_camera	*cams;
+	t_sph		*sphere;
+	float		width;
+	float		height;
+}				t_scene;
+
 //Parser
 
 void		parser(char **argv, t_vars *vars);
@@ -169,11 +174,12 @@ void		put_numbers_vec(char **num, t_vect *vec);
 
 void		init(t_vars *vars);
 t_amb 		*init_amb(void);
-t_camera	*init_camera(void);
-t_light		*init_light(void);
-t_plane		*init_plane(void);
-t_sph		*init_sph(void);
-t_cyl		*init_cyl(void);
+t_camera	*new_camera(void);
+t_light		*new_light(void);
+t_plane		*new_plane(void);
+t_sph		*new_sphere(void);
+t_cyl		*new_cylinder(void);
+t_scene		*new_scene(t_camera *cam, t_sph *sphere);
 
 // UTILS
 
@@ -182,13 +188,13 @@ int			key_hook(int keycode, t_vars *vars);
 void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
 int			color(int red, int green, int blue);
+void		error_exit(int code);
 
 //Raytrace
 
 void		raytrace(t_vars *vars, t_scene *scene);
 t_vplane	*get_view_plane(float width, float height, float fov);
-t_scene		*new_scene(t_camera *cam, t_sphere *sphere);
-int			sphere_intersect(t_camera *cam, t_vect *ray, t_sphere *sphere);
+int			sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere);
 
 //vector
 

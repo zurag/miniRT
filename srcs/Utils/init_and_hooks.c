@@ -20,11 +20,11 @@ void	init(t_vars *vars)
 	vars->y = 0;
 	vars->img = NULL;
 	vars->amb = init_amb();
-	vars->camera = init_camera();
-	vars->light = init_light();
-	vars->plane = init_plane();
-	vars->sph = init_sph();
-	vars->cyl = init_cyl();
+	vars->camera = new_camera();
+	vars->light = new_light();
+	vars->plane = new_plane();
+	vars->sph = new_sphere();
+	vars->cyl = new_cylinder();
 }
 
 t_amb	*init_amb(void)
@@ -33,7 +33,7 @@ t_amb	*init_amb(void)
 
 	amb = (t_amb *)malloc(sizeof(t_amb));
 	amb->id = ft_strdup("A");
-	amb->light_ratio = 0.0;
+	amb->l_rat = 0.0;
 	amb->red = 0;
 	amb->green = 0;
 	amb->blue = 0;

@@ -32,9 +32,9 @@ void	parse_plane(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->plane->d_coordinates);
+			put_numbers_vec(nums, vars->plane->d_coordinates);
 		else if (j == 3)
-			put_numbers_vec(nums, &vars->plane->nv_orientation);
+			put_numbers_vec(nums, vars->plane->nv_orientation);
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->plane->red, &vars->plane->red,
 				&vars->plane->red);
@@ -62,7 +62,7 @@ void	parse_sphere(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->sph->center);
+			put_numbers_vec(nums, vars->sph->center);
 		else if (j == 3)
 			put_numbers(nums, &vars->sph->diam, NULL, NULL);
 		else if (j == 4)
@@ -92,9 +92,9 @@ void	parse_cylinder(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->cyl->d_coordinates);
+			put_numbers_vec(nums, vars->cyl->d_coordinates);
 		else if (j == 3)
-			put_numbers_vec(nums, &vars->cyl->nv_orientation);
+			put_numbers_vec(nums, vars->cyl->nv_orientation);
 		else if (j == 4)
 			put_numbers(nums, &vars->cyl->diam, NULL, NULL);
 		else if (j == 5)

@@ -76,9 +76,9 @@ void	check_file_name(char *file_name)
 	}
 }
 
-double	ft_atof(const char *str)
+float	ft_atof(const char *str)
 {
-	double	res;
+	float	res;
 	int		e;
 	int		c;
 	int		sign;
