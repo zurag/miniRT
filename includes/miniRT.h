@@ -157,7 +157,7 @@ typedef struct s_vplane
 
 typedef struct s_scene
 {
-	t_camera	*cams;
+	t_camera	*camera;
 	t_sph		*sphere;
 	float		width;
 	float		height;
@@ -199,6 +199,9 @@ void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
 int			color(int red, int green, int blue);
 void		error_exit(int code);
+void		free_scene(t_scene *scene);
+void		free_camera(t_camera *camera);
+void		free_sphere(t_sph *sphere);
 
 //Raytrace
 

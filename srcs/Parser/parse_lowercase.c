@@ -52,6 +52,7 @@ void	parse_sphere(char *line, t_vars *vars)
 	j = 0;
 	while (line[++i])
 	{
+		printf("line in parse sph[%d] = |%c|\n", i, line[i]);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
@@ -82,6 +83,7 @@ void	parse_cylinder(char *line, t_vars *vars)
 	j = 0;
 	while (line[++i])
 	{
+		printf("line in parse cyl[%d] = |%c|\n", i, line[i]);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')

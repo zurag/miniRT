@@ -12,16 +12,28 @@
 
 #include "miniRT.h"
 
-t_scene	*new_scene(t_camera *cam, t_sph *sphere)
+void	free_scene(t_scene *scene)
+{
+	if (scene)
+	{
+		if (scene->camera)
+			free_camera(scene->camera);
+		if (scene->sphere)
+			free_sphere(scene->sphere);
+		free(scene);
+	}
+}
+
+t_scene	*new_scene(t_camera *camera, t_sph *sphere)
 {
 	t_scene	*scene;
 
 	scene = malloc(sizeof(t_scene));
 	if (!scene)
 		error_exit(-1);
-	scene->cams = cam;
+	scene->camera = camera;
 	scene->sphere = sphere;
-	scene->width = 0;
-	scene->height = 0;
+	scene->width = WIDTH;
+	scene->height = HEIGHT;
 	return (scene);
 }

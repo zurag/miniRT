@@ -12,6 +12,20 @@
 
 #include "miniRT.h"
 
+void	free_camera(t_camera *camera)
+{
+	if (camera)
+	{
+		if (camera->id)
+			free(camera->id);
+		if (camera->d_origin)
+			free(camera->d_origin);
+		if (camera->nv_direction)
+			free(camera->nv_direction);
+		free(camera);
+	}
+}
+
 t_camera	*new_camera(void)
 {
 	t_camera	*camera;

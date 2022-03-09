@@ -33,6 +33,7 @@ void	raytrace(t_vars *vars, t_scene *scene)
 		while (x_angle <= (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
+			printf("check\n");
 			ray = new_vector(x_ray, y_ray, -1);
 			vect_normalize(ray);
 			if (sphere_intersect(vars->camera, ray, vars->sph))

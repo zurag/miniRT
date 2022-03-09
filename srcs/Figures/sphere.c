@@ -12,6 +12,18 @@
 
 #include "miniRT.h"
 
+void	free_sphere(t_sph *sphere)
+{
+	if (sphere)
+	{
+		if (sphere->id)
+			free(sphere->id);
+		if (sphere->center)
+			free(sphere->center);
+		free(sphere);
+	}
+}
+
 // Может зависеть от радиуса и диаметра
 t_sph	*new_sphere(void)
 {

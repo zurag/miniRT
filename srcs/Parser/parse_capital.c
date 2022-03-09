@@ -30,7 +30,7 @@ void	parse_ambient(char *line, t_vars *vars)
 			break ;
 		}
 		nums = numbers(line, &i);
-		printf("nums[0] = |%s|\n", nums[0]);
+//		printf("nums[0] = |%s|\n", nums[0]);
 		j++;
 		if (j == 2)
 			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
@@ -78,7 +78,7 @@ void	parse_light(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] != '\0')
 	{
 		while (line[i] == ' ')
 			i++;

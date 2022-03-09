@@ -4,6 +4,7 @@ NAME		= miniRT
 SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/main/vector.c \
 					srcs/main/vector1.c \
+					srcs/main/scene.c \
 					srcs/Parser/parse_capital.c \
 					srcs/Parser/parse_lowercase.c \
 					srcs/Parser/parser_root.c \
@@ -16,13 +17,12 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Figures/cylinder.c \
 					srcs/Figures/light.c \
 					srcs/Figures/plane.c \
-					srcs/Figures/scene.c \
 					srcs/Figures/sphere.c \
 					srcs/Raytracer/intersect.c \
 					srcs/Raytracer/raytrace_root.c \
 
 CC		= gcc
-CFLAGS	=	-Werror -Wall -Wextra
+CFLAGS	=	-Werror -Wall -Wextra -g
 # -MMD -march=native -O2 -msse4a -flto -pipe
 LIBRARIES = -lmlx -lm -lft\
 	-L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY)\

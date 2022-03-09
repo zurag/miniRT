@@ -25,6 +25,7 @@ char	**numbers(char *line, int *i)
 	printf("tmp = |%s|\n", tmp);
 	tmp_arr = ft_split(tmp, ',');
 	free(tmp);
+	(*i)--;
 	return (tmp_arr);
 }
 
