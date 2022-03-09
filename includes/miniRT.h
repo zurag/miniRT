@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/16 21:01:06 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/09 20:43:59 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,10 @@
 # include "scene.h"
 # include "view_plane.h"
 # include "intersect.h"
-
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <math.h>
-
-
-
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -37,6 +33,7 @@
 # include <stdlib.h>
 # include <errno.h>
 # include <math.h>
+
 
 // Window and keyboard
 # define WIDTH 480

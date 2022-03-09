@@ -6,11 +6,11 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/07 19:52:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/09 20:36:38 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
 
 void	put_numbers_vec(char **num, t_vect *vec)
 {

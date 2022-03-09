@@ -1,4 +1,4 @@
-#include "../../includes/miniRT.h"
+#include "../../includes/minirt.h"
 
 t_scene		*new_scene(t_camera *cam, t_sphere *sphere)
 {

@@ -6,11 +6,31 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/07 19:52:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/09 20:36:49 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
+
+
+
+// float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
+// {
+// 	t_vect	*origin;
+// 	float	angle_inc;
+// 	float	angle_ref;
+
+// 	vect_multipl_on(dir, dist);
+// 	origin = vec_sum(vars->camera->d_origin, dir);
+// 	// vars->light->d_point;
+	
+	
+// }
+
+
+
+
+
 
 void	raytrace(t_vars *vars, t_scene *scene)
 {
@@ -21,6 +41,7 @@ void	raytrace(t_vars *vars, t_scene *scene)
 	float		y_ray;
 	float		x_ray;
 	int			color;
+	float		dist;
 
 	vplane = get_view_plane(WIDTH, HEIGHT, vars->camera->fov);
 	y_angle = HEIGHT / 2;
@@ -34,6 +55,7 @@ void	raytrace(t_vars *vars, t_scene *scene)
 			x_ray = x_angle * vplane->x_pixel;
 			ray = new_vector(x_ray, y_ray, -1);
 			vect_normalize(ray);
+			
 			if (intersect(vars->camera, ray, vars->sph))
 				color = 167772215;
 			else
