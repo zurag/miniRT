@@ -20,24 +20,23 @@ void	parse_ambient(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
-//		printf("nums[0] = |%s|\n", nums[0]);
 		j++;
 		if (j == 2)
 			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
 		if (j == 3)
 			put_numbers_atoi(nums, &vars->amb->red, &vars->amb->green,
 				&vars->amb->blue);
-		free(*nums);
+		free_array(nums);
 	}
 }
 
@@ -49,13 +48,13 @@ void	parse_camera(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 4)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
@@ -66,7 +65,7 @@ void	parse_camera(char *line, t_vars *vars)
 			put_numbers_vec(nums, vars->camera->nv_direction);
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->camera->fov, NULL, NULL);
-		free(nums);
+		free_array(nums);
 	}
 }
 
@@ -78,13 +77,13 @@ void	parse_light(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i] != '\0')
+	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
@@ -93,6 +92,6 @@ void	parse_light(char *line, t_vars *vars)
 			put_numbers_vec(nums, vars->light->d_point);
 		else if (j == 3)
 			put_numbers(nums, &vars->light->bright, NULL, NULL);
-		free(*nums);
+		free_array(nums);
 	}
 }

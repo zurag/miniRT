@@ -20,13 +20,13 @@ void	parse_plane(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 4)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
@@ -38,7 +38,7 @@ void	parse_plane(char *line, t_vars *vars)
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->plane->red, &vars->plane->red,
 				&vars->plane->red);
-		free(*nums);
+		free_array(nums);
 	}
 }
 
@@ -50,14 +50,14 @@ void	parse_sphere(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 4)
 	{
 		printf("line in parse sph[%d] = |%c|\n", i, line[i]);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
@@ -69,7 +69,7 @@ void	parse_sphere(char *line, t_vars *vars)
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->sph->red, &vars->sph->green,
 				&vars->sph->blue);
-		free(*nums);
+		free_array(nums);
 	}
 }
 
@@ -81,14 +81,14 @@ void	parse_cylinder(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 6)
 	{
 		printf("line in parse cyl[%d] = |%c|\n", i, line[i]);
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
+			free_array(nums);
 			break ;
 		}
 		nums = numbers(line, &i);
@@ -104,6 +104,6 @@ void	parse_cylinder(char *line, t_vars *vars)
 		else if (j == 6)
 			put_numbers_atoi(nums, &vars->cyl->red, &vars->cyl->green,
 				&vars->cyl->blue);
-		free(*nums);
+		free_array(nums);
 	}
 }

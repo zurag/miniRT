@@ -179,6 +179,7 @@ char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
 void		put_numbers_vec(char **num, t_vect *vec);
+void		free_array(char **array);
 
 // Figures
 
