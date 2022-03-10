@@ -22,7 +22,6 @@ char	**numbers(char *line, int *i)
 	while (line[*i] != ' ' && line[*i] != '\0')
 		(*i)++;
 	tmp = ft_substr(line, j, *i - j);
-	printf("tmp = |%s|\n", tmp);
 	tmp_arr = ft_split(tmp, ',');
 	free(tmp);
 	(*i)--;

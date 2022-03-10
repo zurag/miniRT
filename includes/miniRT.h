@@ -196,7 +196,7 @@ t_scene		*new_scene(t_camera *cam, t_sph *sphere);
 
 int			close_win(int keycode);
 int			key_hook(int keycode, t_vars *vars);
-void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
+void		ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
 int			color(int red, int green, int blue);
 void		error_exit(int code);

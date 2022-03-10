@@ -48,11 +48,9 @@ void	parser(char **argv, t_vars *vars)
 	}
 	while ((i = get_next_line(fd, &line)))
 	{
-		printf("line from GNL = |%s|\n", line);
 		parse_line(line, vars);
 		free(line);
 	}
-	printf("line from GNL = |%s|\n", line);
 	parse_line(line, vars);
 	free(line);
 }

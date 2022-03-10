@@ -15,19 +15,17 @@
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	t_data	img;
 	t_scene	*scene;
-	(void)argv;
 
+	(void)argv;
 	init(&vars);
 	if (argc > 1)
 		parser(argv, &vars);
-	printf("Just check = %f\n", vars.cyl->height);
+//	printf("Just check = %f\n", vars.cyl->height);
 	scene = new_scene(vars.camera, vars.sph);
+
 	raytrace(&vars, scene);
-	img.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.line_len, &img.endian);
-	mlx_put_image_to_window(vars.mlx, vars.win, img.img, 0, 0);
+	// mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 1, 1);
 	free_scene(scene);
 	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);

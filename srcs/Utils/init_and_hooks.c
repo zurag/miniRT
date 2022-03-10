@@ -18,13 +18,17 @@ void	init(t_vars *vars)
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "miniRT");
 	vars->x = 0;
 	vars->y = 0;
-	vars->img = NULL;
+//	vars->img = NULL;
+	vars->img = malloc(sizeof(t_data));
 	vars->amb = init_amb();
 	vars->camera = new_camera();
 	vars->light = new_light();
 	vars->plane = new_plane();
 	vars->sph = new_sphere();
 	vars->cyl = new_cylinder();
+	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp), &
+	(vars->img->line_len), &(vars->img->endian));
 }
 
 t_amb	*init_amb(void)
@@ -40,10 +44,11 @@ t_amb	*init_amb(void)
 	return (amb);
 }
 
-void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
+void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
 {
 	char	*dst;
 
+	printf("checkckckc\n");
 	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
