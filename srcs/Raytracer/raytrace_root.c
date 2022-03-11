@@ -6,11 +6,35 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/03/08 19:28:04 by acollin          ###   ########.fr       */
+=======
+/*   Updated: 2022/03/09 20:36:49 by zurag            ###   ########.fr       */
+>>>>>>> miniRT/zurag
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
+
+
+
+// float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
+// {
+// 	t_vect	*origin;
+// 	float	angle_inc;
+// 	float	angle_ref;
+
+// 	vect_multipl_on(dir, dist);
+// 	origin = vec_sum(vars->camera->d_origin, dir);
+// 	// vars->light->d_point;
+	
+	
+// }
+
+
+
+
+
 
 void	raytrace(t_vars *vars, t_scene *scene)
 {
@@ -21,6 +45,7 @@ void	raytrace(t_vars *vars, t_scene *scene)
 	float		y_ray;
 	float		x_ray;
 	int			color;
+	float		dist;
 
 	vars->y = 0;
 	printf("fov = %d\n", vars->camera->fov);
@@ -38,7 +63,12 @@ void	raytrace(t_vars *vars, t_scene *scene)
 			x_ray = x_angle * vplane->x_pixel;
 			ray = new_vector(x_ray, y_ray, -1);
 			vect_normalize(ray);
+<<<<<<< HEAD
 			if (sphere_intersect(vars->camera, ray, vars->sph))
+=======
+			
+			if (intersect(vars->camera, ray, vars->sph))
+>>>>>>> miniRT/zurag
 				color = 167772215;
 			else
 				color = 0;

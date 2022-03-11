@@ -1,5 +1,5 @@
 
-NAME		= miniRT
+NAME		= minirt
 
 SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/main/vector.c \
@@ -20,6 +20,7 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Figures/sphere.c \
 					srcs/Raytracer/intersect.c \
 					srcs/Raytracer/raytrace_root.c \
+					sxrs/intersect/intersect.c 
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g
@@ -31,7 +32,7 @@ LIBRARIES = -lmlx -lm -lft\
 INCLUDES = -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS) -I$(HEADERS_DIR)
 
 HEADERS_LIST = \
-				miniRT.h
+				minirt.h
 HEADERS_DIR	=	./includes/
 HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 

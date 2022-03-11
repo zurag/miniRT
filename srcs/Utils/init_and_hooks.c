@@ -6,11 +6,15 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/03/08 19:28:29 by acollin          ###   ########.fr       */
+=======
+/*   Updated: 2022/03/09 20:37:02 by zurag            ###   ########.fr       */
+>>>>>>> miniRT/zurag
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
 
 void	init(t_vars *vars)
 {

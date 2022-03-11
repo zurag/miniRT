@@ -6,12 +6,17 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/03/08 19:27:52 by acollin          ###   ########.fr       */
+=======
+/*   Updated: 2022/03/09 20:45:45 by zurag            ###   ########.fr       */
+>>>>>>> miniRT/zurag
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "minirt.h"
 
+<<<<<<< HEAD
 int	sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere)
 {
 //	float	a;
@@ -48,3 +53,11 @@ int	sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere)
 //	соприкосновения
 	return (0);
 }
+=======
+// int	intersect(t_camera *camera, t_vector *ray, t_vars *vars)
+// {
+	
+// 	return (1);
+// }
+
+>>>>>>> miniRT/zurag
