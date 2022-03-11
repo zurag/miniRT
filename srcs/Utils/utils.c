@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils1.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:27:33 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/08 19:28:37 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	put_numbers_vec(char **num, t_vect *vec)
+void	error_exit(int code)
 {
-	vec->x = ft_atof(num[0]);
-	vec->y = ft_atof(num[1]);
-	vec->z = ft_atof(num[2]);
-}
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	if (code == -1)
+		write(STDERR_FILENO, "Error: Can't allocate memory for new "
+			"element\n", 46);
+	exit(code);
 }

@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/02/07 19:52:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/08 19:28:29 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,32 @@ void	init(t_vars *vars)
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "miniRT");
 	vars->x = 0;
 	vars->y = 0;
-	vars->img = NULL;
+	vars->img = malloc(sizeof(t_data));
 	vars->amb = init_amb();
-	vars->camera = init_camera();
-	vars->light = init_light();
-	vars->plane = init_plane();
-	vars->sph = init_sph();
-	vars->cyl = init_cyl();
+	vars->camera = new_camera();
+	vars->light = new_light();
+	vars->plane = new_plane();
+	vars->sph = new_sphere();
+	vars->cyl = new_cylinder();
+	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp), &
+	(vars->img->line_len), &(vars->img->endian));
 }
 
 t_amb	*init_amb(void)
 {
-	t_amb *amb;
+	t_amb	*amb;
 
 	amb = (t_amb *)malloc(sizeof(t_amb));
 	amb->id = ft_strdup("A");
-	amb->light_ratio = 0.0;
+	amb->l_rat = 0.0;
 	amb->red = 0;
 	amb->green = 0;
 	amb->blue = 0;
 	return (amb);
 }
 
-void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
+void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
 {
 	char	*dst;
 

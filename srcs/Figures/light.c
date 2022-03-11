@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils1.c                                    :+:      :+:    :+:   */
+/*   new_light.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:27:33 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/08 19:25:42 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	put_numbers_vec(char **num, t_vect *vec)
+t_light	*new_light(void)
 {
-	vec->x = ft_atof(num[0]);
-	vec->y = ft_atof(num[1]);
-	vec->z = ft_atof(num[2]);
-}
+	t_light	*light;
 
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	light = (t_light *)malloc(sizeof(t_light));
+	if (!light)
+		error_exit(-1);
+	light->id = ft_strdup("L");
+	light->d_point = new_vector(0.0, 0.0, 0.0);
+	light->bright = 0.0;
+	return (light);
 }

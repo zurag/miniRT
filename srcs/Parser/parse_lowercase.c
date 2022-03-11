@@ -20,25 +20,25 @@ void	parse_plane(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 4)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
-			break;
+			free_array(nums);
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->plane->d_coordinates);
+			put_numbers_vec(nums, vars->plane->d_coordinates);
 		else if (j == 3)
-			put_numbers_vec(nums, &vars->plane->nv_orientation);
+			put_numbers_vec(nums, vars->plane->nv_orientation);
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->plane->red, &vars->plane->red,
 				&vars->plane->red);
-		free(*nums);
+		free_array(nums);
 	}
 }
 
@@ -50,26 +50,27 @@ void	parse_sphere(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 4)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
-			break;
+			free_array(nums);
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->sph->center);
+			put_numbers_vec(nums, vars->sph->center);
 		else if (j == 3)
 			put_numbers(nums, &vars->sph->diam, NULL, NULL);
 		else if (j == 4)
 			put_numbers_atoi(nums, &vars->sph->red, &vars->sph->green,
 				&vars->sph->blue);
-		free(*nums);
+		free_array(nums);
 	}
+	vars->sph->rad = vars->sph->diam * 0.5;
 }
 
 void	parse_cylinder(char *line, t_vars *vars)
@@ -80,21 +81,21 @@ void	parse_cylinder(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	while (line[++i])
+	while (line[++i] && j < 6)
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
 		{
-			free(*nums);
-			break;
+			free_array(nums);
+			break ;
 		}
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers_vec(nums, &vars->cyl->d_coordinates);
+			put_numbers_vec(nums, vars->cyl->d_coordinates);
 		else if (j == 3)
-			put_numbers_vec(nums, &vars->cyl->nv_orientation);
+			put_numbers_vec(nums, vars->cyl->nv_orientation);
 		else if (j == 4)
 			put_numbers(nums, &vars->cyl->diam, NULL, NULL);
 		else if (j == 5)
@@ -102,6 +103,6 @@ void	parse_cylinder(char *line, t_vars *vars)
 		else if (j == 6)
 			put_numbers_atoi(nums, &vars->cyl->red, &vars->cyl->green,
 				&vars->cyl->blue);
-		free(*nums);
+		free_array(nums);
 	}
 }
