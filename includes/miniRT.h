@@ -125,6 +125,7 @@ typedef struct s_sph
 	char		*id;
 	t_vect		*center;
 	float		diam;
+	float		rad;
 	int			red;
 	int			green;
 	int			blue;

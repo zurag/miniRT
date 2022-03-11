@@ -70,6 +70,7 @@ void	parse_sphere(char *line, t_vars *vars)
 				&vars->sph->blue);
 		free_array(nums);
 	}
+	vars->sph->rad = vars->sph->diam * 0.5;
 }
 
 void	parse_cylinder(char *line, t_vars *vars)
