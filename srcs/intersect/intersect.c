@@ -12,38 +12,45 @@ float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane)
 		return (0);
 	p0lo = vec_subtraction(cam->d_origin, plane->d_coordinates);
 	dist = dot_product(p0lo, plane->d_coordinates) / denom;
-	free(p0l0);
+	free(p0lo);
 	return(dist);
 }
 
 
-float	sphere_intersect(t_camera *cam, t_vect *ray, t_sphere *sphere)
+int	sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere)
 {
+//	float	a;
 	float	b;
 	float	c;
 	float	discr;
-	float	dist1;
-	float	dist2;
+	float	dist1; // ближняя дистанция
+	float	dist2; // дальняя точка пересечения
 	t_vect	*cam_sphere;
-
 
 	dist1 = 0;
 	dist2 = 0;
 	b = 0;
 	c = 0;
-	cam_sphere = vec_subtraction(cam->origin, sphere->center);
-	// a = dot_product(ray, ray);
+	cam_sphere = vec_subtraction(cam->d_origin, sphere->center);
+//	 a = dot_product(ray, ray);
 	b = 2 * (dot_product(cam_sphere, ray));
-	c = dot_product(cam_sphere, cam_sphere) - (sphere->radius * sphere->radius);
+//	printf("b = %f\n", b);
+	c = dot_product(cam_sphere, cam_sphere)
+		- (sphere->rad * sphere->rad);
+//	printf("c = %f\n", c);
 	discr = (b * b) - (4 * c);
+//	printf("discr = %f\n", discr);
 	free(cam_sphere);
 	if (discr < 0)
-		return (0);
-	dist1 = (((b * -1) - sqrt(discr)) / 2);
-	dist2 = (((b * -1) + sqrt(discr)) / 2);
-	// printf("dist1 == %f dist2 == %f\n", dist1, dist2);
+		return (0);                           // No intersection
+	dist1 = (((b * -1) - sqrt(discr)) / 2);   // видимая область
+	dist2 = (((b * -1) + sqrt(discr)) / 2);		// на всякий случай.
+//	 printf("dist1 == %f dist2 == %f\n", dist1, dist2);
+//	printf("dist1 = %f\n", dist2);
 	if (dist1 > 0)
-		return (dist1);
+		return (1);
+//	t_vect	*hit_position = vect_multipl_on(ray, dist1); // точка
+//	соприкосновения
 	return (0);
 }
 
@@ -74,11 +81,12 @@ float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl)
 	c = dot_product(camera_cy, camera_cy) - (tmp * tmp) - (cyl->diam / 2 * cyl->diam / 2);
 	free(camera_cy);
 	discr = (b * b) - (4 * a * c);
+	printf("discr = %f\n", discr);
 	dist[0] = (((b * -1) - sqrt(discr)) / 2);
 	dist[1] = (((b * -1) + sqrt(discr)) / 2);
 	m[0] = (dot_product(ray, cyl->nv_orientation) * dist[0]) + dot_product(camera_cy, cyl->nv_orientation);
 	m[1] = (dot_product(ray, cyl->nv_orientation) * dist[1]) + dot_product(camera_cy, cyl->nv_orientation);
-	
+//	printf("dist1== %f, dist2== %f\n", dist[0], dist[1]);
 	// start = cyl->
 	if(dist[0] > 0)
 		return (dist[0]);

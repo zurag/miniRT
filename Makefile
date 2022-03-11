@@ -18,9 +18,8 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Figures/light.c \
 					srcs/Figures/plane.c \
 					srcs/Figures/sphere.c \
-					srcs/Raytracer/intersect.c \
 					srcs/Raytracer/raytrace_root.c \
-					sxrs/intersect/intersect.c 
+					srcs/intersect/intersect.c 
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g

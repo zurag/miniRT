@@ -103,6 +103,7 @@ typedef struct s_camera
 	int			fov;
 }				t_camera;
 
+
 typedef struct s_light
 {
 	char		*id;
@@ -210,6 +211,8 @@ void		free_sphere(t_sph *sphere);
 void		raytrace(t_vars *vars, t_scene *scene);
 t_vplane	*get_view_plane(float width, float height, float fov);
 int			sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere);
+float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl);
+float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane);
 
 //vector
 
