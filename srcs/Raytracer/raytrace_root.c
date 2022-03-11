@@ -59,7 +59,7 @@ void	raytrace(t_vars *vars, t_scene *scene)
 			x_ray = x_angle * vplane->x_pixel;
 			ray = new_vector(x_ray, y_ray, -1);
 			vect_normalize(ray);
-			if (cylinder_intersect(vars->camera, ray, vars->cyl))
+			if (sphere_intersect(vars->camera, ray, vars->sph))
 				color = 167772215;
 			else
 				color = 0;
