@@ -12,11 +12,11 @@
 
 #include "minirt.h"
 
-void	vect_normalize(t_vect *vec)
+void	vec_normalize(t_vec *vec)
 {
 	float	len;
 
-	len = vect_len(vec);
+	len = vec_len(vec);
 	if (len == 0)
 		return ;
 	vec->x /= len;
@@ -24,7 +24,7 @@ void	vect_normalize(t_vect *vec)
 	vec->z /= len;
 }
 
-float	dot_product(t_vect *vec1, t_vect *vec2)
+float	dot_product(t_vec *vec1, t_vec *vec2)
 {
 	float	res;
 
@@ -32,23 +32,23 @@ float	dot_product(t_vect *vec1, t_vect *vec2)
 	return (res);
 }
 
-void	vect_miltipl_on(t_vect *vec, float num)
+void	vec_mult(t_vec *vec, float num)
 {
 	vec->x *= num;
 	vec->y *= num;
 	vec->z *= num;
 }
 
-t_vect	*cross_product(t_vect *vec1, t_vect *vec2)
+t_vec	*cross_product(t_vec *vec1, t_vec *vec2)
 {
 	float	x;
 	float	y;
 	float	z;
-	t_vect	*res;
+	t_vec	*res;
 
 	x = (vec1->x * vec2->z) - (vec1->z * vec2->y);
 	y = (vec1->z * vec2->x) - (vec1->x * vec2->z);
 	z = (vec1->x * vec2->y) - (vec1->y * vec2->x);
-	res = new_vector(x, y, z);
+	res = vec_new(x, y, z);
 	return (res);
 }

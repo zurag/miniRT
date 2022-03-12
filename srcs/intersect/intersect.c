@@ -1,11 +1,11 @@
 
 #include "minirt.h"
 
-float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane)
+float	plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane)
 {
 	float	denom;
 	float	dist;
-	t_vect	*p0lo;
+	t_vec	*p0lo;
 
 	denom = dot_product(ray, plane->nv_orientation);
 	if (!denom)
@@ -16,50 +16,45 @@ float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane)
 	return(dist);
 }
 
-
-int	sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere)
+float	sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere)
 {
-	float	a;
 	float	b;
 	float	c;
 	float	discr;
 	float	dist1; // ближняя дистанция
 	float	dist2; // дальняя точка пересечения
-	t_vect	*cam_sphere;
+	t_vec	*cam_sphere;
 
 	dist1 = 0;
 	dist2 = 0;
 	b = 0;
 	c = 0;
 	cam_sphere = vec_subtraction(cam->d_origin, sphere->center);
-	a = dot_product(ray, ray);
 	b = 2 * (dot_product(cam_sphere, ray));
-	c = dot_product(cam_sphere, cam_sphere)
-		- (sphere->rad * sphere->rad);
-	discr = (b * b) - (4 * c * a);
+	c = dot_product(cam_sphere, cam_sphere) - (sphere->rad * sphere->rad);
+	discr = (b * b) - (4 * c);
 	free(cam_sphere);
 	if (discr < 0)
 		return (0);                           // No intersection
-	dist1 = (((b * -1) - sqrt(discr)) / (2 * a));   // видимая область
-	dist2 = (((b * -1) + sqrt(discr)) / (2 * a));		// на всякий случай.
+	dist1 = (((b * -1) - sqrt(discr)) / (2));   // видимая область
+	dist2 = (((b * -1) + sqrt(discr)) / (2));		// на всякий случай.
 //	 printf("dist1 == %f dist2 == %f\n", dist1, dist2);
 	if (dist1 > 0)
-		return (1);
-//	t_vect	*hit_position = vect_multipl_on(ray, dist1); // точка
+		return (dist1);
+//	t_vec	*hit_position = vect_multipl_on(ray, dist1); // точка
 //	соприкосновения
-	return (0);
+	return (0.0);
 }
-
 
 // ray = D
 // x = vec_subtraction(cam->d_origin, cyl->d_coordinates);
 
 
-float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl)
+float cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl)
 {
-	// t_vect	*start;
-	// t_vect	*end;
-	t_vect	*camera_cy;
+	// t_vec	*start;
+	// t_vec	*end;
+	t_vec	*camera_cy;
 	float	a;
 	float	b;
 	float	c;
@@ -71,7 +66,7 @@ float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl)
 
 	camera_cy = vec_subtraction(cam->d_origin, cyl->d_coordinates);
 	tmp = dot_product(ray, cyl->nv_orientation);
-	a = dot_product(ray, ray) - (tmp * tmp);
+	a = dot_product(ray, ray) + (tmp * tmp);
 	b = 2 * (dot_product(ray, cyl->nv_orientation) -  (dot_product(ray, cyl->nv_orientation) * dot_product(camera_cy, cyl->nv_orientation)));
 	// tmp = dot_product(ray, cyl->nv_orientation);
 	c = dot_product(camera_cy, camera_cy) - (tmp * tmp) - (cyl->diam / 2 * cyl->diam / 2);
@@ -88,3 +83,7 @@ float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl)
 		return (dist[0]);
 	return (0);
 }
+//
+//float a = ray.getDirection().x*ray.getDirection().x + ray.getDirection().z*ray.getDirection().z;
+//    float b = 2*(ray.getOrigin().x*ray.getDirection().x + ray.getOrigin().z*ray.getDirection().z);
+//    float c = ray.getOrigin().x*ray.getOrigin().x + ray.getOrigin().z*ray.getOrigin().z - m_radius*m_radius;

@@ -31,7 +31,7 @@ t_sph	*new_sphere(void)
 
 	sph = (t_sph *)malloc(sizeof(t_sph));
 	sph->id = ft_strdup("sp");
-	sph->center = new_vector(0.0, 0.0, 0.0);
+	sph->center = vec_new(0.0, 0.0, 0.0);
 	sph->diam = 0.0;
 	sph->rad = 0.0;
 	sph->red = 0;

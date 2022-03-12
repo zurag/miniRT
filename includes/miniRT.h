@@ -56,12 +56,12 @@ typedef struct s_sph	t_sph;
 typedef struct s_cyl	t_cyl;
 typedef struct s_plane	t_plane;
 
-typedef struct s_vect
+typedef struct s_vec
 {
 	float	x;
 	float	y;
 	float	z;
-}				t_vect;
+}				t_vec;
 
 typedef struct s_data
 {
@@ -83,8 +83,11 @@ typedef struct s_vars
 	t_camera	*camera;
 	t_light		*light;
 	t_plane		*plane;
+	int 		plane_num;
 	t_sph		*sph;
+	int 		sph_num;
 	t_cyl		*cyl;
+	int 		cyl_num;
 }				t_vars;
 //PARSING
 
@@ -92,6 +95,7 @@ typedef struct s_amb
 {
 	char		*id;
 	float		l_rat;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -100,8 +104,8 @@ typedef struct s_amb
 typedef struct s_camera
 {
 	char		*id;
-	t_vect		*d_origin;
-	t_vect		*nv_direction;
+	t_vec		*d_origin;
+	t_vec		*nv_direction;
 	int			fov;
 }				t_camera;
 
@@ -109,15 +113,16 @@ typedef struct s_camera
 typedef struct s_light
 {
 	char		*id;
-	t_vect		*d_point;
+	t_vec		*d_point;
 	float		bright;
 }				t_light;
 
 typedef struct s_plane
 {
 	char		*id;
-	t_vect		*d_coordinates;
-	t_vect		*nv_orientation;
+	t_vec		*d_coordinates;
+	t_vec		*nv_orientation;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -126,9 +131,10 @@ typedef struct s_plane
 typedef struct s_sph
 {
 	char		*id;
-	t_vect		*center;
+	t_vec		*center;
 	float		diam;
 	float		rad;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -137,10 +143,11 @@ typedef struct s_sph
 typedef struct s_cyl
 {
 	char		*id;
-	t_vect		*d_coordinates;
-	t_vect		*nv_orientation;
+	t_vec		*d_coordinates;
+	t_vec		*nv_orientation;
 	float		diam;
 	float		height;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -182,7 +189,7 @@ void		parse_cylinder(char *line, t_vars *vars);
 char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
-void		put_numbers_vec(char **num, t_vect *vec);
+void		put_numbers_vec(char **num, t_vec *vec);
 void		free_array(char **array);
 
 // Figures
@@ -202,7 +209,7 @@ int			close_win(int keycode);
 int			key_hook(int keycode, t_vars *vars);
 void		ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
-int			color(int red, int green, int blue);
+int			ft_color(int red, int green, int blue);
 void		error_exit(int code);
 void		free_scene(t_scene *scene);
 void		free_camera(t_camera *camera);
@@ -212,19 +219,21 @@ void		free_sphere(t_sph *sphere);
 
 void		raytrace(t_vars *vars, t_scene *scene);
 t_vplane	*get_view_plane(float width, float height, float fov);
-int			sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere);
-float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl);
-float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane);
+float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
+float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
+float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
+int			ft_pixel_color(t_vars *vars, t_vec *ray);
 
 //vector
 
-t_vect		*new_vector(float x, float y, float z);
-void		print_vect(t_vect *vec, char *name);
-float		dot_product(t_vect *vec1, t_vect *vec2);
-void		vect_normalize(t_vect *vec);
-float		vect_len(t_vect *vec);
-t_vect		*vec_subtraction(t_vect *vec1, t_vect *vec2);
-t_vect		*cross_product(t_vect *vec1, t_vect *vec2);
-t_vect		*vec_sum(t_vect *vec1, t_vect *vec2);
+t_vec		*vec_new(float x, float y, float z);
+void		vec_print(t_vec *vec, char *name);
+float		dot_product(t_vec *vec1, t_vec *vec2);
+t_vec		*cross_product(t_vec *vec1, t_vec *vec2);
+void		vec_normalize(t_vec *vec);
+float		vec_len(t_vec *vec);
+t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
+t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
+void		vec_mult(t_vec *vec, float num);
 
 #endif 

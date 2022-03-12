@@ -22,11 +22,8 @@ int	main(int argc, char **argv)
 	init(&vars);
 	if (argc > 1)
 		parser(argv, &vars);
-//	printf("Just check = %f\n", vars.cyl->height);
 	scene = new_scene(vars.camera, vars.sph);
-
 	raytrace(&vars, scene);
-	// mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 1, 1);
 	free_scene(scene);
 	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);

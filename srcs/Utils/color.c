@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-int	color(int red, int green, int blue)
+int	ft_color(int red, int green, int blue)
 {
 	return (red << 16 | green << 8 | blue);
 }

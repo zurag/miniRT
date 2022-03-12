@@ -20,7 +20,7 @@ t_light	*new_light(void)
 	if (!light)
 		error_exit(-1);
 	light->id = ft_strdup("L");
-	light->d_point = new_vector(0.0, 0.0, 0.0);
+	light->d_point = vec_new(0.0, 0.0, 0.0);
 	light->bright = 0.0;
 	return (light);
 }

@@ -38,6 +38,8 @@ void	parse_ambient(char *line, t_vars *vars)
 				&vars->amb->blue);
 		free_array(nums);
 	}
+	vars->amb->color = ft_color(vars->amb->red, vars->amb->green,
+							vars->amb->blue);
 }
 
 void	parse_camera(char *line, t_vars *vars)

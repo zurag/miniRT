@@ -39,6 +39,7 @@ void	parser(char **argv, t_vars *vars)
 	int		i;
 	char	*line;
 
+//	preparse(vars, argv);
 	check_file_name(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)

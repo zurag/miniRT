@@ -12,22 +12,54 @@
 
 #include "minirt.h"
 
- float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
- {
- 	t_vect	*origin;
- 	float	angle_inc;
- 	float	angle_ref;
+// float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
+// {
+// 	t_vect	*origin;
+// 	float	angle_inc;
+// 	float	angle_ref;
+//
+// 	vect_multipl_on(dir, dist);
+// 	origin = vec_subtraction(vars->light->d_point, dir);
+// 	// vars->light->d_point;
+// }
+//phit = ray +
 
- 	vect_multipl_on(dir, dist);
- 	origin = vec_subtraction(vars->light->d_point, dir);
- 	// vars->light->d_point;
- }
+int	ft_pixel_color(t_vars *vars, t_vec *ray)
+{
+	int		color_from_light;
+	float	dist1;
+	t_vec	*phit;
+	t_vec	*nhit;
+	t_vec	*light;
+	float	cos_alpha;
+
+	vec_normalize(ray);
+	color_from_light = 0;
+	dist1 = sphere_intersect(vars->camera, ray, vars->sph);
+	if (dist1)
+	{
+		vec_mult(ray, dist1);
+		phit = vec_sum(vars->camera->d_origin, ray);
+		nhit = vec_subtraction(phit, vars->sph->center);
+		vec_normalize(nhit);
+		light = vec_subtraction(phit, vars->light->d_point);
+		cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+		color_from_light = ft_color(vars->sph->red * cos_alpha,
+									vars->sph->green * cos_alpha,
+									vars->sph->blue * cos_alpha);
+		if (cos_alpha < 0)
+			color_from_light = 0;
+		return (color_from_light);
+	}
+	else
+		return (0);
+}
 
 void	raytrace(t_vars *vars, t_scene *scene)
 {
 	float		x_angle;
 	float		y_angle;
-	t_vect		*ray;
+	t_vec		*ray;
 	t_vplane	*vplane;
 	float		y_ray;
 	float		x_ray;
@@ -48,16 +80,10 @@ void	raytrace(t_vars *vars, t_scene *scene)
 		while (x_angle < (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
-			ray = new_vector(x_ray, y_ray, -1);
-			vect_normalize(ray);
-			if (sphere_intersect(vars->camera, ray, vars->sph))
-				color = 167772215;
-			else
-				color = 0;
-//			printf("checkk in ray trace\n");
-			printf("color = %d\n", color);
+			ray = vec_new(x_ray, y_ray, -1);
+			color = ft_pixel_color(vars, ray);
+//			printf("color = %d\n", color);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
-			// break;
 //			printf("vars->x = %d vars->y = %d\n", vars->x, vars->y);
 			free(ray);
 			vars->x++;

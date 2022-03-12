@@ -40,6 +40,8 @@ void	parse_plane(char *line, t_vars *vars)
 				&vars->plane->red);
 		free_array(nums);
 	}
+	vars->plane->color = ft_color(vars->plane->red, vars->plane->green,
+							vars->plane->blue);
 }
 
 void	parse_sphere(char *line, t_vars *vars)
@@ -71,6 +73,8 @@ void	parse_sphere(char *line, t_vars *vars)
 		free_array(nums);
 	}
 	vars->sph->rad = vars->sph->diam * 0.5;
+	vars->sph->color = ft_color(vars->sph->red, vars->sph->green,
+							vars->sph->blue);
 }
 
 void	parse_cylinder(char *line, t_vars *vars)
@@ -105,4 +109,6 @@ void	parse_cylinder(char *line, t_vars *vars)
 				&vars->cyl->blue);
 		free_array(nums);
 	}
+	vars->cyl->color = ft_color(vars->cyl->red, vars->cyl->green,
+							vars->cyl->blue);
 }
