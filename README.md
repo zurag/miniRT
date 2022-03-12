@@ -11,7 +11,7 @@ Our really first Ray Tracer!
 
 ## Intro
 ____
-![ALT TEXT](Images/raytracingdiag.png "As simple as that")
+![ALT TEXT](srcs/Images/raytracingdiag.png "As simple as that")
 
 
 The “Ray Tracing” method, developed for the first time in 1968 (but improved upon since) is even today more expensive in computation than the “Rasterization” method.
