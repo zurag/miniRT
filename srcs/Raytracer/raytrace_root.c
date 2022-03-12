@@ -12,25 +12,16 @@
 
 #include "minirt.h"
 
+ float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
+ {
+ 	t_vect	*origin;
+ 	float	angle_inc;
+ 	float	angle_ref;
 
-
-// float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
-// {
-// 	t_vect	*origin;
-// 	float	angle_inc;
-// 	float	angle_ref;
-
-// 	vect_multipl_on(dir, dist);
-// 	origin = vec_sum(vars->camera->d_origin, dir);
-// 	// vars->light->d_point;
-	
-	
-// }
-
-
-
-
-
+ 	vect_multipl_on(dir, dist);
+ 	origin = vec_subtraction(vars->light->d_point, dir);
+ 	// vars->light->d_point;
+ }
 
 void	raytrace(t_vars *vars, t_scene *scene)
 {
@@ -89,8 +80,7 @@ t_vplane	*get_view_plane(float width, float height, float fov)
 		error_exit(-1);
 	fov = 1;
 	aspect_ratio = width * pow(height, (-1));
-	vplane->width = 2 * tan((double)fov * 0.5 );
-//	vplane->width = 1;
+	vplane->width = 2 * tan((double)fov * 0.5);
 	vplane->height = vplane->width * pow(aspect_ratio, -1);
 	vplane->x_pixel = vplane->width * pow(width, -1);
 	vplane->y_pixel = vplane->height * pow(height, -1);

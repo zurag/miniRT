@@ -34,6 +34,8 @@
 # include <errno.h>
 # include <math.h>
 
+// Num of cores ( for PTHREAD )
+# define CORES_NUM 4
 
 // Window and keyboard
 # define WIDTH 480
