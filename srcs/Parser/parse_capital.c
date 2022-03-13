@@ -12,14 +12,17 @@
 
 #include "minirt.h"
 
-void	parse_ambient(char *line, t_vars *vars)
+void	parse_ambient(char *line, t_vars *vars, t_list **figure)
 {
 	int		i;
 	int		j;
 	char	**nums;
+	t_amb	*amb;
+	t_list	*new_node;
 
 	i = -1;
 	j = 0;
+	amb = new_amb();
 	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')
@@ -32,17 +35,17 @@ void	parse_ambient(char *line, t_vars *vars)
 		nums = numbers(line, &i);
 		j++;
 		if (j == 2)
-			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
+			put_numbers(nums, &amb->l_rat, NULL, NULL);
 		if (j == 3)
-			put_numbers_atoi(nums, &vars->amb->red, &vars->amb->green,
-				&vars->amb->blue);
+			put_numbers_atoi(nums, &amb->red, &amb->green, &amb->blue);
 		free_array(nums);
 	}
-	vars->amb->color = ft_color(vars->amb->red, vars->amb->green,
-							vars->amb->blue);
+	amb->color = ft_color(&amb->red, &amb->green, &amb->blue);
+	new_node = ft_lstnew(amb);
+	ft_lstadd_front(figure, new_node);
 }
 
-void	parse_camera(char *line, t_vars *vars)
+void	parse_camera(char *line, t_vars *vars, t_list **figure)
 {
 	int			i;
 	int			j;
@@ -71,7 +74,7 @@ void	parse_camera(char *line, t_vars *vars)
 	}
 }
 
-void	parse_light(char *line, t_vars *vars)
+void	parse_light(char *line, t_vars *vars, t_list **figure)
 {
 	int		i;
 	int		j;

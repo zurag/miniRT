@@ -34,6 +34,7 @@ t_sph	*new_sphere(void)
 	sph->center = vec_new(0.0, 0.0, 0.0);
 	sph->diam = 0.0;
 	sph->rad = 0.0;
+	sph->color = 0;
 	sph->red = 0;
 	sph->green = 0;
 	sph->blue = 0;

@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	parse_plane(char *line, t_vars *vars)
+void	parse_plane(char *line, t_vars *vars, t_list **figure)
 {
 	int		i;
 	int		j;
@@ -44,7 +44,7 @@ void	parse_plane(char *line, t_vars *vars)
 							vars->plane->blue);
 }
 
-void	parse_sphere(char *line, t_vars *vars)
+void	parse_sphere(char *line, t_vars *vars, t_list **figure)
 {
 	int		i;
 	int		j;
@@ -77,7 +77,7 @@ void	parse_sphere(char *line, t_vars *vars)
 							vars->sph->blue);
 }
 
-void	parse_cylinder(char *line, t_vars *vars)
+void	parse_cylinder(char *line, t_vars *vars, t_list **figure)
 {
 	int		i;
 	int		j;

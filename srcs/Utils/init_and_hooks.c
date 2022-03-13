@@ -30,19 +30,6 @@ void	init(t_vars *vars)
 	(vars->img->line_len), &(vars->img->endian));
 }
 
-t_amb	*init_amb(void)
-{
-	t_amb	*amb;
-
-	amb = (t_amb *)malloc(sizeof(t_amb));
-	amb->id = ft_strdup("A");
-	amb->l_rat = 0.0;
-	amb->red = 0;
-	amb->green = 0;
-	amb->blue = 0;
-	return (amb);
-}
-
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
 {
 	char	*dst;

@@ -12,6 +12,18 @@
 
 #include "minirt.h"
 
+void	free_light(t_light *light)
+{
+	if (light)
+	{
+		if (light->id)
+			free(light->id);
+		if (light->d_point)
+			free(light->d_point);
+		free(light);
+	}
+}
+
 t_light	*new_light(void)
 {
 	t_light	*light;

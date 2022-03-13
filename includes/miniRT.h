@@ -179,13 +179,13 @@ typedef struct s_scene
 void		parser(char **argv, t_vars *vars);
 float		ft_atof(const char *str);
 void		check_file_name(char *file_name);
-void		parse_line(char *line, t_vars *vars);
-void		parse_ambient(char *line, t_vars *vars);
-void		parse_camera(char *line, t_vars *vars);
-void		parse_light(char *line, t_vars *vars);
-void		parse_plane(char *line, t_vars *vars);
-void		parse_sphere(char *line, t_vars *vars);
-void		parse_cylinder(char *line, t_vars *vars);
+void		parse_line(char *line, t_vars *vars, t_list **figure);
+void		parse_ambient(char *line, t_vars *vars, t_list **figure);
+void		parse_camera(char *line, t_vars *vars, t_list **figure);
+void		parse_light(char *line, t_vars *vars, t_list **figure);
+void		parse_plane(char *line, t_vars *vars, t_list **figure);
+void		parse_sphere(char *line, t_vars *vars, t_list **figure);
+void		parse_cylinder(char *line, t_vars *vars, t_list **figure);
 char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
@@ -195,14 +195,19 @@ void		free_array(char **array);
 // Figures
 
 void		init(t_vars *vars);
-t_amb		*init_amb(void);
+t_amb		*new_amb(void);
 t_camera	*new_camera(void);
 t_light		*new_light(void);
 t_plane		*new_plane(void);
 t_sph		*new_sphere(void);
 t_cyl		*new_cylinder(void);
 t_scene		*new_scene(t_camera *cam, t_sph *sphere);
-
+void		free_amb(t_amb *ambient);
+void		free_camera(t_camera *camera);
+void		free_light(t_light *light);
+void		free_plane(t_plane *plane);
+void		free_scene(t_scene *scene);
+void		free_sphere(t_sph *sphere);
 // UTILS
 
 int			close_win(int keycode);
@@ -211,9 +216,6 @@ void		ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
 int			ft_color(int red, int green, int blue);
 void		error_exit(int code);
-void		free_scene(t_scene *scene);
-void		free_camera(t_camera *camera);
-void		free_sphere(t_sph *sphere);
 
 //Raytrace
 
