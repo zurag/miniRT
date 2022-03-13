@@ -12,13 +12,14 @@
 
 #include "minirt.h"
 
-void	parse_plane(char *line, t_vars *vars, t_list **figure)
+void	parse_plane(char *line, t_vars *vars, t_flist **figure)
 {
 	int		i;
 	int		j;
 	char	**nums;
 	t_plane	*plane;
-	t_list	*new_node;
+	t_flist	*new_node;
+	void	*tmp;
 	(void)vars;
 
 	i = -1;
@@ -44,17 +45,19 @@ void	parse_plane(char *line, t_vars *vars, t_list **figure)
 		free_array(nums);
 	}
 	plane->color = ft_color(plane->red, plane->green, plane->blue);
-	new_node = ft_lstnew(plane);
-	ft_lstadd_back(figure, new_node);
+	tmp = (void *)plane;
+	new_node = ft_flstnew(tmp, PLANE);
+	ft_flstadd_back(figure, new_node);
 }
 
-void	parse_sphere(char *line, t_vars *vars, t_list **figure)
+void	parse_sphere(char *line, t_vars *vars, t_flist **figure)
 {
 	int		i;
 	int		j;
 	char	**nums;
 	t_sph	*sph;
-	t_list	*new_node;
+	t_flist	*new_node;
+	void	*tmp;
 	(void)vars;
 
 	i = -1;
@@ -81,17 +84,19 @@ void	parse_sphere(char *line, t_vars *vars, t_list **figure)
 	}
 	sph->rad = sph->diam * 0.5;
 	sph->color = ft_color(sph->red, sph->green, sph->blue);
-	new_node = ft_lstnew(sph);
-	ft_lstadd_back(figure, new_node);
+	tmp = (void *)sph;
+	new_node = ft_flstnew(tmp, SPHERE);
+	ft_flstadd_back(figure, new_node);
 }
 
-void	parse_cylinder(char *line, t_vars *vars, t_list **figure)
+void	parse_cylinder(char *line, t_vars *vars, t_flist **figure)
 {
 	int		i;
 	int		j;
 	char	**nums;
 	t_cyl	*cyl;
-	t_list	*new_node;
+	t_flist	*new_node;
+	void	*tmp;
 	(void)vars;
 
 	i = -1;
@@ -121,6 +126,7 @@ void	parse_cylinder(char *line, t_vars *vars, t_list **figure)
 		free_array(nums);
 	}
 	cyl->color = ft_color(cyl->red, cyl->green, cyl->blue);
-	new_node = ft_lstnew(cyl);
-	ft_lstadd_back(figure, new_node);
+	tmp = (void *)cyl;
+	new_node = ft_flstnew(tmp, CYLINDER);
+	ft_flstadd_back(figure, new_node);
 }

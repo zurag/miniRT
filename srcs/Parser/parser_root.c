@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	parse_line(char *line, t_vars *vars, t_list **figure)
+void	parse_line(char *line, t_vars *vars, t_flist **figure)
 {
 	int	i;
 
@@ -20,11 +20,11 @@ void	parse_line(char *line, t_vars *vars, t_list **figure)
 	while (!ft_isalpha(line[i]))
 		i++;
 	if (line[i] == 'A')
-		parse_ambient(line, vars, figure);
+		parse_ambient(line, vars);
 	else if (line[i] == 'C')
-		parse_camera(line, vars, figure);
+		parse_camera(line, vars);
 	else if (line[i] == 'L')
-		parse_light(line, vars, figure);
+		parse_light(line, vars);
 	else if (line[i] == 'p' && line[i + 1] == 'l')
 		parse_plane(line, vars, figure);
 	else if (line[i] == 's' && line[i + 1] == 'p')
@@ -33,7 +33,7 @@ void	parse_line(char *line, t_vars *vars, t_list **figure)
 		parse_cylinder(line, vars, figure);
 }
 
-void	parser(char **argv, t_vars *vars, t_list **figure)
+void	parser(char **argv, t_vars *vars, t_flist **figure)
 {
 	int		fd;
 	int		i;

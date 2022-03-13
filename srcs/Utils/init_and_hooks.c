@@ -19,9 +19,9 @@ void	init(t_vars *vars)
 	vars->x = 0;
 	vars->y = 0;
 	vars->img = malloc(sizeof(t_data));
-//	vars->amb = init_amb();
-//	vars->camera = new_camera();
-//	vars->light = new_light();
+	vars->amb = new_amb();
+	vars->camera = new_camera();
+	vars->light = new_light();
 //	vars->plane = new_plane();
 //	vars->sph = new_sphere();
 //	vars->cyl = new_cylinder();

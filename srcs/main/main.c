@@ -16,16 +16,16 @@
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	t_scene	*scene;
-	t_list	*figure;
+//	t_scene	*scene;
+	t_flist	*figure;
 
 	(void)argv;
 	init(&vars);
 	if (argc > 1)
 		parser(argv, &vars, &figure);
-	scene = new_scene(vars.camera, vars.sph);
-	raytrace(&vars, scene, &figure);
-	free_scene(scene);
+//	scene = new_scene(vars.camera, vars.sph);
+	raytrace(&vars, &figure);
+//	free_scene(scene);
 	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);
 	mlx_loop(vars.mlx);

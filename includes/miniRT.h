@@ -18,7 +18,7 @@
 # include "vector.h"
 # include "sphere.h"
 # include "camera.h"
-# include "scene.h"
+//# include "scene.h"
 # include "view_plane.h"
 # include "intersect.h"
 # include <unistd.h>
@@ -36,6 +36,11 @@
 
 // Num of cores ( for PTHREAD )
 # define CORES_NUM 4
+
+// Type of figure
+# define PLANE 1
+# define SPHERE 2
+# define CYLINDER 3
 
 // Window and keyboard
 # define WIDTH 480
@@ -55,6 +60,7 @@ typedef struct s_light	t_light;
 typedef struct s_sph	t_sph;
 typedef struct s_cyl	t_cyl;
 typedef struct s_plane	t_plane;
+typedef struct s_flist	t_flist;
 
 typedef struct s_vec
 {
@@ -82,12 +88,14 @@ typedef struct s_vars
 	t_amb		*amb;
 	t_camera	*camera;
 	t_light		*light;
-	t_plane		*plane;
-	int 		plane_num;
-	t_sph		*sph;
-	int 		sph_num;
-	t_cyl		*cyl;
-	int 		cyl_num;
+	int			dist;
+	void		*nearest_obj;
+//	t_plane		*plane;
+//	int 		plane_num;
+//	t_sph		*sph;
+//	int 		sph_num;
+//	t_cyl		*cyl;
+//	int 		cyl_num;
 }				t_vars;
 //PARSING
 
@@ -166,26 +174,33 @@ typedef struct s_vplane
 	float		y_pixel;
 }				t_vplane;
 
-typedef struct s_scene
+typedef struct s_flist
 {
-	t_camera	*camera;
-	t_sph		*sphere;
-	float		width;
-	float		height;
-}				t_scene;
+	void		*content;
+	int 		type;
+	t_flist		*next;
+}				t_flist;
+
+//typedef struct s_scene
+//{
+//	t_camera	*camera;
+//	t_sph		*sphere;
+//	float		width;
+//	float		height;
+//}				t_scene;
 
 //Parser
 
-void		parser(char **argv, t_vars *vars, t_list **figure);
+void		parser(char **argv, t_vars *vars, t_flist **figure);
 float		ft_atof(const char *str);
 void		check_file_name(char *file_name);
-void		parse_line(char *line, t_vars *vars, t_list **figure);
-void		parse_ambient(char *line, t_vars *vars, t_list **figure);
-void		parse_camera(char *line, t_vars *vars, t_list **figure);
-void		parse_light(char *line, t_vars *vars, t_list **figure);
-void		parse_plane(char *line, t_vars *vars, t_list **figure);
-void		parse_sphere(char *line, t_vars *vars, t_list **figure);
-void		parse_cylinder(char *line, t_vars *vars, t_list **figure);
+void		parse_line(char *line, t_vars *vars, t_flist **figure);
+void		parse_ambient(char *line, t_vars *vars);
+void		parse_camera(char *line, t_vars *vars);
+void		parse_light(char *line, t_vars *vars);
+void		parse_plane(char *line, t_vars *vars, t_flist **figure);
+void		parse_sphere(char *line, t_vars *vars, t_flist **figure);
+void		parse_cylinder(char *line, t_vars *vars, t_flist **figure);
 char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
@@ -201,14 +216,14 @@ t_light		*new_light(void);
 t_plane		*new_plane(void);
 t_sph		*new_sphere(void);
 t_cyl		*new_cylinder(void);
-t_scene		*new_scene(t_camera *cam, t_sph *sphere);
+//t_scene		*new_scene(t_camera *cam, t_sph *sphere);
 void		free_amb(t_amb *ambient);
 void		free_camera(t_camera *camera);
 void		free_light(t_light *light);
 void		free_plane(t_plane *plane);
 void		free_sphere(t_sph *sphere);
 void		free_cylinder(t_cyl *cyl);
-void		free_scene(t_scene *scene);
+//void		free_scene(t_scene *scene);
 // UTILS
 
 int			close_win(int keycode);
@@ -220,12 +235,21 @@ void		error_exit(int code);
 
 //Raytrace
 
-void		raytrace(t_vars *vars, t_scene *scene, t_list **figure);
+void		raytrace(t_vars *vars, t_flist **figure);
+int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
 float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
 float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
-int			ft_pixel_color(t_vars *vars, t_vec *ray);
+
+// FIGURES LIST
+t_flist	*ft_flstnew(void *content, int type);
+void	ft_flstadd_front(t_flist **flst, t_flist *new);
+void	ft_flstadd_back(t_flist **flst, t_flist *new);
+int		ft_flstsize(t_flist *flst);
+t_flist	*ft_flstlast(t_flist *flst);
+//void	ft_flstdelone(t_flist *flst, void (*del)(void*));
+//void	ft_flstclear(t_flist **flst, void (*del)(void*));
 
 //vector
 
