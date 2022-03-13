@@ -10,8 +10,8 @@ Our really first Ray Tracer!
 * [Intro](#intro)
 * [Usage](#usage)
 * [Features](#features)
-* [Scene format](#scene_format)
-* [Example](#example_of_.rt_file)
+* [Scene format](#scene-format)
+* [Example](#example-of-rt-file)
 
 ## Intro
 ____
