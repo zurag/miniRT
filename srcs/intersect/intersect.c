@@ -1,6 +1,11 @@
 
 #include "minirt.h"
 
+void	print_vect(t_vect *vec, char *name)
+{
+	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
+}
+
 float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane)
 {
 	float	denom;
@@ -53,37 +58,58 @@ int	sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere)
 
 // ray = D
 // x = vec_subtraction(cam->d_origin, cyl->d_coordinates);
+// v = cyl->nv_orientation
 
+/*
+   a   = D|D - (D|V)^2
+   b/2 = D|X - (D|V)*(X|V)
+   c   = X|X - (X|V)^2 - r*r
+   P = O + D*t
+*/
 
 float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl)
 {
-	// t_vect	*start;
-	// t_vect	*end;
 	t_vect	*camera_cy;
 	float	a;
 	float	b;
 	float	c;
-	float	dist[4];
+	float	dist[2];
 	float	discr;
 	float	tmp;
-	float	m[2];
-
-
+	t_vect	*p;
+	float	len;
+	t_vect	*norm;
+	t_vect	*p_on_axis;
+	
+	
 	camera_cy = vec_subtraction(cam->d_origin, cyl->d_coordinates);
+	// print_vect(cam->d_origin, "cam->d_origin");
+	// print_vect(cyl->d_coordinates, "cyl->d_coordinates");
+	// printf("co = %f\n", dot_product(camera_cy, camera_cy));
 	tmp = dot_product(ray, cyl->nv_orientation);
-	a = dot_product(ray, ray) - (tmp * tmp);
-	b = 2 * (dot_product(ray, cyl->nv_orientation) -  (dot_product(ray, cyl->nv_orientation) * dot_product(camera_cy, cyl->nv_orientation)));
-	// tmp = dot_product(ray, cyl->nv_orientation);
-	c = dot_product(camera_cy, camera_cy) - (tmp * tmp) - (cyl->diam / 2 * cyl->diam / 2);
+	a = ((tmp * tmp) - 1);
+	b = 2 * ((tmp * dot_product(camera_cy, cyl->nv_orientation)) - dot_product(ray, camera_cy));
+	tmp = dot_product(cyl->nv_orientation, camera_cy);
+	c = (tmp * tmp) + (powf(cyl->diam * 0.5, 2) - dot_product(camera_cy, camera_cy));
 	free(camera_cy);
 	discr = (b * b) - (4 * a * c);
-	printf("discr = %f\n", discr);
-	dist[0] = (((b * -1) - sqrt(discr)) / 2);
-	dist[1] = (((b * -1) + sqrt(discr)) / 2);
-	m[0] = (dot_product(ray, cyl->nv_orientation) * dist[0]) + dot_product(camera_cy, cyl->nv_orientation);
-	m[1] = (dot_product(ray, cyl->nv_orientation) * dist[1]) + dot_product(camera_cy, cyl->nv_orientation);
-//	printf("dist1== %f, dist2== %f\n", dist[0], dist[1]);
-	// start = cyl->
+	// printf("b = %f, a = %f, c = %f\n", b, a, c);
+	// printf("discr = %f\n", discr);
+	if (discr < 0)
+		return (0);
+	dist[0] = (((b * -1) - sqrt(discr)) / 2 * a);
+	dist[1] = (((b * -1) + sqrt(discr)) / 2 * a);
+	vect_multipl_on(ray, dist[0]);
+	p = vec_sum(cam->d_origin, ray);
+	len = dot_product(cyl->nv_orientation, p);
+	// printf("len == %f\n", len);
+	if (len >= cyl->height / 2 || len  * -1 >= cyl->height / 2)
+		return (0);
+	p_on_axis = new_vector(cyl->d_coordinates->x, cyl->d_coordinates->y, cyl->d_coordinates->z);
+	vect_multipl_on(p_on_axis, len);
+	p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
+	norm = vec_subtraction(p_on_axis, p);
+	vect_normalize(norm);
 	if(dist[0] > 0)
 		return (dist[0]);
 	return (0);
