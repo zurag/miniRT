@@ -55,7 +55,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray)
 		return (0);
 }
 
-void	raytrace(t_vars *vars, t_scene *scene)
+void	raytrace(t_vars *vars, t_scene *scene, t_list **figure)
 {
 	float		x_angle;
 	float		y_angle;
@@ -64,7 +64,6 @@ void	raytrace(t_vars *vars, t_scene *scene)
 	float		y_ray;
 	float		x_ray;
 	int			color;
-	// float		dist;
 
 	vars->y = 0;
 	printf("fov = %d\n", vars->camera->fov);

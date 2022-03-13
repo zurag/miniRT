@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	free_plane(t_cyl *cyl)
+void	free_cylinder(t_cyl *cyl)
 {
 	if (cyl)
 	{

@@ -33,14 +33,13 @@ void	parse_line(char *line, t_vars *vars, t_list **figure)
 		parse_cylinder(line, vars, figure);
 }
 
-void	parser(char **argv, t_vars *vars)
+void	parser(char **argv, t_vars *vars, t_list **figure)
 {
 	int		fd;
 	int		i;
 	char	*line;
-	t_list	*figure;
 
-	ft_lstnew(NULL);
+	figure = NULL;
 	check_file_name(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
@@ -50,9 +49,9 @@ void	parser(char **argv, t_vars *vars)
 	}
 	while ((i = get_next_line(fd, &line)))
 	{
-		parse_line(line, vars, &figure);
+		parse_line(line, vars, figure);
 		free(line);
 	}
-	parse_line(line, vars, &figure);
+	parse_line(line, vars, figure);
 	free(line);
 }

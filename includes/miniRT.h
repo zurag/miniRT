@@ -176,7 +176,7 @@ typedef struct s_scene
 
 //Parser
 
-void		parser(char **argv, t_vars *vars);
+void		parser(char **argv, t_vars *vars, t_list **figure);
 float		ft_atof(const char *str);
 void		check_file_name(char *file_name);
 void		parse_line(char *line, t_vars *vars, t_list **figure);
@@ -206,8 +206,9 @@ void		free_amb(t_amb *ambient);
 void		free_camera(t_camera *camera);
 void		free_light(t_light *light);
 void		free_plane(t_plane *plane);
-void		free_scene(t_scene *scene);
 void		free_sphere(t_sph *sphere);
+void		free_cylinder(t_cyl *cyl);
+void		free_scene(t_scene *scene);
 // UTILS
 
 int			close_win(int keycode);
@@ -219,7 +220,7 @@ void		error_exit(int code);
 
 //Raytrace
 
-void		raytrace(t_vars *vars, t_scene *scene);
+void		raytrace(t_vars *vars, t_scene *scene, t_list **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
 float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
