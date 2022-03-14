@@ -12,6 +12,7 @@
 
 #include "minirt.h"
 
+
 // TODO vars->dist - самая близкая дистанция. Именно эту точку мы красим.
 //  vars->nearest_obj - указатель на конкретный токен с тем, что
 //  рисовать (изменить интерсекты с учетом этой информации)
@@ -36,6 +37,7 @@
 // 	}
 // }
 
+
 int	get_color(t_vars *vars, t_vec *phit)
 {
 	int		color_from_light;
@@ -56,10 +58,10 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	t_inter	*ret_inter;
 
 	color_from_light = 0;
+
 	// get_dist(vars, ray, figure);
 	ret_inter = intersect(vars, ray, *figure, vars->camera->d_origin);
-	
-	//TODO здесь мы возвращаем еще и конкретную фигуру
+
 	if (vars->dist)
 	{
 		// vec_mult(ray, vars->dist);
@@ -87,16 +89,14 @@ void	raytrace(t_vars *vars, t_flist **figure)
 	while (y_angle > (HEIGHT / 2) * (-1))
 	{
 		y_ray = y_angle * vplane->y_pixel;
-		x_angle = (WIDTH / 2) * (-1) ;
+		x_angle = (WIDTH / 2) * (-1);
 		vars->x = 0;
 		while (x_angle < (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
 			ray = vec_new(x_ray, y_ray, -1);
 			color = ft_pixel_color(vars, ray, figure);
-//			printf("color = %d\n", color);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
-//			printf("vars->x = %d vars->y = %d\n", vars->x, vars->y);
 			free(ray);
 			vars->x++;
 			x_angle++;

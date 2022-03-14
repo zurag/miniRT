@@ -1,5 +1,6 @@
 #include "minirt.h"
 
+
 t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
 	t_cyl *cyl;
@@ -14,6 +15,7 @@ t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_ve
 }
 
 t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
+
 {
 	t_plane *plane;
 
@@ -87,4 +89,4 @@ t_inter	*intersect(t_vars *vars, t_vec *ray, t_flist *figure_lst, t_vec *ray_ori
 	ret_intersect = ret_intersect(find_node_lst(start, min_nbr), dist[min_nbr], ray_origin, ray);
 	free(dist);
 	return (ret_intersect);
-}
+

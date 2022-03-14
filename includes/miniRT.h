@@ -18,7 +18,6 @@
 # include "vector.h"
 # include "sphere.h"
 # include "camera.h"
-//# include "scene.h"
 # include "view_plane.h"
 # include "intersect.h"
 # include <unistd.h>
@@ -90,12 +89,6 @@ typedef struct s_vars
 	t_light		*light;
 	float		dist;
 	void		*nearest_obj;
-//	t_plane		*plane;
-//	int 		plane_num;
-//	t_sph		*sph;
-//	int 		sph_num;
-//	t_cyl		*cyl;
-//	int 		cyl_num;
 }				t_vars;
 //PARSING
 
@@ -117,12 +110,12 @@ typedef struct s_camera
 	int			fov;
 }				t_camera;
 
-
 typedef struct s_light
 {
 	char		*id;
 	t_vec		*d_point;
 	float		bright;
+
 }				t_light;
 
 typedef struct s_plane
@@ -177,17 +170,10 @@ typedef struct s_vplane
 typedef struct s_flist
 {
 	void		*content;
-	int 		type;
+	int			type;
 	t_flist		*next;
 }				t_flist;
 
-//typedef struct s_scene
-//{
-//	t_camera	*camera;
-//	t_sph		*sphere;
-//	float		width;
-//	float		height;
-//}				t_scene;
 
 typedef	struct s_intersect
 {
@@ -197,8 +183,6 @@ typedef	struct s_intersect
 	int			type;
 	void		*figure;
 }				t_inter;
-
-
 
 //Parser
 
@@ -227,14 +211,13 @@ t_light		*new_light(void);
 t_plane		*new_plane(void);
 t_sph		*new_sphere(void);
 t_cyl		*new_cylinder(void);
-//t_scene		*new_scene(t_camera *cam, t_sph *sphere);
 void		free_amb(t_amb *ambient);
 void		free_camera(t_camera *camera);
 void		free_light(t_light *light);
 void		free_plane(t_plane *plane);
 void		free_sphere(t_sph *sphere);
 void		free_cylinder(t_cyl *cyl);
-//void		free_scene(t_scene *scene);
+
 // UTILS
 
 int			close_win(int keycode);
@@ -265,13 +248,11 @@ t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
 
 
 // FIGURES LIST
-t_flist	*ft_flstnew(void *content, int type);
-void	ft_flstadd_front(t_flist **flst, t_flist *new);
-void	ft_flstadd_back(t_flist **flst, t_flist *new);
-int		ft_flstsize(t_flist *flst);
-t_flist	*ft_flstlast(t_flist *flst);
-//void	ft_flstdelone(t_flist *flst, void (*del)(void*));
-//void	ft_flstclear(t_flist **flst, void (*del)(void*));
+t_flist		*ft_flstnew(void *content, int type);
+void		ft_flstadd_front(t_flist **flst, t_flist *new);
+void		ft_flstadd_back(t_flist **flst, t_flist *new);
+int			ft_flstsize(t_flist *flst);
+t_flist		*ft_flstlast(t_flist *flst);
 
 //vector
 

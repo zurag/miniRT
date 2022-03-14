@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minirt.h"
 
 int	main(int argc, char **argv)
@@ -18,7 +17,6 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 	t_flist	*figure;
 
-	(void)argv;
 	init(&vars);
 	if (argc > 1)
 		parser(argv, &vars, &figure);

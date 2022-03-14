@@ -20,8 +20,8 @@ void	parse_plane(char *line, t_vars *vars, t_flist **figure)
 	t_plane	*plane;
 	t_flist	*new_node;
 	void	*tmp;
-	(void)vars;
 
+	(void)vars;
 	i = -1;
 	j = 0;
 	plane = new_plane();
@@ -58,8 +58,8 @@ void	parse_sphere(char *line, t_vars *vars, t_flist **figure)
 	t_sph	*sph;
 	t_flist	*new_node;
 	void	*tmp;
-	(void)vars;
 
+	(void)vars;
 	i = -1;
 	j = 0;
 	sph = new_sphere();
@@ -97,8 +97,8 @@ void	parse_cylinder(char *line, t_vars *vars, t_flist **figure)
 	t_cyl	*cyl;
 	t_flist	*new_node;
 	void	*tmp;
-	(void)vars;
 
+	(void)vars;
 	i = -1;
 	j = 0;
 	cyl = new_cylinder();
