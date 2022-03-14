@@ -46,22 +46,22 @@ static t_inter	*ret_intersect(t_flist *figure_lst, float dist, t_vec *ray_origin
 	t_inter	*ret_intersect;
 
 	ret_intersect = malloc(sizeof(t_inter));
-	printf("type = %d\n", figure_lst->type);
+	// printf("type = %d\n", figure_lst->type);
 	if (figure_lst->type == PLANE)
 	{
-		printf("check\n");
+		// printf("check\n");
 		pl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
 						   ray_dir);
 	}
 	else if (figure_lst->type == SPHERE)
 	{
-		printf("check\n");
+		// printf("check\n");
 		sph_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
 							ray_dir);
 	}
 	else if (figure_lst->type == CYLINDER)
 		{
-			printf("check\n");
+			// printf("check\n");
 			cyl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
 								ray_dir);
 		}
@@ -81,20 +81,30 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 	start = figure_lst;
 	vec_normalize(ray);
 	size_lst = ft_flstsize(figure_lst);
-	dist = malloc(sizeof(t_inter) * size_lst);
+	// printf("size lst == %d\n", size_lst);
+	dist = malloc(sizeof(float) * size_lst);
 	while (figure_lst)
 	{
 		if (figure_lst->type == PLANE)
 			dist[i] = plane_intersect(ray_origin, ray, figure_lst->content);
 		else if (figure_lst->type == SPHERE)
+		{
+			// printf("IN FIGURE\n");
 			dist[i] = sphere_intersect(ray_origin, ray, figure_lst->content);
+			// if (dist[i] > 0)
+			// 	printf("dist == %f\n", sphere_intersect(ray_origin, ray, figure_lst->content));
+		}
 		else if (figure_lst->type == CYLINDER)
 			dist[i] = cylinder_intersect(ray_origin, ray, figure_lst->content);
 		i++;
 		figure_lst = figure_lst->next;
 	}
+	// for (int j = 0; j < size_lst; j++)
+	// 	printf("dist[%d] == %f\n", j, dist[j]);
 	min_nbr = find_min_nbr(dist, size_lst);
-	if (dist[min_nbr] == -1)
+	if (dist[min_nbr] > 0)
+				printf("dist min_nbr == %f\n", dist[min_nbr]);
+	if (dist[min_nbr] < -1)
 	{
 		free(dist);
 		return (NULL);

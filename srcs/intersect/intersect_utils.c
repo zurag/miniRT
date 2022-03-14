@@ -1,10 +1,10 @@
 #include "minirt.h"
 
 
-// void	print_vect(t_vect *vec, char *name)
-// {
-// 	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
-// }
+void	print_vect(t_vec *vec, char *name)
+{
+	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
+}
 
 int	find_min_nbr(float	*arr, int size)
 {
@@ -12,13 +12,15 @@ int	find_min_nbr(float	*arr, int size)
 	int		min;
 
 	i = 0;
-	min = -1;
+	min = 0;
 	while (i < size)
 	{
+		// printf("arr[%d] == %f\n", i, arr[i]);
 		if (arr[i] < arr[min] && arr[i] != -1)
 			min = i;
 		i++;
 	}
+	printf("arr[min] == %f\n", arr[min]);
 	return (min);
 }
 
@@ -33,8 +35,9 @@ t_flist	*find_node_lst(t_flist *figure_lst, int nbr)
 		i++;
 		figure_lst = figure_lst->next;
 	}
-	if (i != nbr)
-		return (NULL);
+	// if (i != nbr)
+	// 	return (NULL);
+	// printf("TYPE == %d\n", figure_lst->type);
 	return (figure_lst);
 }
 

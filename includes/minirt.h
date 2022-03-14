@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/14 15:28:37 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/14 17:55:34 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,5 +267,6 @@ float		vec_len(t_vec *vec);
 t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
 t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
 void		vec_mult(t_vec *vec, float num);
+void		print_vect(t_vec *vec, char *name);
 
 #endif 
