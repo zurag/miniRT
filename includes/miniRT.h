@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/09 20:43:59 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/14 15:28:37 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,16 @@ typedef struct s_flist
 	t_flist		*next;
 }				t_flist;
 
+
+typedef	struct s_intersect
+{
+	t_vec		*norm;
+	t_vec		*point;
+	float		dist;
+	int			type;
+	void		*figure;
+}				t_inter;
+
 //Parser
 
 void		parser(char **argv, t_vars *vars, t_flist **figure);
@@ -227,9 +237,15 @@ int			get_color(t_vars *vars, t_vec *phit);
 int			get_sphere_color(t_vars *vars, t_vec *phit);
 int			get_plane_color(t_vars *vars, t_vec *phit);
 int			get_cylinder_color(t_vars *vars, t_vec *phit);
-float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
-float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
-float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
+float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
+float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
+float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
+t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
+t_vec		*cyl_normal(t_vec *point, t_cyl *cyl);
+t_vec		*sph_normal(t_vec *point, t_sph *sph);
+int			find_min_nbr(float	*arr, int size);
+t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
+
 
 // FIGURES LIST
 t_flist		*ft_flstnew(void *content, int type);

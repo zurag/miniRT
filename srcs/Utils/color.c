@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:28:23 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/14 15:29:58 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ int	get_sphere_color(t_vars *vars, t_vec *phit)
 	t_vec	*light;
 	int		color_from_light;
 
-	tmp_sph = (t_sph *)vars->nearest_obj;
-	nhit = vec_subtraction(phit, tmp_sph->center);
-	vec_normalize(nhit);
 	light = vec_subtraction(phit, vars->light->d_point);
 	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
 	if (cos_alpha < 0)
@@ -42,8 +39,6 @@ int	get_plane_color(t_vars *vars, t_vec *phit)
 	t_vec	*light;
 	int		color_from_light;
 
-	tmp_plane = (t_plane *)vars->nearest_obj;
-	nhit = tmp_plane->nv_orientation;
 	light = vec_subtraction(phit, vars->light->d_point);
 	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
 	if (cos_alpha < 0)
@@ -62,10 +57,7 @@ int	get_cylinder_color(t_vars *vars, t_vec *phit)
 	t_vec	*nhit;
 	t_vec	*light;
 	int		color_from_light;
-
-	tmp_cyl = (t_cyl *)vars->nearest_obj;
-	nhit = vec_subtraction(phit, tmp_cyl->center);
-	vec_normalize(nhit);
+	
 	light = vec_subtraction(phit, vars->light->d_point);
 	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
 	if (cos_alpha < 0)
