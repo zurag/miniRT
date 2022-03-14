@@ -12,52 +12,87 @@
 
 #include "minirt.h"
 
- float	get_light(t_vars *vars, float dist, t_vect *dir, t_vect	*normal)
- {
- 	t_vect	*origin;
- 	float	angle_inc;
- 	float	angle_ref;
+// TODO vars->dist - самая близкая дистанция. Именно эту точку мы красим.
+//  vars->nearest_obj - указатель на конкретный токен с тем, что
+//  рисовать (изменить интерсекты с учетом этой информации)
+float	get_dist(t_vars *vars, t_vec *ray, t_flist **figure)
+{
+	t_flist	*tmp;
 
- 	vect_multipl_on(dir, dist);
- 	origin = vec_subtraction(vars->light->d_point, dir);
- 	// vars->light->d_point;
- }
+	vec_normalize(ray);
+	tmp = *figure;
+	while (tmp != NULL)
+	{
+		if (tmp->type == PLANE)
+			vars->dist = plane_intersect(vars->camera, ray,
+							(t_plane *)tmp->content);
+		else if (figure->type == SPHERE)
+			vars->dist = sphere_intersect(vars->camera, ray,
+							(t_sph *)tmp->content);
+		else if (figure->type == CYLINDER)
+			vars->dist = cylinder_intersect(vars->camera, ray,
+							(t_cyl *)tmp->content);
+		tmp = tmp->next;
+	}
+}
 
-void	raytrace(t_vars *vars, t_scene *scene)
+int	get_color(t_vars *vars, t_vec *phit)
+{
+	int		color_from_light;
+
+	if (vars->nearest_obj->type == SPHERE)
+		color_from_light = get_sphere_color(vars, phit);
+	if (vars->nearest_obj->type == PLANE)
+		color_from_light = get_plane_color(vars, phit);
+	if (vars->nearest_obj->type == CYLINDER)
+		color_from_light = get_cylinder_color(vars, phit);
+	return (color_from_light);
+}
+
+int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
+{
+	int		color_from_light;
+	t_vec	*phit;
+
+	color_from_light = 0;
+	get_dist(vars, ray, figure);
+	//TODO здесь мы возвращаем еще и конкретную фигуру
+	if (vars->dist)
+	{
+		vec_mult(ray, vars->dist);
+		phit = vec_sum(vars->camera->d_origin, ray);
+		color_from_light = get_color(vars, phit);
+		return (color_from_light);
+	}
+	else
+		return (0);
+}
+
+void	raytrace(t_vars *vars, t_flist **figure)
 {
 	float		x_angle;
 	float		y_angle;
-	t_vect		*ray;
+	t_vec		*ray;
 	t_vplane	*vplane;
 	float		y_ray;
 	float		x_ray;
 	int			color;
-	// float		dist;
 
 	vars->y = 0;
-	printf("fov = %d\n", vars->camera->fov);
 	vplane = get_view_plane(WIDTH, HEIGHT, vars->camera->fov);
-	printf("width = %f, height = %f, x_pixel = %f, y_pixel = %f \n",
-		   vplane->width, vplane->height, vplane->x_pixel, vplane->y_pixel);
 	y_angle = HEIGHT / 2;
 	while (y_angle > (HEIGHT / 2) * (-1))
 	{
 		y_ray = y_angle * vplane->y_pixel;
-		x_angle = (scene->width / 2) * (-1) ;
+		x_angle = (WIDTH / 2) * (-1) ;
 		vars->x = 0;
 		while (x_angle < (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
-			ray = new_vector(x_ray, y_ray, -1);
-			vect_normalize(ray);
-			if (sphere_intersect(vars->camera, ray, vars->sph))
-				color = 167772215;
-			else
-				color = 0;
-//			printf("checkk in ray trace\n");
-			printf("color = %d\n", color);
+			ray = vec_new(x_ray, y_ray, -1);
+			color = ft_pixel_color(vars, ray, figure);
+//			printf("color = %d\n", color);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
-			// break;
 //			printf("vars->x = %d vars->y = %d\n", vars->x, vars->y);
 			free(ray);
 			vars->x++;
@@ -78,7 +113,6 @@ t_vplane	*get_view_plane(float width, float height, float fov)
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		error_exit(-1);
-	fov = 1;
 	aspect_ratio = width * pow(height, (-1));
 	vplane->width = 2 * tan((double)fov * 0.5);
 	vplane->height = vplane->width * pow(aspect_ratio, -1);

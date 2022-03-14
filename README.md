@@ -7,7 +7,11 @@
 
 Our really first Ray Tracer!
 
-
+* [Intro](#intro)
+* [Usage](#usage)
+* [Features](#features)
+* [Scene format](#scene-format)
+* [Example](#example-of-rt-file)
 
 ## Intro
 ____
@@ -28,7 +32,7 @@ ______
 
 <Scene_name.rt> files are located in the `srcs/scenes_files/`
 
-### Features
+## Features
 ______
 + **Raycasting**
 + ~~**Multithreaded render**~~
@@ -39,7 +43,7 @@ ______
 + ~~**Reflections of objects**~~
 + ~~**Creating screenshots**~~
 
-## Supported figures:
+## Supported figures
 ______
 + **Sphere**
 + **Plane**
@@ -98,7 +102,7 @@ ____
     + R,G,B colors in range [0-255].
       </br></br>
 
-### Example of .rt file
+## Example of .rt file
 ```c
 A 0.01 255,255,255
 

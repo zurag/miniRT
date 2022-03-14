@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	parse_line(char *line, t_vars *vars)
+void	parse_line(char *line, t_vars *vars, t_flist **figure)
 {
 	int	i;
 
@@ -26,19 +26,20 @@ void	parse_line(char *line, t_vars *vars)
 	else if (line[i] == 'L')
 		parse_light(line, vars);
 	else if (line[i] == 'p' && line[i + 1] == 'l')
-		parse_plane(line, vars);
+		parse_plane(line, vars, figure);
 	else if (line[i] == 's' && line[i + 1] == 'p')
-		parse_sphere(line, vars);
+		parse_sphere(line, vars, figure);
 	else if (line[i] == 'c' && line[i + 1] == 'y')
-		parse_cylinder(line, vars);
+		parse_cylinder(line, vars, figure);
 }
 
-void	parser(char **argv, t_vars *vars)
+void	parser(char **argv, t_vars *vars, t_flist **figure)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
+	figure = NULL;
 	check_file_name(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
@@ -48,9 +49,9 @@ void	parser(char **argv, t_vars *vars)
 	}
 	while ((i = get_next_line(fd, &line)))
 	{
-		parse_line(line, vars);
+		parse_line(line, vars, figure);
 		free(line);
 	}
-	parse_line(line, vars);
+	parse_line(line, vars, figure);
 	free(line);
 }

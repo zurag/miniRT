@@ -12,7 +12,6 @@
 
 #include "minirt.h"
 
-
 void	free_camera(t_camera *camera)
 {
 	if (camera)
@@ -35,8 +34,8 @@ t_camera	*new_camera(void)
 	if (!camera)
 		error_exit(-1);
 	camera->id = ft_strdup("C");
-	camera->d_origin = new_vector(0.0, 0.0, 0.0);
-	camera->nv_direction = new_vector(0.0, 0.0, 0.0);
+	camera->d_origin = vec_new(0.0, 0.0, 0.0);
+	camera->nv_direction = vec_new(0.0, 0.0, 0.0);
 	camera->fov = 0;
 	return (camera);
 }

@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-void	put_numbers_vec(char **num, t_vect *vec)
+void	put_numbers_vec(char **num, t_vec *vec)
 {
 	vec->x = ft_atof(num[0]);
 	vec->y = ft_atof(num[1]);

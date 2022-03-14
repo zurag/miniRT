@@ -35,9 +35,11 @@ void	parse_ambient(char *line, t_vars *vars)
 			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
 		if (j == 3)
 			put_numbers_atoi(nums, &vars->amb->red, &vars->amb->green,
-				&vars->amb->blue);
+						&vars->amb->blue);
 		free_array(nums);
 	}
+	vars->amb->color = ft_color(vars->amb->red, vars->amb->green,
+							vars->amb->blue);
 }
 
 void	parse_camera(char *line, t_vars *vars)

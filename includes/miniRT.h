@@ -18,7 +18,7 @@
 # include "vector.h"
 # include "sphere.h"
 # include "camera.h"
-# include "scene.h"
+//# include "scene.h"
 # include "view_plane.h"
 # include "intersect.h"
 # include <unistd.h>
@@ -36,6 +36,11 @@
 
 // Num of cores ( for PTHREAD )
 # define CORES_NUM 4
+
+// Type of figure
+# define PLANE 1
+# define SPHERE 2
+# define CYLINDER 3
 
 // Window and keyboard
 # define WIDTH 480
@@ -55,13 +60,14 @@ typedef struct s_light	t_light;
 typedef struct s_sph	t_sph;
 typedef struct s_cyl	t_cyl;
 typedef struct s_plane	t_plane;
+typedef struct s_flist	t_flist;
 
-typedef struct s_vect
+typedef struct s_vec
 {
 	float	x;
 	float	y;
 	float	z;
-}				t_vect;
+}				t_vec;
 
 typedef struct s_data
 {
@@ -82,9 +88,14 @@ typedef struct s_vars
 	t_amb		*amb;
 	t_camera	*camera;
 	t_light		*light;
-	t_plane		*plane;
-	t_sph		*sph;
-	t_cyl		*cyl;
+	float		dist;
+	void		*nearest_obj;
+//	t_plane		*plane;
+//	int 		plane_num;
+//	t_sph		*sph;
+//	int 		sph_num;
+//	t_cyl		*cyl;
+//	int 		cyl_num;
 }				t_vars;
 //PARSING
 
@@ -92,6 +103,7 @@ typedef struct s_amb
 {
 	char		*id;
 	float		l_rat;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -100,8 +112,8 @@ typedef struct s_amb
 typedef struct s_camera
 {
 	char		*id;
-	t_vect		*d_origin;
-	t_vect		*nv_direction;
+	t_vec		*d_origin;
+	t_vec		*nv_direction;
 	int			fov;
 }				t_camera;
 
@@ -109,15 +121,16 @@ typedef struct s_camera
 typedef struct s_light
 {
 	char		*id;
-	t_vect		*d_point;
+	t_vec		*d_point;
 	float		bright;
 }				t_light;
 
 typedef struct s_plane
 {
 	char		*id;
-	t_vect		*d_coordinates;
-	t_vect		*nv_orientation;
+	t_vec		*d_coordinates;
+	t_vec		*nv_orientation;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -126,9 +139,10 @@ typedef struct s_plane
 typedef struct s_sph
 {
 	char		*id;
-	t_vect		*center;
+	t_vec		*center;
 	float		diam;
 	float		rad;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -137,10 +151,11 @@ typedef struct s_sph
 typedef struct s_cyl
 {
 	char		*id;
-	t_vect		*d_coordinates;
-	t_vect		*nv_orientation;
+	t_vec		*d_coordinates;
+	t_vec		*nv_orientation;
 	float		diam;
 	float		height;
+	int			color;
 	int			red;
 	int			green;
 	int			blue;
@@ -159,72 +174,98 @@ typedef struct s_vplane
 	float		y_pixel;
 }				t_vplane;
 
-typedef struct s_scene
+typedef struct s_flist
 {
-	t_camera	*camera;
-	t_sph		*sphere;
-	float		width;
-	float		height;
-}				t_scene;
+	void		*content;
+	int 		type;
+	t_flist		*next;
+}				t_flist;
+
+//typedef struct s_scene
+//{
+//	t_camera	*camera;
+//	t_sph		*sphere;
+//	float		width;
+//	float		height;
+//}				t_scene;
 
 //Parser
 
-void		parser(char **argv, t_vars *vars);
+void		parser(char **argv, t_vars *vars, t_flist **figure);
 float		ft_atof(const char *str);
 void		check_file_name(char *file_name);
-void		parse_line(char *line, t_vars *vars);
+void		parse_line(char *line, t_vars *vars, t_flist **figure);
 void		parse_ambient(char *line, t_vars *vars);
 void		parse_camera(char *line, t_vars *vars);
 void		parse_light(char *line, t_vars *vars);
-void		parse_plane(char *line, t_vars *vars);
-void		parse_sphere(char *line, t_vars *vars);
-void		parse_cylinder(char *line, t_vars *vars);
+void		parse_plane(char *line, t_vars *vars, t_flist **figure);
+void		parse_sphere(char *line, t_vars *vars, t_flist **figure);
+void		parse_cylinder(char *line, t_vars *vars, t_flist **figure);
 char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
-void		put_numbers_vec(char **num, t_vect *vec);
+void		put_numbers_vec(char **num, t_vec *vec);
 void		free_array(char **array);
 
 // Figures
 
 void		init(t_vars *vars);
-t_amb		*init_amb(void);
+t_amb		*new_amb(void);
 t_camera	*new_camera(void);
 t_light		*new_light(void);
 t_plane		*new_plane(void);
 t_sph		*new_sphere(void);
 t_cyl		*new_cylinder(void);
-t_scene		*new_scene(t_camera *cam, t_sph *sphere);
-
+//t_scene		*new_scene(t_camera *cam, t_sph *sphere);
+void		free_amb(t_amb *ambient);
+void		free_camera(t_camera *camera);
+void		free_light(t_light *light);
+void		free_plane(t_plane *plane);
+void		free_sphere(t_sph *sphere);
+void		free_cylinder(t_cyl *cyl);
+//void		free_scene(t_scene *scene);
 // UTILS
 
 int			close_win(int keycode);
 int			key_hook(int keycode, t_vars *vars);
 void		ft_mlx_pixel_put(t_data *img, int x, int y, int color);
 int			gradient(int startcolor, int endcolor, int iter, int iter_max);
-int			color(int red, int green, int blue);
+int			ft_color(int red, int green, int blue);
 void		error_exit(int code);
-void		free_scene(t_scene *scene);
-void		free_camera(t_camera *camera);
-void		free_sphere(t_sph *sphere);
 
 //Raytrace
 
-void		raytrace(t_vars *vars, t_scene *scene);
+void		raytrace(t_vars *vars, t_flist **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
-int			sphere_intersect(t_camera *cam, t_vect *ray, t_sph *sphere);
-float cylinder_intersect(t_camera *cam, t_vect *ray, t_cyl *cyl);
-float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane);
+int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
+float		get_dist(t_vars *vars, t_vec *ray, t_flist **figure);
+int			get_color(t_vars *vars, t_vec *phit);
+int			get_sphere_color(t_vars *vars, t_vec *phit);
+int			get_plane_color(t_vars *vars, t_vec *phit);
+int			get_cylinder_color(t_vars *vars, t_vec *phit);
+float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
+float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
+float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
+
+// FIGURES LIST
+t_flist	*ft_flstnew(void *content, int type);
+void	ft_flstadd_front(t_flist **flst, t_flist *new);
+void	ft_flstadd_back(t_flist **flst, t_flist *new);
+int		ft_flstsize(t_flist *flst);
+t_flist	*ft_flstlast(t_flist *flst);
+//void	ft_flstdelone(t_flist *flst, void (*del)(void*));
+//void	ft_flstclear(t_flist **flst, void (*del)(void*));
 
 //vector
 
-t_vect		*new_vector(float x, float y, float z);
-void		print_vect(t_vect *vec, char *name);
-float		dot_product(t_vect *vec1, t_vect *vec2);
-void		vect_normalize(t_vect *vec);
-float		vect_len(t_vect *vec);
-t_vect		*vec_subtraction(t_vect *vec1, t_vect *vec2);
-t_vect		*cross_product(t_vect *vec1, t_vect *vec2);
-t_vect		*vec_sum(t_vect *vec1, t_vect *vec2);
+t_vec		*vec_new(float x, float y, float z);
+void		vec_print(t_vec *vec, char *name);
+float		dot_product(t_vec *vec1, t_vec *vec2);
+t_vec		*cross_product(t_vec *vec1, t_vec *vec2);
+void		vec_normalize(t_vec *vec);
+float		vec_len(t_vec *vec);
+t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
+t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
+void		vec_mult(t_vec *vec, float num);
 
 #endif 

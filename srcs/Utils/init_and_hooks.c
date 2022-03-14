@@ -19,28 +19,15 @@ void	init(t_vars *vars)
 	vars->x = 0;
 	vars->y = 0;
 	vars->img = malloc(sizeof(t_data));
-	vars->amb = init_amb();
+	vars->amb = new_amb();
 	vars->camera = new_camera();
 	vars->light = new_light();
-	vars->plane = new_plane();
-	vars->sph = new_sphere();
-	vars->cyl = new_cylinder();
+//	vars->plane = new_plane();
+//	vars->sph = new_sphere();
+//	vars->cyl = new_cylinder();
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp), &
 	(vars->img->line_len), &(vars->img->endian));
-}
-
-t_amb	*init_amb(void)
-{
-	t_amb	*amb;
-
-	amb = (t_amb *)malloc(sizeof(t_amb));
-	amb->id = ft_strdup("A");
-	amb->l_rat = 0.0;
-	amb->red = 0;
-	amb->green = 0;
-	amb->blue = 0;
-	return (amb);
 }
 
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)

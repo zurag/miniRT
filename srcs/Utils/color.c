@@ -12,7 +12,71 @@
 
 #include "minirt.h"
 
-int	color(int red, int green, int blue)
+int	get_sphere_color(t_vars *vars, t_vec *phit)
+{
+	t_sph	*tmp_sph;
+	float	cos_alpha;
+	t_vec	*nhit;
+	t_vec	*light;
+	int		color_from_light;
+
+	tmp_sph = (t_sph *)vars->nearest_obj;
+	nhit = vec_subtraction(phit, tmp_sph->center);
+	vec_normalize(nhit);
+	light = vec_subtraction(phit, vars->light->d_point);
+	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+	if (cos_alpha < 0)
+		cos_alpha = 0;
+	color_from_light = ft_color(
+			tmp_sph->red * (vars->amb->l_rat + cos_alpha),
+			tmp_sph->green * (vars->amb->l_rat + cos_alpha),
+			tmp_sph->blue * (vars->amb->l_rat + cos_alpha));
+	return (color_from_light);
+}
+
+int	get_plane_color(t_vars *vars, t_vec *phit)
+{
+	t_plane	*tmp_plane;
+	float	cos_alpha;
+	t_vec	*nhit;
+	t_vec	*light;
+	int		color_from_light;
+
+	tmp_plane = (t_plane *)vars->nearest_obj;
+	nhit = tmp_plane->nv_orientation;
+	light = vec_subtraction(phit, vars->light->d_point);
+	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+	if (cos_alpha < 0)
+		cos_alpha = 0;
+	color_from_light = ft_color(
+			tmp_plane->red * (vars->amb->l_rat + cos_alpha),
+			tmp_plane->green * (vars->amb->l_rat + cos_alpha),
+			tmp_plane->blue * (vars->amb->l_rat + cos_alpha));
+	return (color_from_light);
+}
+
+int	get_cylinder_color(t_vars *vars, t_vec *phit)
+{
+	t_cyl	*tmp_cyl;
+	float	cos_alpha;
+	t_vec	*nhit;
+	t_vec	*light;
+	int		color_from_light;
+
+	tmp_cyl = (t_cyl *)vars->nearest_obj;
+	nhit = vec_subtraction(phit, tmp_cyl->center);
+	vec_normalize(nhit);
+	light = vec_subtraction(phit, vars->light->d_point);
+	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+	if (cos_alpha < 0)
+		cos_alpha = 0;
+	color_from_light = ft_color(
+			tmp_cyl->red * (vars->amb->l_rat + cos_alpha),
+			tmp_cyl->green * (vars->amb->l_rat + cos_alpha),
+			tmp_cyl->blue * (vars->amb->l_rat + cos_alpha));
+}
+
+int	ft_color(int red, int green, int blue)
 {
 	return (red << 16 | green << 8 | blue);
 }

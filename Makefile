@@ -4,7 +4,6 @@ NAME		= minirt
 SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/main/vector.c \
 					srcs/main/vector1.c \
-					srcs/main/scene.c \
 					srcs/Parser/parse_capital.c \
 					srcs/Parser/parse_lowercase.c \
 					srcs/Parser/parser_root.c \
@@ -13,11 +12,14 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Utils/init_and_hooks.c \
 					srcs/Utils/color.c \
 					srcs/Utils/utils.c \
+					srcs/Utils/flist_utils.c \
 					srcs/Figures/camera.c \
 					srcs/Figures/cylinder.c \
 					srcs/Figures/light.c \
 					srcs/Figures/plane.c \
 					srcs/Figures/sphere.c \
+					srcs/Figures/ambient.c \
+					srcs/Figures/scene.c \
 					srcs/Raytracer/raytrace_root.c \
 					srcs/intersect/intersect.c 
 

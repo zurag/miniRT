@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scene.c                                            :+:      :+:    :+:   */
+/*   ambient.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 19:26:07 by acollin           #+#    #+#             */
-/*   Updated: 2022/03/08 19:26:09 by acollin          ###   ########.fr       */
+/*   Created: 2022/03/08 19:26:17 by acollin           #+#    #+#             */
+/*   Updated: 2022/03/08 19:26:19 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-
-void	free_scene(t_scene *scene)
+void	free_amb(t_amb *ambient)
 {
-	if (scene)
+	if (ambient)
 	{
-		if (scene->camera)
-			free_camera(scene->camera);
-		if (scene->sphere)
-			free_sphere(scene->sphere);
-		free(scene);
+		if (ambient->id)
+			free(ambient->id);
+		free(ambient);
 	}
 }
 
-t_scene	*new_scene(t_camera *camera, t_sph *sphere)
+t_amb	*new_amb(void)
 {
-	t_scene	*scene;
+	t_amb	*amb;
 
-	scene = malloc(sizeof(t_scene));
-	if (!scene)
-		error_exit(-1);
-	scene->camera = camera;
-	scene->sphere = sphere;
-	scene->width = WIDTH;
-	scene->height = HEIGHT;
-	return (scene);
+	amb = (t_amb *)malloc(sizeof(t_amb));
+	amb->id = ft_strdup("A");
+	amb->l_rat = 0.0;
+	amb->red = 0;
+	amb->green = 0;
+	amb->blue = 0;
+	amb->color = 0;
+	return (amb);
 }
