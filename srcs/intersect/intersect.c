@@ -2,12 +2,12 @@
 #include "minirt.h"
 
 
-void	print_vect(t_vect *vec, char *name)
+void	print_vect(t_vec *vec, char *name)
 {
 	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
 }
 
-float	plane_intersect(t_camera *cam, t_vect *ray, t_plane *plane)
+float	plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane)
 {
 	float	denom;
 	float	dist;
@@ -72,10 +72,10 @@ float cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl)
 	float	dist[2];
 	float	discr;
 	float	tmp;
-	t_vect	*p;
+	t_vec	*p;
 	float	len;
-	t_vect	*norm;
-	t_vect	*p_on_axis;
+	t_vec	*norm;
+	t_vec	*p_on_axis;
 	
 	
 	camera_cy = vec_subtraction(cam->d_origin, cyl->d_coordinates);
@@ -97,14 +97,14 @@ float cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl)
 		return (0);
 	dist[0] = (((b * -1) - sqrt(discr)) / 2 * a);
 	dist[1] = (((b * -1) + sqrt(discr)) / 2 * a);
-	vect_multipl_on(ray, dist[0]);
+	vec_mult(ray, dist[0]);
 	p = vec_sum(cam->d_origin, ray);
 	len = dot_product(cyl->nv_orientation, p);
 	// printf("len == %f\n", len);
 	if (len >= cyl->height / 2 || len  * -1 >= cyl->height / 2)
 		return (0);
 	p_on_axis = new_vector(cyl->d_coordinates->x, cyl->d_coordinates->y, cyl->d_coordinates->z);
-	vect_multipl_on(p_on_axis, len);
+	vec_mult(p_on_axis, len);
 	p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
 	norm = vec_subtraction(p_on_axis, p);
 	vect_normalize(norm);

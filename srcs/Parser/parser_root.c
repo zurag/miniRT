@@ -36,7 +36,6 @@ void	parse_line(char *line, t_vars *vars, t_flist **figure)
 void	parser(char **argv, t_vars *vars, t_flist **figure)
 {
 	int		fd;
-	int		i;
 	char	*line;
 
 	figure = NULL;
@@ -47,7 +46,7 @@ void	parser(char **argv, t_vars *vars, t_flist **figure)
 		perror("parser");
 		exit(EXIT_FAILURE);
 	}
-	while ((i = get_next_line(fd, &line)))
+	while ((get_next_line(fd, &line)))
 	{
 		parse_line(line, vars, figure);
 		free(line);

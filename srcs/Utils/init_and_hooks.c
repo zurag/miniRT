@@ -22,12 +22,9 @@ void	init(t_vars *vars)
 	vars->amb = new_amb();
 	vars->camera = new_camera();
 	vars->light = new_light();
-//	vars->plane = new_plane();
-//	vars->sph = new_sphere();
-//	vars->cyl = new_cylinder();
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
-	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp), &
-	(vars->img->line_len), &(vars->img->endian));
+	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp),
+			&(vars->img->line_len), &(vars->img->endian));
 }
 
 void	ft_mlx_pixel_put(t_data *img, int x, int y, int color)
