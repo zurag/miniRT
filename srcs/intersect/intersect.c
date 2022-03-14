@@ -102,8 +102,8 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 	// for (int j = 0; j < size_lst; j++)
 	// 	printf("dist[%d] == %f\n", j, dist[j]);
 	min_nbr = find_min_nbr(dist, size_lst);
-	if (dist[min_nbr] > 0)
-				printf("dist min_nbr == %f\n", dist[min_nbr]);
+//	if (dist[min_nbr] > 0)
+//				printf("dist min_nbr == %f\n", dist[min_nbr]);
 	if (dist[min_nbr] < -1)
 	{
 		free(dist);

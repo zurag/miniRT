@@ -20,7 +20,7 @@ int	find_min_nbr(float	*arr, int size)
 			min = i;
 		i++;
 	}
-	printf("arr[min] == %f\n", arr[min]);
+//	printf("arr[min] == %f\n", arr[min]);
 	return (min);
 }
 

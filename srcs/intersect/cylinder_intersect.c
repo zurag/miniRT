@@ -27,8 +27,6 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl)
 	return (norm);
 }
 
-
-
 float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
 {
 	t_vec	*camera_cy;

@@ -42,8 +42,8 @@
 # define CYLINDER 3
 
 // Window and keyboard
-# define WIDTH 480
-# define HEIGHT 360
+# define WIDTH 800
+# define HEIGHT 600
 # define ESC_KEY 53
 
 //Colors
@@ -115,7 +115,6 @@ typedef struct s_light
 	char		*id;
 	t_vec		*d_point;
 	float		bright;
-
 }				t_light;
 
 typedef struct s_plane

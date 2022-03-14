@@ -69,18 +69,20 @@ void	raytrace(t_vars *vars, t_flist **figure)
 		{
 			x_ray = x_angle * vplane->x_pixel;
 			ray = vec_new(x_ray, y_ray, -1);
+//			vec_normalize(ray);
 //			printf("check\n");
 			color = ft_pixel_color(vars, ray, figure);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
 			free(ray);
 			vars->x++;
+//			printf("var->x = %d, vars->y = %d\n", vars->x, vars->y);
 			x_angle++;
 		}
 		y_angle--;
 		vars->y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	printf("check after loop\n");
+//	printf("check after loop\n");
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)
@@ -88,11 +90,12 @@ t_vplane	*get_view_plane(float width, float height, float fov)
 	t_vplane	*vplane;
 	float		aspect_ratio;
 
+//	printf("fov = %f\n", fov);
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		error_exit(-1);
 	aspect_ratio = width * pow(height, (-1));
-	vplane->width = 2 * tan((double)fov * 0.5);
+	vplane->width = 2 * tan((double)fov * 0.5 * (3.14 / 180));
 	vplane->height = vplane->width * pow(aspect_ratio, -1);
 	vplane->x_pixel = vplane->width * pow(width, -1);
 	vplane->y_pixel = vplane->height * pow(height, -1);
