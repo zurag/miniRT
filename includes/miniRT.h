@@ -88,7 +88,7 @@ typedef struct s_vars
 	t_amb		*amb;
 	t_camera	*camera;
 	t_light		*light;
-	int			dist;
+	float		dist;
 	void		*nearest_obj;
 //	t_plane		*plane;
 //	int 		plane_num;
@@ -236,11 +236,16 @@ void		error_exit(int code);
 //Raytrace
 
 void		raytrace(t_vars *vars, t_flist **figure);
-int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
+int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
+float		get_dist(t_vars *vars, t_vec *ray, t_flist **figure);
+int			get_color(t_vars *vars, t_vec *phit);
+int			get_sphere_color(t_vars *vars, t_vec *phit);
+int			get_plane_color(t_vars *vars, t_vec *phit);
+int			get_cylinder_color(t_vars *vars, t_vec *phit);
+float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_camera *cam, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_camera *cam, t_vec *ray, t_cyl *cyl);
-float		plane_intersect(t_camera *cam, t_vec *ray, t_plane *plane);
 
 // FIGURES LIST
 t_flist	*ft_flstnew(void *content, int type);

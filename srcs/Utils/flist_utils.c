@@ -14,15 +14,15 @@
 
 t_flist	*ft_flstnew(void *content, int type)
 {
-		t_flist	*lst;
+	t_flist	*lst;
 
-		lst = malloc(sizeof(t_flist));
-		if (lst == NULL)
-			return (NULL);
-		lst->content = content;
-		lst->type = type;
-		lst->next = NULL;
-		return (lst);
+	lst = malloc(sizeof(t_flist));
+	if (lst == NULL)
+		return (NULL);
+	lst->content = content;
+	lst->type = type;
+	lst->next = NULL;
+	return (lst);
 }
 
 int	ft_flstsize(t_flist *flst)
