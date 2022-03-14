@@ -12,12 +12,14 @@ int	find_min_nbr(float	*arr, int size)
 	int		min;
 
 	i = 0;
-	min = 0;
+	min = -1;
 	while (i < size)
 	{
-		// printf("arr[%d] == %f\n", i, arr[i]);
-		if (arr[i] < arr[min] && arr[i] != -1)
-			min = i;
+		if (arr[i] > 0)
+		{
+			if (min == -1 || arr[i] < arr[min])
+				min = i;
+		}
 		i++;
 	}
 //	printf("arr[min] == %f\n", arr[min]);
