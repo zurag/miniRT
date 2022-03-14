@@ -18,9 +18,11 @@ int	main(int argc, char **argv)
 	t_flist	*figure;
 
 	init(&vars);
+//	printf("check\n");
 	if (argc > 1)
 		parser(argv, &vars, &figure);
 	raytrace(&vars, &figure);
+//	printf("check\n");
 	mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.win, 17, 1L << 0, close_win, 0);
 	mlx_loop(vars.mlx);

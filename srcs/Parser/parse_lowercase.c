@@ -87,6 +87,7 @@ void	parse_sphere(char *line, t_vars *vars, t_flist **figure)
 	tmp = (void *)sph;
 	new_node = ft_flstnew(tmp, SPHERE);
 	ft_flstadd_back(figure, new_node);
+	printf("check sphere\n");
 }
 
 void	parse_cylinder(char *line, t_vars *vars, t_flist **figure)

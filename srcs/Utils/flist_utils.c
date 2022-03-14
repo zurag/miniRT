@@ -67,11 +67,17 @@ void	ft_flstadd_front(t_flist **flst, t_flist *new)
 
 void	ft_flstadd_back(t_flist **flst, t_flist *new)
 {
-	t_flist	*last;
+	t_flist	*final;
 
-	last = ft_flstlast(*flst);
-	if (last == NULL)
+	if (!flst && !new)
+		return ;
+	if (!(*flst))
+	{
 		*flst = new;
-	else
-		last->next = new;
+		return ;
+	}
+	final = *flst;
+	while (final->next != NULL)
+		final = final->next;
+	final->next = new;
 }

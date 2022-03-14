@@ -46,15 +46,25 @@ static t_inter	*ret_intersect(t_flist *figure_lst, float dist, t_vec *ray_origin
 	t_inter	*ret_intersect;
 
 	ret_intersect = malloc(sizeof(t_inter));
+	printf("type = %d\n", figure_lst->type);
 	if (figure_lst->type == PLANE)
+	{
+		printf("check\n");
 		pl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
 						   ray_dir);
+	}
 	else if (figure_lst->type == SPHERE)
+	{
+		printf("check\n");
 		sph_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
 							ray_dir);
+	}
 	else if (figure_lst->type == CYLINDER)
-		cyl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
-							ray_dir);
+		{
+			printf("check\n");
+			cyl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
+								ray_dir);
+		}
 	return (ret_intersect);
 }
 
