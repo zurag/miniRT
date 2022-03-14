@@ -12,61 +12,29 @@
 
 #include "minirt.h"
 
-
-// TODO vars->dist - самая близкая дистанция. Именно эту точку мы красим.
-//  vars->nearest_obj - указатель на конкретный токен с тем, что
-//  рисовать (изменить интерсекты с учетом этой информации)
-// float	get_dist(t_vars *vars, t_vec *ray, t_flist **figure)
-// {
-// 	t_flist	*tmp;
-
-// 	vec_normalize(ray);
-// 	tmp = *figure;
-// 	while (tmp != NULL)
-// 	{
-// 		if (tmp->type == PLANE)
-// 			vars->dist = plane_intersect(vars->camera, ray,
-// 							(t_plane *)tmp->content);
-// 		else if (figure->type == SPHERE)
-// 			vars->dist = sphere_intersect(vars->camera, ray,
-// 							(t_sph *)tmp->content);
-// 		else if (figure->type == CYLINDER)
-// 			vars->dist = cylinder_intersect(vars->camera, ray,
-// 							(t_cyl *)tmp->content);
-// 		tmp = tmp->next;
-// 	}
-// }
-
-
-int	get_color(t_vars *vars, t_vec *phit)
+int	get_color(t_vars *vars, t_inter *ret_inter)
 {
 	int		color_from_light;
 
-	if (vars->nearest_obj->type == SPHERE)
-		color_from_light = get_sphere_color(vars, phit);
-	if (vars->nearest_obj->type == PLANE)
-		color_from_light = get_plane_color(vars, phit);
-	if (vars->nearest_obj->type == CYLINDER)
-		color_from_light = get_cylinder_color(vars, phit);
+	if (ret_inter->type == SPHERE)
+		color_from_light = get_sphere_color(vars, ret_inter);
+	if (ret_inter->type == PLANE)
+		color_from_light = get_plane_color(vars, ret_inter);
+	if (ret_inter->type == CYLINDER)
+		color_from_light = get_cylinder_color(vars, ret_inter);
 	return (color_from_light);
 }
 
 int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 {
 	int		color_from_light;
-	t_vec	*phit;
 	t_inter	*ret_inter;
 
 	color_from_light = 0;
-
-	// get_dist(vars, ray, figure);
-	ret_inter = intersect(vars, ray, *figure, vars->camera->d_origin);
-
-	if (vars->dist)
+	ret_inter = intersect(ray, *figure, vars->camera->d_origin);
+	if (ret_inter->dist != -1)
 	{
-		// vec_mult(ray, vars->dist);
-		// phit = vec_sum(vars->camera->d_origin, ray);
-		color_from_light = get_color(vars, phit);
+		color_from_light = get_color(vars, ret_inter);
 		return (color_from_light);
 	}
 	else

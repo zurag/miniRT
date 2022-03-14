@@ -5,7 +5,7 @@ t_vec	*sph_normal(t_vec *point, t_sph *sph)
 	t_vec	*norm;
 
 	norm = vec_subtraction(point, sph->center);
-	vect_normalize(norm);
+	vec_normalize(norm);
 	return (norm); 
 }
 

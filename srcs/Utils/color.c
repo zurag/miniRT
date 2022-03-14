@@ -12,16 +12,16 @@
 
 #include "minirt.h"
 
-int	get_sphere_color(t_vars *vars, t_vec *phit)
+int	get_sphere_color(t_vars *vars, t_inter *ret_inter)
 {
 	t_sph	*tmp_sph;
 	float	cos_alpha;
-	t_vec	*nhit;
 	t_vec	*light;
 	int		color_from_light;
 
-	light = vec_subtraction(phit, vars->light->d_point);
-	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+	tmp_sph = (t_sph *)ret_inter->figure;
+	light = vec_subtraction(ret_inter->point, vars->light->d_point);
+	cos_alpha = (dot_product(ret_inter->norm, light)) / vec_len(light);
 	if (cos_alpha < 0)
 		cos_alpha = 0;
 	color_from_light = ft_color(
@@ -31,16 +31,16 @@ int	get_sphere_color(t_vars *vars, t_vec *phit)
 	return (color_from_light);
 }
 
-int	get_plane_color(t_vars *vars, t_vec *phit)
+int	get_plane_color(t_vars *vars, t_inter *ret_inter)
 {
 	t_plane	*tmp_plane;
 	float	cos_alpha;
-	t_vec	*nhit;
 	t_vec	*light;
 	int		color_from_light;
 
-	light = vec_subtraction(phit, vars->light->d_point);
-	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+	tmp_plane = (t_plane *)ret_inter->figure;
+	light = vec_subtraction(ret_inter->point, vars->light->d_point);
+	cos_alpha = (dot_product(ret_inter->norm, light)) / vec_len(light);
 	if (cos_alpha < 0)
 		cos_alpha = 0;
 	color_from_light = ft_color(
@@ -50,22 +50,23 @@ int	get_plane_color(t_vars *vars, t_vec *phit)
 	return (color_from_light);
 }
 
-int	get_cylinder_color(t_vars *vars, t_vec *phit)
+int	get_cylinder_color(t_vars *vars, t_inter *ret_inter)
 {
 	t_cyl	*tmp_cyl;
 	float	cos_alpha;
-	t_vec	*nhit;
 	t_vec	*light;
 	int		color_from_light;
-	
-	light = vec_subtraction(phit, vars->light->d_point);
-	cos_alpha = (dot_product(nhit, light)) / vec_len(light);
+
+	tmp_cyl = (t_cyl *)ret_inter->figure;
+	light = vec_subtraction(ret_inter->point, vars->light->d_point);
+	cos_alpha = (dot_product(ret_inter->norm, light)) / vec_len(light);
 	if (cos_alpha < 0)
 		cos_alpha = 0;
 	color_from_light = ft_color(
 			tmp_cyl->red * (vars->amb->l_rat + cos_alpha),
 			tmp_cyl->green * (vars->amb->l_rat + cos_alpha),
 			tmp_cyl->blue * (vars->amb->l_rat + cos_alpha));
+	return (color_from_light);
 }
 
 int	ft_color(int red, int green, int blue)

@@ -1,7 +1,7 @@
 #include "minirt.h"
 
-
-t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
+static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
+							float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
 	t_cyl *cyl;
 
@@ -14,7 +14,7 @@ t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_ve
 	return (ret);
 }
 
-t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
+static t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
 
 {
 	t_plane *plane;
@@ -28,7 +28,7 @@ t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec
 	return (ret);
 }
 
-t_inter	*sph_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
+static t_inter	*sph_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
 	t_sph *sph;
 
@@ -41,28 +41,31 @@ t_inter	*sph_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_ve
 	return (ret);
 }
 
-t_inter	*ret_intersect(t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
+static t_inter	*ret_intersect(t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
-	t_inter	*ret_inter;
+	t_inter	*ret_intersect;
 
 	ret_intersect = malloc(sizeof(t_inter));
 	if (figure_lst->type == PLANE)
-		pl_intersect_value(ret_inter, figure_lst, dist);
+		pl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
+						   ray_dir);
 	else if (figure_lst->type == SPHERE)
-		sph_intersect_value(ret_inter, figure_lst, dist);
+		sph_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
+							ray_dir);
 	else if (figure_lst->type == CYLINDER)
-		cyl_intersect_value(ret_inter, figure_lst, dist);
+		cyl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
+							ray_dir);
 	return (ret_intersect);
 }
 
-t_inter	*intersect(t_vars *vars, t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
+t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 {
-	t_inter	*ret_inter;
-	int		size_lst;
-	t_flist	*start;
-	float	*dist;
-	int		min_nbr;
-	int		i;
+	t_inter *ret_inter;
+	int size_lst;
+	t_flist *start;
+	float *dist;
+	int min_nbr;
+	int i;
 
 	i = 0;
 	start = figure_lst;
@@ -86,7 +89,9 @@ t_inter	*intersect(t_vars *vars, t_vec *ray, t_flist *figure_lst, t_vec *ray_ori
 		free(dist);
 		return (NULL);
 	}
-	ret_intersect = ret_intersect(find_node_lst(start, min_nbr), dist[min_nbr], ray_origin, ray);
+	ret_inter = ret_intersect(find_node_lst(start, min_nbr), dist[min_nbr],
+							  ray_origin, ray);
 	free(dist);
-	return (ret_intersect);
+	return (ret_inter);
+}
 

@@ -233,10 +233,10 @@ void		raytrace(t_vars *vars, t_flist **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
 int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
 float		get_dist(t_vars *vars, t_vec *ray, t_flist **figure);
-int			get_color(t_vars *vars, t_vec *phit);
-int			get_sphere_color(t_vars *vars, t_vec *phit);
-int			get_plane_color(t_vars *vars, t_vec *phit);
-int			get_cylinder_color(t_vars *vars, t_vec *phit);
+int			get_color(t_vars *vars, t_inter *ret_inter);
+int			get_sphere_color(t_vars *vars, t_inter *ret_inter);
+int			get_plane_color(t_vars *vars, t_inter *ret_inter);
+int			get_cylinder_color(t_vars *vars, t_inter *ret_inter);
 float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
@@ -245,6 +245,8 @@ t_vec		*cyl_normal(t_vec *point, t_cyl *cyl);
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
+t_inter		*intersect(t_vec *ray, t_flist *figure_lst, t_vec
+				*ray_origin);
 
 
 // FIGURES LIST
