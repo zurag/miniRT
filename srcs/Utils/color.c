@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/15 21:13:11 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/15 23:08:29 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	shadow = intersect(light, figure_lst, ret_inter->point);
 //	print_vect(light, "name");
 	free(light);
-	if (shadow)
-		printf("check\n");
+	// if (shadow)
+	// 	printf("check\n");
 	if (shadow || cos_alpha < 0)
 		cos_alpha = 0;
 //	printf("red == %d, green  == %d, blue == %d\n", tmp_plane->red, tmp_plane->green, tmp_plane->blue);
