@@ -27,3 +27,5 @@ void	mult_vec_matrix(t_vec *src, t_vec *dst)
 		dst->z /= w;
 	}
 }
+
+t_matrix	*cam_to_world()

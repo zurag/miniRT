@@ -41,7 +41,7 @@ void	parse_plane(char *line, t_vars *vars, t_flist **figure)
 		else if (j == 3)
 			put_numbers_vec(nums, plane->nv_orientation);
 		else if (j == 4)
-			put_numbers_atoi(nums, &plane->red, &plane->red, &plane->red);
+			put_numbers_atoi(nums, &plane->red, &plane->green, &plane->blue);
 		free_array(nums);
 	}
 	plane->color = ft_color(plane->red, plane->green, plane->blue);

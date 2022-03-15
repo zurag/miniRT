@@ -24,12 +24,13 @@ static t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist
 	ret->dist = dist;
 	ret->point = get_point(ray_origin, dist, ray_dir);
 	denom = dot_product(ray_dir, plane->nv_orientation);
-	// if (denom < 0)
-	// {
-	// 	ret->norm = plane->nv_orientation;
-	// 	vec_mult(ret->norm, -1);
-	// }
-	// else
+//	printf("denom == %f\n", denom);
+//	 if (plane->nv_orientation == -1)
+//	 {
+//	 	ret->norm = plane->nv_orientation;
+//	 	vec_mult(ret->norm, -1);
+//	 }
+//	 else
 		ret->norm = plane->nv_orientation ;
 	ret->figure = figure_lst->content;
 	return (ret);

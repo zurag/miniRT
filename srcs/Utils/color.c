@@ -25,8 +25,9 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
 	vec_normalize(light);
 	shadow = intersect(light, figure_lst, ret_inter->point);
-	if (shadow)
-		printf("check\n");
+	free(light);
+//	if (shadow)
+//		printf("check\n");
 	if (shadow || cos_alpha < 0)
 		cos_alpha = 0;
 	color_from_light = ft_color(
@@ -47,11 +48,17 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	tmp_plane = (t_plane *)ret_inter->figure;
 	light = vec_subtraction(ret_inter->point, vars->light->d_point);
 	cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
+//	printf("cos_alpha = %f\n", cos_alpha);
 	vec_normalize(light);
+	vec_mult(light, -1);
 	shadow = intersect(light, figure_lst, ret_inter->point);
+//	print_vect(light, "name");
+	free(light);
+	if (shadow)
+		printf("check\n");
 	if (shadow || cos_alpha < 0)
 		cos_alpha = 0;
-	printf("red == %d, green  == %d, blue == %d\n", tmp_plane->red, tmp_plane->green,  tmp_plane->blue);
+//	printf("red == %d, green  == %d, blue == %d\n", tmp_plane->red, tmp_plane->green, tmp_plane->blue);
 	color_from_light = ft_color(
 			tmp_plane->red * (vars->amb->l_rat + cos_alpha),
 			tmp_plane->green * (vars->amb->l_rat + cos_alpha),
@@ -72,6 +79,7 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
 	vec_normalize(light);
 	shadow = intersect(light, figure_lst, ret_inter->point);
+	free(light);
 	if (shadow || cos_alpha < 0)
 		cos_alpha = 0;
 	color_from_light = ft_color(
