@@ -12,16 +12,17 @@
 
 #include "minirt.h"
 
-int	get_color(t_vars *vars, t_inter *ret_inter)
+int	get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure)
 {
 	int		color_from_light;
 
+	color_from_light = 0;
 	if (ret_inter->type == SPHERE)
-		color_from_light = get_sphere_color(vars, ret_inter);
+		color_from_light = get_sphere_color(vars, ret_inter, figure);
 	if (ret_inter->type == PLANE)
-		color_from_light = get_plane_color(vars, ret_inter);
+		color_from_light = get_plane_color(vars, ret_inter, figure);
 	if (ret_inter->type == CYLINDER)
-		color_from_light = get_cylinder_color(vars, ret_inter);
+		color_from_light = get_cylinder_color(vars, ret_inter, figure);
 	return (color_from_light);
 }
 
@@ -31,6 +32,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	t_inter	*ret_inter;
 
 	color_from_light = 0;
+	vec_normalize(ray);
 	ret_inter = intersect(ray, *figure, vars->camera->d_origin);
 	// printf("type = %d\n", ret_inter->type);
 	// printf("dist == %f\n", ret_inter->dist);
@@ -40,7 +42,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 		return (0);
 	if (ret_inter->dist != -1)
 	{
-		color_from_light = get_color(vars, ret_inter);
+		color_from_light = get_color(vars, ret_inter, *figure);
 		return (color_from_light);
 	}
 	else
@@ -69,20 +71,16 @@ void	raytrace(t_vars *vars, t_flist **figure)
 		{
 			x_ray = x_angle * vplane->x_pixel;
 			ray = vec_new(x_ray, y_ray, -1);
-//			vec_normalize(ray);
-//			printf("check\n");
 			color = ft_pixel_color(vars, ray, figure);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
 			free(ray);
 			vars->x++;
-//			printf("var->x = %d, vars->y = %d\n", vars->x, vars->y);
 			x_angle++;
 		}
 		y_angle--;
 		vars->y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-//	printf("check after loop\n");
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)
@@ -90,7 +88,6 @@ t_vplane	*get_view_plane(float width, float height, float fov)
 	t_vplane	*vplane;
 	float		aspect_ratio;
 
-//	printf("fov = %f\n", fov);
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		error_exit(-1);

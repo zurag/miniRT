@@ -17,9 +17,6 @@ void	parse_line(char *line, t_vars *vars, t_flist **figure)
 	int	i;
 
 	i = 0;
-//	printf("line[0] = %c\n", line[0]);
-//	while (!ft_isalpha(line[i]))
-//		i++;
 	if (line[i] == 'A')
 		parse_ambient(line, vars);
 	else if (line[i] == 'C')
@@ -50,7 +47,6 @@ void	parser(char **argv, t_vars *vars, t_flist **figure)
 	while (get_next_line(fd, &line))
 	{
 		parse_line(line, vars, figure);
-//		printf("chenk\n");
 		free(line);
 	}
 	parse_line(line, vars, figure);

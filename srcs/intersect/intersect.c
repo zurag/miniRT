@@ -79,23 +79,25 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 
 	i = 0;
 	start = figure_lst;
-	vec_normalize(ray);
 	size_lst = ft_flstsize(figure_lst);
 	// printf("size lst == %d\n", size_lst);
 	dist = malloc(sizeof(float) * size_lst);
 	while (figure_lst)
 	{
 		if (figure_lst->type == PLANE)
-			dist[i] = plane_intersect(ray_origin, ray, figure_lst->content);
+			dist[i] = plane_intersect(ray_origin, ray,
+									  (t_plane *)figure_lst->content);
 		else if (figure_lst->type == SPHERE)
 		{
 			// printf("IN FIGURE\n");
-			dist[i] = sphere_intersect(ray_origin, ray, figure_lst->content);
+			dist[i] = sphere_intersect(ray_origin, ray,
+									   (t_sph *)figure_lst->content);
 			// if (dist[i] > 0)
 			// 	printf("dist == %f\n", sphere_intersect(ray_origin, ray, figure_lst->content));
 		}
 		else if (figure_lst->type == CYLINDER)
-			dist[i] = cylinder_intersect(ray_origin, ray, figure_lst->content);
+			dist[i] = cylinder_intersect(ray_origin, ray,
+										 (t_cyl *)figure_lst->content);
 		i++;
 		figure_lst = figure_lst->next;
 	}
@@ -104,7 +106,7 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 	min_nbr = find_min_nbr(dist, size_lst);
 //	if (dist[min_nbr] > 0)
 //				printf("dist min_nbr == %f\n", dist[min_nbr]);
-	if (dist[min_nbr] < -1)
+	if (dist[min_nbr] < 0 || min_nbr == -1)
 	{
 		free(dist);
 		return (NULL);

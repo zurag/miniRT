@@ -9,7 +9,6 @@ t_vec	*sph_normal(t_vec *point, t_sph *sph)
 	return (norm); 
 }
 
-
 float	sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere)
 {
 	float	b;
