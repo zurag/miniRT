@@ -32,7 +32,7 @@ ______
 
 <Scene_name.rt> files are located in the `srcs/scenes_files/`
 
-![ALT TEXT](srcs/Images/first-attempt.png "As simple as that")
+![ALT TEXT](srcs/Images/first-attempt.png "Hard shadows, ambient and diffuse light")
 
 ## Features
 ______
