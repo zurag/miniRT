@@ -35,11 +35,12 @@ ______
 ## Features
 ______
 + **Raycasting**
++ **Object shadows**
++ **Correct intersections of the objects**
 + ~~**Multithreaded render**~~
 + ~~**Antialiasing**~~
 + ~~**Real-time camera movement / rotation**~~
 + ~~**Blinn–Phong lighting model**~~
-+ ~~**Object shadows**~~
 + ~~**Reflections of objects**~~
 + ~~**Creating screenshots**~~
 
