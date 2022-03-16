@@ -32,14 +32,17 @@ ______
 
 <Scene_name.rt> files are located in the `srcs/scenes_files/`
 
+![ALT TEXT](srcs/Images/first-attempt.png "As simple as that")
+
 ## Features
 ______
 + **Raycasting**
++ **Object shadows**
++ **Correct intersections of the objects**
 + ~~**Multithreaded render**~~
 + ~~**Antialiasing**~~
 + ~~**Real-time camera movement / rotation**~~
 + ~~**Blinn–Phong lighting model**~~
-+ ~~**Object shadows**~~
 + ~~**Reflections of objects**~~
 + ~~**Creating screenshots**~~
 
@@ -104,20 +107,14 @@ ____
 
 ## Example of .rt file
 ```c
-A 0.01 255,255,255
+A 0.2 255,255,255
 
-C 0,0,0 0,0,1 55
+L 0,20,0 1 255,255,255
 
-L 10,20,0 0.6 255,255,255
+C 0,0,5 0,0,-1  70
 
-sp 0,0,90 20 32,32,200
-sp 10,20,75 7 255,0,255
-sp -15,20,90 10 0,255,255
-sp -10,-10,30 3 100,0,100
-pl -25,0,0 -1,0,0 120,0,120
-pl 25,0,0 1,0,0 255,200,100
-pl 0,0,100 0,0,1 0,120,120
-pl 0,25,0 0,1,0 100,200,30
-pl 0,-25,0 0,-1,0 0,160,0
+pl 0,-0.5,0 0,1,0 104,104,104
+sp 0,1,0 1 220,0,0
+sp -2,1,0 2 107,159,0
 ```
 </div>
