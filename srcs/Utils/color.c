@@ -49,10 +49,10 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	light = vec_subtraction(ret_inter->point, vars->light->d_point);
 	cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
 //	printf("cos_alpha = %f\n", cos_alpha);
+//	print_vect(ret_inter->norm, "plane norm");
 	vec_normalize(light);
 	vec_mult(light, -1);
 	shadow = intersect(light, figure_lst, ret_inter->point);
-//	print_vect(light, "name");
 	free(light);
 	// if (shadow)
 	// 	printf("check\n");

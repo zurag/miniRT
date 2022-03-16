@@ -17,13 +17,13 @@ static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
 static t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
 	t_plane *plane;
-	float	denom;
+//	float	denom;
 
 	plane = (t_plane *)figure_lst->content;
 	ret->type = PLANE;
 	ret->dist = dist;
 	ret->point = get_point(ray_origin, dist, ray_dir);
-	denom = dot_product(ray_dir, plane->nv_orientation);
+//	denom = dot_product(ray_dir, plane->nv_orientation);
 //	printf("denom == %f\n", denom);
 //	 if (plane->nv_orientation == -1)
 //	 {
@@ -31,7 +31,8 @@ static t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst, float dist
 //	 	vec_mult(ret->norm, -1);
 //	 }
 //	 else
-		ret->norm = plane->nv_orientation ;
+	ret->norm = plane->nv_orientation;
+//	print_vect(ret->norm, "plane norm");
 	ret->figure = figure_lst->content;
 	return (ret);
 }

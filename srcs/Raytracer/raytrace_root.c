@@ -39,6 +39,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	if (ret_inter->dist != -1)
 	{
 		color_from_light = get_color(vars, ret_inter, *figure);
+		free(ret_inter);
 		return (color_from_light);
 	}
 	else
@@ -77,6 +78,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 		vars->y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	free(vplane);
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)
