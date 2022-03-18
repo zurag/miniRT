@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/14 17:55:34 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/17 22:48:34 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,14 @@ float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
 t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
-t_vec		*cyl_normal(t_vec *point, t_cyl *cyl);
+
+
+
+
+// t_vec		*cyl_normal(t_vec *point, t_cyl *cyl);
+t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin);
+
+
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);

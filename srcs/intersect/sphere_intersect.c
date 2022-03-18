@@ -23,7 +23,8 @@ float	sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere)
 	b = 0;
 	c = 0;
 	// printf("SPHERE INTER\n");
-	
+	//  b/2 = D|X
+//    c   = X|X - r*r
 	// print_vect(sphere->center, "sphere->center");
 	cam_sphere = vec_subtraction(ray_origin, sphere->center);
 	b = 2 * (dot_product(cam_sphere, ray));

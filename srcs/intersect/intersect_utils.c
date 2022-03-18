@@ -50,5 +50,6 @@ t_vec	*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir)
 
 	vec_mult(ray_dir, dist);
 	point = vec_sum(ray_origin, ray_dir);
+	vec_normalize(ray_dir);
 	return (point);
 }
