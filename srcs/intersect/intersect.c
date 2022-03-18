@@ -8,7 +8,7 @@ static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
 	cyl = (t_cyl *)figure_lst->content;
 	ret->type = CYLINDER;
 	ret->point = get_point(ray_origin, dist, ray_dir);
-	ret->norm = cyl_normal(ret->point, cyl);
+	ret->norm = cyl_normal(ret->point, cyl, dist, ray_dir, ray_origin);
 	ret->dist = dist;
 	ret->figure = figure_lst->content;
 	return (ret);
