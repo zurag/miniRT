@@ -1,0 +1,25 @@
+check sphere
+check sphere
+Process:         minirt [86463]
+Path:            /Volumes/VOLUME/*/minirt
+Load Address:    0x109abd000
+Identifier:      minirt
+Version:         ???
+Code Type:       X86-64
+Parent Process:  leaks [86462]
+
+Date/Time:       2022-03-17 13:41:22.516 +0300
+Launch Time:     2022-03-17 13:41:20.506 +0300
+OS Version:      Mac OS X 10.14.6 (18G9323)
+Report Version:  7
+Analysis Tool:   /Applications/Xcode.app/Contents/Developer/usr/bin/leaks
+Analysis Tool Version:  Xcode 11.3.1 (11C505)
+
+Physical footprint:         19.7M
+Physical footprint (peak):  25.5M
+----
+
+leaks Report Version: 4.0
+Process 86463: 20061 nodes malloced for 11436 KB
+Process 86463: 0 leaks for 0 total leaked bytes.
+
