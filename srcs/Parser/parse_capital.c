@@ -20,6 +20,7 @@ void	parse_ambient(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
+	vars->amb = new_amb();
 	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')
@@ -79,6 +80,7 @@ void	parse_light(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
+	vars->light = new_light();
 	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')

@@ -19,9 +19,9 @@ void	init(t_vars *vars)
 	vars->x = 0;
 	vars->y = 0;
 	vars->img = malloc(sizeof(t_data));
-	vars->amb = new_amb();
+	vars->amb = NULL;
 	vars->camera = new_camera();
-	vars->light = new_light();
+	vars->light = NULL;
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp),
 			&(vars->img->line_len), &(vars->img->endian));

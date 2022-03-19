@@ -17,6 +17,8 @@ void	parse_line(char *line, t_vars *vars, t_flist **figure)
 	int	i;
 
 	i = 0;
+	if (line[0] == '#')
+		return ;
 	if (line[i] == 'A')
 		parse_ambient(line, vars);
 	else if (line[i] == 'C')

@@ -27,7 +27,7 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_o
 					 cyl->d_coordinates->z);
 	vec_mult(p_on_axis, len);
 	p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
-	norm = vec_subtraction(p_on_axis, point);
+	norm = vec_subtraction(point, p_on_axis);
 	vec_normalize(norm);
 
 	// m = D|V*t + X|V
@@ -127,15 +127,15 @@ float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
 
 	float D_D = dot_product(D, D);
 	float D_V = dot_product(D, V);
-	// float D_X = dot_product (D, X);
+	 float D_X = dot_product (D, X);
 	float X_V = dot_product(X, V);
 	float X_X = dot_product(X, X);
 
 // обратно
 	// float D_D = dot_product(D, D);
-	// float D_V = dot_product(V, D);
-	float D_X = dot_product (X, D);
-	// float X_V = dot_product(V, X);
+//	 float D_V = dot_product(V, D);
+//	float D_X = dot_product (X, D);
+//	 float X_V = dot_product(V, X);
 	// float X_X = dot_product(X, X);
 
 

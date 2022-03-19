@@ -243,12 +243,7 @@ float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
 t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
 
-
-
-
-// t_vec		*cyl_normal(t_vec *point, t_cyl *cyl);
-t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin);
-
+t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin);
 
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
