@@ -22,6 +22,7 @@ void	init(t_vars *vars)
 	vars->amb = NULL;
 	vars->camera = new_camera();
 	vars->light = NULL;
+	vars->figure = NULL;
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->img->addr = mlx_get_data_addr(vars->img->img, &(vars->img->bpp),
 			&(vars->img->line_len), &(vars->img->endian));
@@ -42,6 +43,15 @@ int	key_hook(int keycode, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
 	}
+	if (keycode == ARROW_LEFT)
+		vars->camera->d_origin->x = vars->camera->d_origin->x - 1;
+	if (keycode == ARROW_RIGHT)
+		vars->camera->d_origin->x = vars->camera->d_origin->x + 1;
+	if (keycode == ARROW_UP)
+		vars->camera->d_origin->y = vars->camera->d_origin->y + 1;
+	if (keycode == ARROW_DOWN)
+		vars->camera->d_origin->y = vars->camera->d_origin->y - 1;
+	raytrace(vars, &vars->figure);
 	return (0);
 }
 

@@ -45,6 +45,10 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define ESC_KEY 53
+# define ARROW_LEFT 123
+# define ARROW_RIGHT 124
+# define ARROW_DOWN 125
+# define ARROW_UP 126
 # define EPSILON 0.000001
 //Colors
 # define COL_ST 0x75E555
@@ -87,8 +91,7 @@ typedef struct s_vars
 	t_amb		*amb;
 	t_camera	*camera;
 	t_light		*light;
-	float		dist;
-	void		*nearest_obj;
+	t_flist		*figure;
 }				t_vars;
 //PARSING
 

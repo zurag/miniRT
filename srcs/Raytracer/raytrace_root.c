@@ -67,7 +67,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 		while (x_angle < (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
-			ray = vec_new(x_ray, y_ray, -1);
+			ray = vec_new(x_ray, y_ray, vars->camera->nv_direction->z);
 			color = ft_pixel_color(vars, ray, figure);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
 			free(ray);
