@@ -75,7 +75,7 @@ t_matrix	*look_at(t_vec *from, t_vec *to)
 	return (cam_to_world);
 }
 
-t_matrix	*new_matrix()
+t_matrix	*new_matrix(void)
 {
 	t_matrix	*m;
 

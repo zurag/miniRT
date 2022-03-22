@@ -246,9 +246,8 @@ float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
 t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
-
-t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin);
-
+t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray,
+				t_vec *ray_origin);
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
@@ -280,6 +279,6 @@ void		print_vect(t_vec *vec, char *name);
 void		mult_dir_matrix(t_vec *src, t_vec *dst, t_matrix *m);
 t_matrix	*look_at(t_vec *from, t_vec *to);
 void		mult_vec_matrix(t_vec *src, t_vec *dst, t_matrix *m);
-t_matrix	*new_matrix();
+t_matrix	*new_matrix(void);
 
 #endif 

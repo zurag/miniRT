@@ -41,17 +41,17 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		specular = 0;
 	}
 	color_from_light = ft_color(
-			tmp_sph->red * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright  + specular),
-			tmp_sph->green * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright  + specular),
-			tmp_sph->blue * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright  + specular));
+			tmp_sph->red * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular),
+			tmp_sph->green * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular),
+			tmp_sph->blue * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular));
 	return (color_from_light);
 }
 
 int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
-					   t_vec *ray_dir)
+					t_vec *ray_dir)
 {
 	t_plane	*tmp_plane;
 	float	cos_alpha;
@@ -80,17 +80,17 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		specular = 0;
 	}
 	color_from_light = ft_color(
-			tmp_plane->red * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular),
-			tmp_plane->green * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular),
-			tmp_plane->blue * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular));
+			tmp_plane->red * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular),
+			tmp_plane->green * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular),
+			tmp_plane->blue * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular));
 	return (color_from_light);
 }
 
 int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
-						  t_vec *ray_dir)
+						t_vec *ray_dir)
 {
 	t_cyl	*tmp_cyl;
 	float	cos_alpha;
@@ -118,12 +118,12 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		specular = 0;
 	}
 	color_from_light = ft_color(
-			tmp_cyl->red * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular),
-			tmp_cyl->green * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular),
-			tmp_cyl->blue * (vars->amb->l_rat + cos_alpha *
-				vars->light->bright + specular));
+			tmp_cyl->red * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular),
+			tmp_cyl->green * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular),
+			tmp_cyl->blue * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright + specular));
 	return (color_from_light);
 }
 
@@ -138,16 +138,16 @@ int	ft_color(int red, int green, int blue)
 	return (red << 16 | green << 8 | blue);
 }
 
-float	specular_light(t_vec *N, t_vec *L, t_vec *V)
+float	specular_light(t_vec *n, t_vec *l, t_vec *v)
 {
 	float	specular;
-	float	NL;
-	t_vec	*R;
+	float	nl;
+	t_vec	*r;
 
-	vec_mult(L, -1);
-	NL =  2 * dot_product(N, L);
+	vec_mult(l, -1);
+	nl = 2 * dot_product(n, l);
 	vec_mult(N, NL);
-	R = vec_subtraction(N, L);
-	specular = pow(dot_product(V, R), 200);
+	r = vec_subtraction(n, l);
+	specular = pow(dot_product(v, r), 200);
 	return (specular);
 }
