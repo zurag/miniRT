@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/15 23:08:29 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/19 23:06:10 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,22 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
-		cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
 		vec_normalize(light);
-		shadow = intersect(light, figure_lst, ret_inter->point);
+		cos_alpha = dot_product(ret_inter->norm, light);
+		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
 		free(light);
 	}
+	// else
+	// 	printf("NO LIGHT\n");
 	if (shadow || cos_alpha < 0)
-		cos_alpha = 0;
+	{
+		// if (shadow->figure == ret_inter->figure)
+		// 	printf("plane shadow type == %d\n", shadow->type);
+		// else
+			cos_alpha = 0;
+	}
+	// else
+	// 	printf("NO sph shadow\n");
 	color_from_light = ft_color(
 			tmp_sph->red * (vars->amb->l_rat + cos_alpha),
 			tmp_sph->green * (vars->amb->l_rat + cos_alpha),
@@ -45,27 +54,55 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	t_plane	*tmp_plane;
 	float	cos_alpha;
 	t_vec	*light;
+	float	len_light;
 	int		color_from_light;
 	t_inter	*shadow;
 
+	len_light = 0;
 	tmp_plane = (t_plane *)ret_inter->figure;
 	shadow = NULL;
 	cos_alpha = 0;
 	if (vars->light)
 	{
 		light = vec_subtraction(ret_inter->point, vars->light->d_point);
-		cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
+		len_light = vec_len(light);
 		vec_normalize(light);
+		cos_alpha = dot_product(ret_inter->norm, light);
 		vec_mult(light, -1);
-		shadow = intersect(light, figure_lst, ret_inter->point);
+		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
 		free(light);
 	}
-	if (shadow || cos_alpha < 0)
+	// else
+		// printf("NO LIGHT\n");
+	if (cos_alpha < 0)
 		cos_alpha = 0;
+	if (shadow)
+	{
+		// if (!(shadow->figure == ret_inter->figure))
+		// {
+		// 	cos_alpha = 0;
+		// 	// if (shadow->dist < len_light)
+		// 	// 	cos_alpha = 0;
+		// }
+		// cos_alpha = 0;
+		if (shadow->dist < len_light)
+		{
+			// printf("figure == %d\n", shadow->type);
+			// printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
+			cos_alpha = 0;
+		}
+	}
 	color_from_light = ft_color(
 			tmp_plane->red * (vars->amb->l_rat + cos_alpha),
 			tmp_plane->green * (vars->amb->l_rat + cos_alpha),
 			tmp_plane->blue * (vars->amb->l_rat + cos_alpha));
+	// if (cos_alpha > 0 && shadow)
+	// {
+	// 	printf("figure == %d\n", shadow->type);
+	// 	printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
+	// 	printf("color red = %f green == %f blue == %f\n", tmp_plane->red * (vars->amb->l_rat + cos_alpha),tmp_plane->green * (vars->amb->l_rat + cos_alpha),  tmp_plane->blue * (vars->amb->l_rat + cos_alpha));
+	// 	printf("COLOR == %d\n", color_from_light);
+	// }
 	return (color_from_light);
 }
 
@@ -75,6 +112,7 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	float	cos_alpha;
 	t_vec	*light;
 	int		color_from_light;
+	float	len_light;
 	t_inter	*shadow;
 
 	tmp_cyl = (t_cyl *)ret_inter->figure;
@@ -83,13 +121,30 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
-		cos_alpha = (dot_product(ret_inter->norm, light)) / (vec_len(light));
+		len_light = vec_len(light);
+		cos_alpha = (dot_product(ret_inter->norm, light) / len_light);
 		vec_normalize(light);
-		shadow = intersect(light, figure_lst, ret_inter->point);
+		shadow = intersect(light, figure_lst, ret_inter->point, NULL);
 		free(light);
 	}
-	if (shadow || cos_alpha < 0)
-		cos_alpha = 0;
+	// else
+	// 	printf("NO LIGHT\n");
+	if (shadow)
+	{
+		if (!(shadow->figure == ret_inter->figure))
+		{
+			// cos_alpha = 0;
+			if (shadow->dist < len_light)
+				cos_alpha = 0;
+		}
+		// cos_alpha = 0;
+		// if (shadow->dist < len_light)
+		// {
+		// 	// printf("figure == %d\n", shadow->type);
+		// 	// printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
+		// 	cos_alpha = 0;
+		// }
+	}
 	color_from_light = ft_color(
 			tmp_cyl->red * (vars->amb->l_rat + cos_alpha),
 			tmp_cyl->green * (vars->amb->l_rat + cos_alpha),

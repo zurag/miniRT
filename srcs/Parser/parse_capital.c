@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:26:49 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/19 18:02:24 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	parse_ambient(char *line, t_vars *vars)
 
 	i = -1;
 	j = 0;
-	vars->amb = new_amb();
 	while (line[++i] && j < 3)
 	{
 		while (line[i] == ' ')

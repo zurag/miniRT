@@ -29,6 +29,7 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_o
 	p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
 	norm = vec_subtraction(point, p_on_axis);
 	vec_normalize(norm);
+	free(p_on_axis);
 
 	// m = D|V*t + X|V
 	// N = nrm( P-C-V*m )

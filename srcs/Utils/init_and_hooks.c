@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:28:29 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/19 18:02:35 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init(t_vars *vars)
 	vars->x = 0;
 	vars->y = 0;
 	vars->img = malloc(sizeof(t_data));
-	vars->amb = NULL;
+	vars->amb = new_amb();
 	vars->camera = new_camera();
 	vars->light = NULL;
 	vars->figure = NULL;
