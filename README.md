@@ -32,16 +32,15 @@ ______
 
 <Scene_name.rt> files are located in the `srcs/scenes_files/`
 
-![ALT TEXT](srcs/Images/first-attempt.png "Hard shadows, ambient and diffuse light")
 
 ## Features
 ______
 + **Raycasting**
 + **Object shadows**
 + **Correct intersections of the objects**
++ **Real-time camera movement / rotation**
 + ~~**Multithreaded render**~~
 + ~~**Antialiasing**~~
-+ ~~**Real-time camera movement / rotation**~~
 + ~~**Blinn–Phong lighting model**~~
 + ~~**Reflections of objects**~~
 + ~~**Creating screenshots**~~
@@ -117,4 +116,6 @@ pl 0,-0.5,0 0,1,0 104,104,104
 sp 0,1,0 1 220,0,0
 sp -2,1,0 2 107,159,0
 ```
+
+![ALT TEXT](srcs/Images/first-attempt.png "Hard shadows, ambient and diffuse light")
 </div>

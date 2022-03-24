@@ -9,6 +9,7 @@ static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
 	ret->type = CYLINDER;
 	ret->point = get_point(ray_origin, dist, ray_dir);
 	ret->norm = cyl_normal(ret->point, cyl, dist, ray_dir, ray_origin);
+	vec_mult(ret->norm, -1);
 	ret->dist = dist;
 	ret->figure = figure_lst->content;
 	return (ret);
@@ -69,9 +70,8 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin, void *exc
 	i = 0;
 	start = figure_lst;
 	size_lst = ft_flstsize(figure_lst);
-	if (exception_figure)
-		size_lst--;
 	dist = malloc(sizeof(float) * size_lst);
+	ft_memset(dist, '\0', sizeof(float) * size_lst);
 	while (figure_lst)
 	{
 		if (figure_lst->content != exception_figure)
@@ -86,6 +86,8 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin, void *exc
 				dist[i] = cylinder_intersect(ray_origin, ray,
 											(t_cyl *)figure_lst->content);
 		}
+		else
+			dist[i] = -1;
 		i++;
 		figure_lst = figure_lst->next;
 	}

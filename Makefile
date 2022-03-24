@@ -24,7 +24,8 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/intersect/intersect_utils.c \
 					srcs/intersect/cylinder_intersect.c \
 					srcs/intersect/plane_intersect.c \
-					srcs/intersect/sphere_intersect.c 
+					srcs/intersect/sphere_intersect.c \
+					srcs/Transformations/matrices.c \
 
 
 CC		= gcc

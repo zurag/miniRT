@@ -6,23 +6,23 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/19 22:28:13 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/22 19:15:23 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure)
+int	get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure, t_vec *ray_dir)
 {
 	int		color_from_light;
 
 	color_from_light = 0;
 	if (ret_inter->type == SPHERE)
-		color_from_light = get_sphere_color(vars, ret_inter, figure);
+		color_from_light = get_sphere_color(vars, ret_inter, figure, ray_dir);
 	if (ret_inter->type == PLANE)
-		color_from_light = get_plane_color(vars, ret_inter, figure);
+		color_from_light = get_plane_color(vars, ret_inter, figure, ray_dir);
 	if (ret_inter->type == CYLINDER)
-		color_from_light = get_cylinder_color(vars, ret_inter, figure);
+		color_from_light = get_cylinder_color(vars, ret_inter, figure, ray_dir);
 	return (color_from_light);
 }
 
@@ -38,7 +38,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 		return (0);
 	if (ret_inter->dist != -1)
 	{
-		color_from_light = get_color(vars, ret_inter, *figure);
+		color_from_light = get_color(vars, ret_inter, *figure, ray);
 		free(ret_inter);
 		return (color_from_light);
 	}
@@ -50,15 +50,22 @@ void	raytrace(t_vars *vars, t_flist **figure)
 {
 	float		x_angle;
 	float		y_angle;
-	t_vec		*ray;
+	t_vec		*ray_dir;
+	t_vec		*ray_new;
+	t_vec		*to;
 	t_vplane	*vplane;
 	float		y_ray;
 	float		x_ray;
 	int			color;
+	t_matrix	*cam_to_world;
 
 	vars->y = 0;
 	vplane = get_view_plane(WIDTH, HEIGHT, vars->camera->fov);
 	y_angle = HEIGHT / 2;
+	to = vec_new(0, 0, -1);
+	ray_new = vec_new(0, 0, 0);
+	cam_to_world = look_at(vars->camera->nv_direction, to);
+	free(to);
 	while (y_angle > (HEIGHT / 2) * (-1))
 	{
 		y_ray = y_angle * vplane->y_pixel;
@@ -67,10 +74,12 @@ void	raytrace(t_vars *vars, t_flist **figure)
 		while (x_angle < (WIDTH / 2))
 		{
 			x_ray = x_angle * vplane->x_pixel;
-			ray = vec_new(x_ray, y_ray, vars->camera->nv_direction->z);
-			color = ft_pixel_color(vars, ray, figure);
+			ray_dir = vec_new(x_ray, y_ray, vars->camera->nv_direction->z);
+			vec_normalize(ray_dir);
+			mult_dir_matrix(ray_dir, ray_new, cam_to_world);
+			color = ft_pixel_color(vars, ray_new, figure);
 			ft_mlx_pixel_put(vars->img, vars->x, vars->y, color);
-			free(ray);
+			free(ray_dir);
 			vars->x++;
 			x_angle++;
 		}
@@ -79,6 +88,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	free(vplane);
+	free(ray_new);
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)

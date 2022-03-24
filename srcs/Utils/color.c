@@ -6,50 +6,70 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/19 23:06:10 by zurag            ###   ########.fr       */
+/*   Updated: 2022/03/24 20:54:20 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
+int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
+						t_vec *ray_dir)
 {
 	t_sph	*tmp_sph;
 	float	cos_alpha;
+	float	specular;
 	t_vec	*light;
 	int		color_from_light;
 	t_inter	*shadow;
+	float	len_light;
 
 	tmp_sph = (t_sph *)ret_inter->figure;
 	shadow = NULL;
 	cos_alpha = 0;
+	specular = 0;
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
+		len_light = vec_len(light);
 		vec_normalize(light);
 		cos_alpha = dot_product(ret_inter->norm, light);
 		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
+		specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
 	// else
 	// 	printf("NO LIGHT\n");
-	if (shadow || cos_alpha < 0)
+
+	if (cos_alpha < 0)
 	{
-		// if (shadow->figure == ret_inter->figure)
-		// 	printf("plane shadow type == %d\n", shadow->type);
-		// else
-			cos_alpha = 0;
+		specular = 0;
+		cos_alpha = 0;
 	}
-	// else
-	// 	printf("NO sph shadow\n");
+	if (shadow)
+	{
+		// printf("IN SHADOW PLANE\n");
+		if (shadow->dist < len_light)
+		{
+			cos_alpha = 0;
+		}
+	}
+	// if (shadow || cos_alpha < 0)
+	// {
+	// 	cos_alpha = 0;
+	// 	specular = 0;
+	// }
 	color_from_light = ft_color(
-			tmp_sph->red * (vars->amb->l_rat + cos_alpha),
-			tmp_sph->green * (vars->amb->l_rat + cos_alpha),
-			tmp_sph->blue * (vars->amb->l_rat + cos_alpha));
+			tmp_sph->red * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular),
+			tmp_sph->green * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular),
+			tmp_sph->blue * (vars->amb->l_rat + cos_alpha * vars->light->bright
+				+ specular));
 	return (color_from_light);
 }
 
-int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
+int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
+					t_vec *ray_dir)
 {
 	t_plane	*tmp_plane;
 	float	cos_alpha;
@@ -57,11 +77,14 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	float	len_light;
 	int		color_from_light;
 	t_inter	*shadow;
+	// float	specular;
 
 	len_light = 0;
+	// specular = 0;
 	tmp_plane = (t_plane *)ret_inter->figure;
 	shadow = NULL;
 	cos_alpha = 0;
+	(void)ray_dir;
 	if (vars->light)
 	{
 		light = vec_subtraction(ret_inter->point, vars->light->d_point);
@@ -70,43 +93,46 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 		cos_alpha = dot_product(ret_inter->norm, light);
 		vec_mult(light, -1);
 		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
+		// specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
-	// else
-		// printf("NO LIGHT\n");
 	if (cos_alpha < 0)
+	{
+		// specular = 0;
 		cos_alpha = 0;
+	}
 	if (shadow)
 	{
-		// if (!(shadow->figure == ret_inter->figure))
-		// {
-		// 	cos_alpha = 0;
-		// 	// if (shadow->dist < len_light)
-		// 	// 	cos_alpha = 0;
-		// }
-		// cos_alpha = 0;
+		// printf("IN SHADOW PLANE\n");
 		if (shadow->dist < len_light)
 		{
-			// printf("figure == %d\n", shadow->type);
-			// printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
+			// specular = 0;
 			cos_alpha = 0;
 		}
 	}
 	color_from_light = ft_color(
-			tmp_plane->red * (vars->amb->l_rat + cos_alpha),
-			tmp_plane->green * (vars->amb->l_rat + cos_alpha),
-			tmp_plane->blue * (vars->amb->l_rat + cos_alpha));
-	// if (cos_alpha > 0 && shadow)
-	// {
-	// 	printf("figure == %d\n", shadow->type);
-	// 	printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
-	// 	printf("color red = %f green == %f blue == %f\n", tmp_plane->red * (vars->amb->l_rat + cos_alpha),tmp_plane->green * (vars->amb->l_rat + cos_alpha),  tmp_plane->blue * (vars->amb->l_rat + cos_alpha));
-	// 	printf("COLOR == %d\n", color_from_light);
-	// }
+			tmp_plane->red * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright),
+			tmp_plane->green * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright),
+			tmp_plane->blue * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright));
+
+
+
+
+	// 	color_from_light = ft_color(
+	// tmp_plane->red * (vars->amb->l_rat
+	// 	+ cos_alpha * vars->light->bright + specular),
+	// tmp_plane->green * (vars->amb->l_rat
+	// 	+ cos_alpha * vars->light->bright + specular),
+	// tmp_plane->blue * (vars->amb->l_rat
+	// 	+ cos_alpha * vars->light->bright + specular));
 	return (color_from_light);
 }
 
-int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
+int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
+						t_vec *ray_dir)
 {
 	t_cyl	*tmp_cyl;
 	float	cos_alpha;
@@ -114,41 +140,63 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	int		color_from_light;
 	float	len_light;
 	t_inter	*shadow;
+	float	specular;
 
+	specular = 0;
 	tmp_cyl = (t_cyl *)ret_inter->figure;
 	shadow = NULL;
 	cos_alpha = 0;
+	(void)ray_dir;
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
 		len_light = vec_len(light);
 		cos_alpha = (dot_product(ret_inter->norm, light) / len_light);
 		vec_normalize(light);
+		// vec_mult(light, -1);
 		shadow = intersect(light, figure_lst, ret_inter->point, NULL);
+		// specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
-	// else
-	// 	printf("NO LIGHT\n");
+	
+	if (cos_alpha < 0)
+	{
+		cos_alpha = 0;
+		specular = 0;
+	}
 	if (shadow)
 	{
-		if (!(shadow->figure == ret_inter->figure))
-		{
-			// cos_alpha = 0;
-			if (shadow->dist < len_light)
-				cos_alpha = 0;
-		}
+		printf("SHADOW\n");
 		// cos_alpha = 0;
-		// if (shadow->dist < len_light)
+			if (shadow->dist < len_light)
+			{
+				specular = 0;
+				cos_alpha = 0;
+			}
+		// if (!(shadow->figure == ret_inter->figure))
 		// {
-		// 	// printf("figure == %d\n", shadow->type);
-		// 	// printf("dist == %f, len_light == %f\n",shadow->dist,  len_light);
-		// 	cos_alpha = 0;
 		// }
 	}
+	//  printf("cos == %f\n", cos_alpha);
 	color_from_light = ft_color(
-			tmp_cyl->red * (vars->amb->l_rat + cos_alpha),
-			tmp_cyl->green * (vars->amb->l_rat + cos_alpha),
-			tmp_cyl->blue * (vars->amb->l_rat + cos_alpha));
+			tmp_cyl->red * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright),
+			tmp_cyl->green * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright),
+			tmp_cyl->blue * (vars->amb->l_rat
+				+ cos_alpha * vars->light->bright));
+
+
+
+
+	
+	// color_from_light = ft_color(
+	// 		tmp_cyl->red * (vars->amb->l_rat
+	// 			+ cos_alpha * vars->light->bright + specular),
+	// 		tmp_cyl->green * (vars->amb->l_rat
+	// 			+ cos_alpha * vars->light->bright + specular),
+	// 		tmp_cyl->blue * (vars->amb->l_rat
+	// 			+ cos_alpha * vars->light->bright + specular));
 	return (color_from_light);
 }
 
@@ -163,19 +211,16 @@ int	ft_color(int red, int green, int blue)
 	return (red << 16 | green << 8 | blue);
 }
 
-int	gradient(int startcolor, int endcolor, int iter, int iter_max)
+float	specular_light(t_vec *n, t_vec *l, t_vec *v)
 {
-	double	increment[3];
-	int		new[3];
-	int		newcolor;
+	float	specular;
+	float	nl;
+	t_vec	*r;
 
-	increment[0] = ((endcolor >> 16) - (startcolor >> 16)) / (iter + 1);
-	increment[1] = ((endcolor >> 8) & 0xFF - (startcolor >> 8) & 0xFF)
-		/ (iter + 1);
-	increment[2] = ((endcolor & 0xFF) - (startcolor & 0xFF)) / (iter + 1);
-	new[0] = ((startcolor) >> 16) + fabs(iter_max * increment[0]);
-	new[1] = (((startcolor) >> 8) & 0xFF) + fabs(iter_max * increment[1]);
-	new[2] = ((startcolor) & 0xFF) + fabs(iter_max * increment[2]);
-	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
-	return (newcolor);
+	vec_mult(l, -1);
+	nl = 2 * dot_product(n, l);
+	vec_mult(n, nl);
+	r = vec_subtraction(n, l);
+	specular = pow(dot_product(v, r), 200);
+	return (specular);
 }

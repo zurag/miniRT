@@ -224,8 +224,8 @@ void		free_cylinder(t_cyl *cyl);
 int			close_win(int keycode);
 int			key_hook(int keycode, t_vars *vars);
 void		ft_mlx_pixel_put(t_data *img, int x, int y, int color);
-int			gradient(int startcolor, int endcolor, int iter, int iter_max);
 int			ft_color(int red, int green, int blue);
+float		specular_light(t_vec *N, t_vec *L, t_vec *V);
 void		error_exit(int code);
 
 //Raytrace
@@ -234,20 +234,20 @@ void		raytrace(t_vars *vars, t_flist **figure);
 t_vplane	*get_view_plane(float width, float height, float fov);
 int			ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure);
 float		get_dist(t_vars *vars, t_vec *ray, t_flist **figure);
-int			get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure);
+int			get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure,
+				t_vec *ray_dir);
 int			get_sphere_color(t_vars *vars, t_inter *ret_inter,
-				t_flist *figure_lst);
+				t_flist *figure_lst, t_vec *ray_dir);
 int			get_plane_color(t_vars *vars, t_inter *ret_inter,
-				t_flist *figure_lst);
+				t_flist *figure_lst, t_vec *ray_dir);
 int			get_cylinder_color(t_vars *vars, t_inter *ret_inter,
-				t_flist *figure_lst);
+				t_flist *figure_lst, t_vec *ray_dir);
 float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
 t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
-
-t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin);
-
+t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray,
+				t_vec *ray_origin);
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
@@ -272,5 +272,12 @@ t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
 t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
 void		vec_mult(t_vec *vec, float num);
 void		print_vect(t_vec *vec, char *name);
+
+//Matrix
+
+void		mult_dir_matrix(t_vec *src, t_vec *dst, t_matrix *m);
+t_matrix	*look_at(t_vec *from, t_vec *to);
+void		mult_vec_matrix(t_vec *src, t_vec *dst, t_matrix *m);
+t_matrix	*new_matrix(void);
 
 #endif 

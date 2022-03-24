@@ -13,27 +13,50 @@
 
 # define ABS(a)((a)>(0))?(a):(-a)
 
+
+
+// m = D|V*t + X|V
+// N = nrm( P-C-V*m )
+
 t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_origin)
 {
+	// VESION N 0
+
 	(void)ray;
-	(void)ray_origin;
+	// (void)ray_origin;
 	(void)dist;
-	t_vec	*norm;
+	// t_vec	*norm;
+	// t_vec	*p_on_axis;
+	// float	len;
+
+	// len = dot_product(cyl->nv_orientation, point);
+	// p_on_axis = vec_new(cyl->d_coordinates->x, cyl->d_coordinates->y,
+	// 				 cyl->d_coordinates->z);
+	// vec_mult(p_on_axis, len);
+	// p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
+	// norm = vec_subtraction(point, p_on_axis);
+	// vec_normalize(norm);
+	// free(p_on_axis);
+
+	// VESION N 1
+
 	t_vec	*p_on_axis;
-	float	len;
+	t_vec	*ap;
+	t_vec	*tau;
+	// float	len;
 
-	len = dot_product(cyl->nv_orientation, point);
-	p_on_axis = vec_new(cyl->d_coordinates->x, cyl->d_coordinates->y,
-					 cyl->d_coordinates->z);
-	vec_mult(p_on_axis, len);
-	p_on_axis = vec_sum(p_on_axis, cyl->d_coordinates);
-	norm = vec_subtraction(point, p_on_axis);
-	vec_normalize(norm);
-	free(p_on_axis);
+	p_on_axis = vec_subtraction(ray_origin, point);
+	ap = vec_subtraction(cyl->d_coordinates, p_on_axis);
+	vec_normalize(ap);
+	tau = cross_product(cyl->nv_orientation, ap);
+	return (cross_product(cyl->nv_orientation, tau));
 
-	// m = D|V*t + X|V
-	// N = nrm( P-C-V*m )
 
+
+
+
+
+	// VESION N 2
 
 	// float m;
 
@@ -54,7 +77,7 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_o
 	// norm = vec_subtraction(vec_subtraction(point, C), V);
 	// vec_normalize(V);
 	// vec_normalize(norm);
-	return (norm);
+	// return (norm);
 }
 
 float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
