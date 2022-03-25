@@ -151,8 +151,12 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
 		len_light = vec_len(light);
+//		print_vect(ret_inter->norm, "ret inter");
+//		if (dot_product(ret_inter->norm, light) < 0)
+//			vec_mult(ret_inter->norm, -1);
 		cos_alpha = (dot_product(ret_inter->norm, light) / len_light);
 		vec_normalize(light);
+//		printf("%f\n", cos_alpha);
 		// vec_mult(light, -1);
 		shadow = intersect(light, figure_lst, ret_inter->point, NULL);
 		// specular = specular_light(ret_inter->norm, light, ray_dir);
@@ -161,12 +165,13 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 	
 	if (cos_alpha < 0)
 	{
+		printf("yo");
 		cos_alpha = 0;
 		specular = 0;
 	}
 	if (shadow)
 	{
-		printf("SHADOW\n");
+//		printf("SHADOW\n");
 		// cos_alpha = 0;
 			if (shadow->dist < len_light)
 			{

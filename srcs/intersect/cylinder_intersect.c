@@ -43,41 +43,56 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_o
 	t_vec	*p_on_axis;
 	t_vec	*ap;
 	t_vec	*tau;
-	// float	len;
+	t_vec	*sigma;
+	float	cos_alpha;
 
 	p_on_axis = vec_subtraction(ray_origin, point);
 	ap = vec_subtraction(cyl->d_coordinates, p_on_axis);
 	vec_normalize(ap);
 	tau = cross_product(cyl->nv_orientation, ap);
-	return (cross_product(cyl->nv_orientation, tau));
+	sigma = cross_product(cyl->nv_orientation, tau);
+	vec_normalize(sigma);
+	vec_normalize(p_on_axis);
+	cos_alpha = dot_product(sigma, cyl->nv_orientation);
+//	if (dot_product(sigma, cyl->nv_orientation) > 0)
+//		 vec_mult(sigma, -1);
+//	if (cos_alpha < 0)
+//	{
+//		printf("%f\n", cos_alpha);
+//		vec_mult(sigma, -1);
+//	}
+	return (sigma);
 
 
 
 
 
 
-	// VESION N 2
-
-	// float m;
-
-	// float D_V;
-	// float X_V;
-	// t_vec	*norm;
-	// t_vec *D = ray;
-
-	// t_vec *X = vec_subtraction(ray_origin, cyl->d_coordinates);;
-	// t_vec *V = cyl->nv_orientation;
-	// t_vec *C = cyl->d_coordinates;
-
-	// D_V = dot_product(D, V);
-	// X_V = dot_product(X, V);
-
-	// m = D_V * dist + X_V;
-	// vec_mult(V, m);
-	// norm = vec_subtraction(vec_subtraction(point, C), V);
-	// vec_normalize(V);
-	// vec_normalize(norm);
-	// return (norm);
+//	// VESION N 2
+//
+//	 float m;
+//
+//	 float D_V;
+//	 float X_V;
+//	 t_vec	*norm;
+//	 t_vec *D = ray;
+//
+//	 t_vec *X = vec_subtraction(cyl->d_coordinates, ray_origin);;
+//	 t_vec *V = cyl->nv_orientation;
+//	 t_vec *C = cyl->d_coordinates;
+//
+//	 D_V = dot_product(D, V);
+//	 X_V = dot_product(X, V);
+//
+//	 m = D_V * dist + X_V;
+//	 if (m > cyl->height)
+//	 	vec_mult(V, m);
+//	 norm = vec_subtraction(V, vec_subtraction(point, C));
+//	 if (dot_product(X, vec_subtraction(point, C)) > 0)
+//		 vec_mult(norm, -1);
+//	 vec_normalize(V);
+//	 vec_normalize(norm);
+//	 return (norm);
 }
 
 float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
@@ -167,11 +182,15 @@ float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
 	float discr;
 	float dist1;
 	float dist2;
+	float inv_dist1;
+	float inv_dist2;
 	// t_vec	*N;
 	// t_vec	*P;
 
 	// x = camera_cy    tmp = (D|V)
 
+	inv_dist1 = 0;
+	inv_dist2 = 0;
 	a = D_D - powf(D_V, 2);
 	b = 2 * (D_X - (D_V * X_V));
 	c = X_X - powf(X_V, 2) - powf(cyl->diam/2, 2);
@@ -187,10 +206,16 @@ float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
 	// vec_mult(V, m);
 	// N = vec_normalize(vec_subtraction(vec_subtraction(P, C), V));	// на всякий случай.
 	
-	if (ABS(m0) >= cyl->height / 2)
+	if (ABS(m0) >= cyl->height)
+	{
+		inv_dist1 = dist1;
 		dist1 = -1;
-	if (ABS(m1) >= cyl->height / 2)
+	}
+	if (ABS(m1) >= cyl->height)
+	{
+		inv_dist2 = dist2;
 		dist2 = -1;
+	}
 
 	if (dist1 < 0 && dist2 < 0)
 		return (-1);
