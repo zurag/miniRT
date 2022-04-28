@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/22 19:15:23 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/28 16:38:33 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 
 	color_from_light = 0;
 	vec_normalize(ray);
-	ret_inter = intersect(ray, *figure, vars->camera->d_origin, NULL);
+	ret_inter = intersect(ray, *figure, vars->camera->d_origin);
 	if (!ret_inter)
 		return (0);
 	if (ret_inter->dist != -1)

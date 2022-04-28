@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/19 22:23:01 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:33:36 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,14 @@
 # define ARROW_RIGHT 124
 # define ARROW_DOWN 125
 # define ARROW_UP 126
-# define EPSILON 0.000001
+# define EPSILON 0.00001
 //Colors
 # define COL_ST 0x75E555
 # define COL_FIN 0xE8811A
 # define BLACK 0x000000
+
+int cyl_flag;
+
 
 typedef struct s_data	t_data;
 typedef struct s_vars	t_vars;
@@ -251,7 +254,7 @@ t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray,
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
-t_inter		*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin, void *exception_figure);
+t_inter		*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin);
 
 // FIGURES LIST
 t_flist		*ft_flstnew(void *content, int type);

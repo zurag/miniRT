@@ -31,7 +31,7 @@ float	sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere)
 		return (-1);
 	dist1 = (((b * -1) - sqrt(discr)) / (2));
 	dist2 = (((b * -1) + sqrt(discr)) / (2));
-	if (dist1 > 0)
+	if (dist1 > 0.02)
 		return (dist1);
 //	t_vec	*hit_position = vect_multipl_on(ray, dist1); // точка
 //	соприкосновения

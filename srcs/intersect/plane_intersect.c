@@ -7,7 +7,7 @@ float	plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane)
 	t_vec	*p0lo;
 
 	denom = dot_product(plane->nv_orientation, ray);
-	if (denom < 0)
+	if (denom < EPSILON)
 	{
 		vec_mult(plane->nv_orientation, -1);
 		denom *= -1;

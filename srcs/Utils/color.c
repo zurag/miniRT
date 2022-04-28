@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/24 20:54:20 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/28 15:48:33 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		len_light = vec_len(light);
 		vec_normalize(light);
 		cos_alpha = dot_product(ret_inter->norm, light);
-		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
+		shadow = intersect(light, figure_lst, ret_inter->point);
 		specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
@@ -53,6 +53,8 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 			cos_alpha = 0;
 		}
 	}
+	else
+		printf("sphere cos == %f\n", cos_alpha);
 	// if (shadow || cos_alpha < 0)
 	// {
 	// 	cos_alpha = 0;
@@ -92,7 +94,7 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		vec_normalize(light);
 		cos_alpha = dot_product(ret_inter->norm, light);
 		vec_mult(light, -1);
-		shadow = intersect(light, figure_lst, ret_inter->point, ret_inter->figure);
+		shadow = intersect(light, figure_lst, ret_inter->point);
 		// specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
@@ -147,42 +149,46 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 	shadow = NULL;
 	cos_alpha = 0;
 	(void)ray_dir;
+	cyl_flag = 0;
+
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
 		len_light = vec_len(light);
-//		print_vect(ret_inter->norm, "ret inter");
-//		if (dot_product(ret_inter->norm, light) < 0)
-//			vec_mult(ret_inter->norm, -1);
-		cos_alpha = (dot_product(ret_inter->norm, light) / len_light);
+		// print_vect(light, "light");
+		// printf("len light == %f\n", len_light);
+		print_vect(ret_inter->norm, "ret_inter->norm");
+		// print_vect(ret_inter->norm, "ret inter");
 		vec_normalize(light);
+		cos_alpha = (dot_product(ret_inter->norm, light));
+		// cos_alpha = (dot_product(ret_inter->norm, light) / len_light);
 //		printf("%f\n", cos_alpha);
 		// vec_mult(light, -1);
-		shadow = intersect(light, figure_lst, ret_inter->point, NULL);
+		shadow = intersect(light, figure_lst, ret_inter->point);
 		// specular = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
-	
 	if (cos_alpha < 0)
 	{
-		printf("yo");
-		cos_alpha = 0;
 		specular = 0;
+		cos_alpha = 0;
 	}
+	cyl_flag = 0;
 	if (shadow)
 	{
-//		printf("SHADOW\n");
+		// printf("SHADOW\n");
 		// cos_alpha = 0;
-			if (shadow->dist < len_light)
-			{
-				specular = 0;
-				cos_alpha = 0;
-			}
+		if (shadow->dist < len_light) //&& shadow->dist > 0.02
+		{
+			specular = 0;
+			cos_alpha = 0;
+		}
 		// if (!(shadow->figure == ret_inter->figure))
 		// {
 		// }
 	}
-	//  printf("cos == %f\n", cos_alpha);
+	else
+		printf("cos == %f\n", cos_alpha);
 	color_from_light = ft_color(
 			tmp_cyl->red * (vars->amb->l_rat
 				+ cos_alpha * vars->light->bright),
@@ -203,6 +209,7 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 	// 		tmp_cyl->blue * (vars->amb->l_rat
 	// 			+ cos_alpha * vars->light->bright + specular));
 	return (color_from_light);
+	
 }
 
 int	ft_color(int red, int green, int blue)

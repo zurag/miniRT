@@ -22,7 +22,6 @@ int	find_min_nbr(float	*arr, int size)
 		}
 		i++;
 	}
-//	printf("arr[min] == %f\n", arr[min]);
 	return (min);
 }
 
