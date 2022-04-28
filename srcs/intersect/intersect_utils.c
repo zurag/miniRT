@@ -1,10 +1,10 @@
 #include "minirt.h"
 
-
-void	print_vect(t_vec *vec, char *name)
-{
-	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
-}
+//
+//void	print_vect(t_vec *vec, char *name)
+//{
+//	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
+//}
 
 int	find_min_nbr(float	*arr, int size)
 {
@@ -36,9 +36,6 @@ t_flist	*find_node_lst(t_flist *figure_lst, int nbr)
 		i++;
 		figure_lst = figure_lst->next;
 	}
-	// if (i != nbr)
-	// 	return (NULL);
-	// printf("TYPE == %d\n", figure_lst->type);
 	return (figure_lst);
 }
 
@@ -46,9 +43,9 @@ t_flist	*find_node_lst(t_flist *figure_lst, int nbr)
 t_vec	*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir)
 {
 	t_vec *point;
+	t_vec *new_raydir;
 
-	vec_mult(ray_dir, dist);
-	point = vec_sum(ray_origin, ray_dir);
-	vec_normalize(ray_dir);
+	new_raydir = vec_mult(ray_dir, dist);
+	point = vec_sum(ray_origin, new_raydir);
 	return (point);
 }

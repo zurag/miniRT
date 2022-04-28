@@ -32,11 +32,19 @@ float	dot_product(t_vec *vec1, t_vec *vec2)
 	return (res);
 }
 
-void	vec_mult(t_vec *vec, float num)
+t_vec	*vec_mult(t_vec *vec, float num)
 {
-	vec->x *= num;
-	vec->y *= num;
-	vec->z *= num;
+	t_vec	*res;
+	float	x;
+	float	y;
+	float	z;
+
+	res = NULL;
+	x = vec->x * num;
+	y = vec->y * num;
+	z = vec->z * num;
+	res = vec_new(x, y, z);
+	return (res);
 }
 
 t_vec	*cross_product(t_vec *vec1, t_vec *vec2)

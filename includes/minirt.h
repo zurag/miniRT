@@ -157,6 +157,8 @@ typedef struct s_cyl
 	int			red;
 	int			green;
 	int			blue;
+	float		inv_dist[2];
+	float		dist[2];
 }				t_cyl;
 
 typedef struct s_matrix
@@ -273,7 +275,7 @@ void		vec_normalize(t_vec *vec);
 float		vec_len(t_vec *vec);
 t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
 t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
-void		vec_mult(t_vec *vec, float num);
+t_vec		*vec_mult(t_vec *vec, float num);
 void		print_vect(t_vec *vec, char *name);
 
 //Matrix

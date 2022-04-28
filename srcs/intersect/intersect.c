@@ -7,6 +7,7 @@ static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
 
 	cyl = (t_cyl *)figure_lst->content;
 	ret->type = CYLINDER;
+	ret->dist = dist;
 	ret->point = get_point(ray_origin, dist, ray_dir);
 	ret->norm = cyl_normal(ret->point, cyl, dist, ray_dir, ray_origin);
 	ret->dist = dist;
@@ -72,16 +73,16 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 	dist = malloc(sizeof(float) * size_lst);
 	ft_memset(dist, '\0', sizeof(float) * size_lst);
 	while (figure_lst)
-	{		
+	{
 		if (figure_lst->type == PLANE)
 			dist[i] = plane_intersect(ray_origin, ray,
 									(t_plane *)figure_lst->content);
 		else if (figure_lst->type == SPHERE)
 			dist[i] = sphere_intersect(ray_origin, ray,
 									(t_sph *)figure_lst->content);
-		else if (figure_lst->type == CYLINDER)
-			dist[i] = cylinder_intersect(ray_origin, ray,
-										(t_cyl *)figure_lst->content);
+		else if (figure_lst->type == CYLINDER) {
+			dist[i] = cylinder_intersect(ray_origin, ray, (t_cyl *)figure_lst->content);
+		}
 		else
 			dist[i] = -1;
 		i++;

@@ -53,7 +53,7 @@ t_vec	*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray, t_vec *ray_o
 	t_vec *X = vec_subtraction(ray_origin, cyl->d_coordinates);
 
 	m = dot_product(D, V) * t + dot_product(X, V); 
-	vec_mult(V, m);
+	V = vec_mult(cyl->nv_orientation, m);
 	tmp = vec_subtraction(point, cyl->d_coordinates);
 	n = vec_subtraction(tmp, V);
 	vec_normalize(V);
@@ -99,19 +99,19 @@ float	cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl)
 	// P = get_point(ray_origin, dist1, ray);
 	// vec_mult(V, m);
 	// N = vec_normalize(vec_subtraction(vec_subtraction(P, C), V));	// на всякий случай.
-	// if (!cyl_flag)
-	// {
-	// 	if (ABS(m0) >= cyl->height)
-	// 	{
-	// 		inv_dist1 = dist1;
-	// 		dist1 = -1;
-	// 	}
-	// 	if (ABS(m1) >= cyl->height)
-	// 	{
-	// 		inv_dist2 = dist2;
-	// 		dist2 = -1;
-	// 	}
-	// }
+	 if (!cyl_flag)
+	 {
+	 	if (ABS(m0) >= cyl->height)
+	 	{
+	 		inv_dist1 = dist1;
+	 		dist1 = -1;
+	 	}
+	 	if (ABS(m1) >= cyl->height)
+	 	{
+	 		inv_dist2 = dist2;
+	 		dist2 = -1;
+	 	}
+	 }
 	if (dist1 < 0.02 && dist2 < 0.02)
 		return (-1);
 	if (dist1 > 0.02 && dist2 > 0.02)

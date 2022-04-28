@@ -39,6 +39,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	if (ret_inter->dist != -1)
 	{
 		color_from_light = get_color(vars, ret_inter, *figure, ray);
+//		printf("check\n");
 		free(ret_inter);
 		return (color_from_light);
 	}
