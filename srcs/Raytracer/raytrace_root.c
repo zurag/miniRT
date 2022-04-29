@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/29 20:51:30 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 20:59:44 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static void	colcul_color(float angle_xy[2], t_vplane *vplane,
 	ray_new = vec_new(0, 0, 0);
 	ray_xy[1] = angle_xy[1] * vplane->y_pixel;
 	angle_xy[0] = (WIDTH / 2) * (-1);
-	vars->x = 0;
 	while (angle_xy[0] < (WIDTH / 2))
 	{
 		ray_xy[0] = angle_xy[0] * vplane->x_pixel;
@@ -81,11 +80,9 @@ static void	colcul_color(float angle_xy[2], t_vplane *vplane,
 	free(ray_new);
 }
 
-
 void	raytrace(t_vars *vars, t_flist **figure)
 {
 	float		angle_xy[2];
-	// t_vec		*to;
 	t_vplane	*vplane;
 
 	vars->y = 0;
@@ -93,6 +90,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 	angle_xy[1] = HEIGHT / 2;
 	while (angle_xy[1] > (HEIGHT / 2) * (-1))
 	{
+		vars->x = 0;
 		colcul_color(angle_xy, vplane, vars, figure);
 		angle_xy[1]--;
 		vars->y++;
