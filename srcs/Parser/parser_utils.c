@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/28 19:54:31 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 20:36:21 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,40 +73,4 @@ void	check_file_name(char *file_name)
 		exit(EXIT_FAILURE);
 	}
 	free(ext);
-}
-
-float	ft_atof(const char *str)
-{
-	float	res;
-	int		e;
-	int		c;
-	int		sign;
-
-	e = 0;
-	res = 0.0;
-	sign = 1;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			sign = -sign;
-		str++;
-	}
-	while ((c = *str++) != '\0' && ft_isdigit(c))
-		res = res * 10.0 + (c - '0');
-	if (c == '.')
-	{
-		while ((c = *str++) != '\0' && ft_isdigit(c))
-		{
-			res = res * 10.0 + (c - '0');
-			e--;
-		}
-	}
-	while (e < 0)
-	{
-		res *= 0.1;
-		e++;
-	}
-	return (res * sign);
 }

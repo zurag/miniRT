@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/29 19:29:46 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 20:51:30 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,47 +50,55 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	return (0);
 }
 
+static void	colcul_color(float angle_xy[2], t_vplane *vplane,
+	t_vars *vars, t_flist **figure)
+{
+	t_vec		*ray_new;
+	float		ray_xy[2];
+	t_vec		*ray_dir;
+	t_matrix	*cam_to_world;
+	t_vec		*to;
+
+	to = vec_new(0, 0, -1);
+	cam_to_world = look_at(vars->camera->nv_direction, to);
+	free(to);
+	ray_new = vec_new(0, 0, 0);
+	ray_xy[1] = angle_xy[1] * vplane->y_pixel;
+	angle_xy[0] = (WIDTH / 2) * (-1);
+	vars->x = 0;
+	while (angle_xy[0] < (WIDTH / 2))
+	{
+		ray_xy[0] = angle_xy[0] * vplane->x_pixel;
+		ray_dir = vec_new(ray_xy[0], ray_xy[1], vars->camera->nv_direction->z);
+		vec_normalize(ray_dir);
+		mult_dir_matrix(ray_dir, ray_new, cam_to_world);
+		ft_mlx_pixel_put(vars->img, vars->x, vars->y,
+			ft_pixel_color(vars, ray_new, figure));
+		free(ray_dir);
+		vars->x++;
+		angle_xy[0]++;
+	}
+	free(ray_new);
+}
+
+
 void	raytrace(t_vars *vars, t_flist **figure)
 {
 	float		angle_xy[2];
-	t_vec		*ray_dir;
-	t_vec		*ray_new;
-	t_vec		*to;
+	// t_vec		*to;
 	t_vplane	*vplane;
-	float		ray_xy[2];
-	t_matrix	*cam_to_world;
 
 	vars->y = 0;
 	vplane = get_view_plane(WIDTH, HEIGHT, vars->camera->fov);
 	angle_xy[1] = HEIGHT / 2;
-	to = vec_new(0, 0, -1);
-	ray_new = vec_new(0, 0, 0);
-	cam_to_world = look_at(vars->camera->nv_direction, to);
-	free(to);
 	while (angle_xy[1] > (HEIGHT / 2) * (-1))
 	{
-		ray_xy[1] = angle_xy[1] * vplane->y_pixel;
-		angle_xy[0] = (WIDTH / 2) * (-1);
-		vars->x = 0;
-		while (angle_xy[0] < (WIDTH / 2))
-		{
-			ray_xy[0] = angle_xy[0] * vplane->x_pixel;
-			ray_dir = vec_new(ray_xy[0], ray_xy[1], vars->camera->nv_direction->z);
-			vec_normalize(ray_dir);
-			mult_dir_matrix(ray_dir, ray_new, cam_to_world);
-			ft_mlx_pixel_put(vars->img, vars->x, vars->y,
-				ft_pixel_color(vars, ray_new, figure));
-			free(ray_dir);
-			vars->x++;
-			angle_xy[0]++;
-		}
+		colcul_color(angle_xy, vplane, vars, figure);
 		angle_xy[1]--;
 		vars->y++;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	free(vplane);
-	free(ray_new);
-	free(cam_to_world);
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)

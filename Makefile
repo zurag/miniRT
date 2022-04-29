@@ -9,6 +9,7 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Parser/parser_root.c \
 					srcs/Parser/parser_utils.c \
 					srcs/Parser/parser_utils1.c \
+					srcs/Parser/atof.c \
 					srcs/Utils/init_and_hooks.c \
 					srcs/Utils/color.c \
 					srcs/Utils/utils.c \
