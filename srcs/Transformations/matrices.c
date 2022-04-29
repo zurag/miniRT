@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/29 14:21:37 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 21:32:12 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ void	mult_dir_matrix(t_vec *src, t_vec *dst, t_matrix *m)
 	dst->z = c;
 }
 
+static void	fill_matrix(t_matrix *cam_to_world, t_vec *forward,
+			t_vec *right, t_vec *up)
+{
+	cam_to_world->mat[0][0] = right->x;
+	cam_to_world->mat[0][1] = right->y;
+	cam_to_world->mat[0][2] = right->z;
+	cam_to_world->mat[1][0] = up->x;
+	cam_to_world->mat[1][1] = up->y;
+	cam_to_world->mat[1][2] = up->z;
+	cam_to_world->mat[2][0] = forward->x;
+	cam_to_world->mat[2][1] = forward->y;
+	cam_to_world->mat[2][2] = forward->z;
+}
+
 t_matrix	*look_at(t_vec *from, t_vec *to)
 {
 	t_vec		*forward;
@@ -60,15 +74,7 @@ t_matrix	*look_at(t_vec *from, t_vec *to)
 	right = cross_product(tmp, forward);
 	up = cross_product(forward, right);
 	cam_to_world = new_matrix();
-	cam_to_world->mat[0][0] = right->x;
-	cam_to_world->mat[0][1] = right->y;
-	cam_to_world->mat[0][2] = right->z;
-	cam_to_world->mat[1][0] = up->x;
-	cam_to_world->mat[1][1] = up->y;
-	cam_to_world->mat[1][2] = up->z;
-	cam_to_world->mat[2][0] = forward->x;
-	cam_to_world->mat[2][1] = forward->y;
-	cam_to_world->mat[2][2] = forward->z;
+	fill_matrix(cam_to_world, forward, right, up);
 	cam_to_world->mat[3][0] = from->x;
 	cam_to_world->mat[3][1] = from->y;
 	cam_to_world->mat[3][2] = from->z;
