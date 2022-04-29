@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:27:25 by acollin          ###   ########.fr       */
+/*   Updated: 2022/04/28 19:54:31 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	check_file_name(char *file_name)
 		printf("Wrong file extension\n");
 		exit(EXIT_FAILURE);
 	}
+	free(ext);
 }
 
 float	ft_atof(const char *str)

@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/28 13:33:36 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 12:53:31 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define BLACK 0x000000
 
 int cyl_flag;
-
+int norm_flag;
 
 typedef struct s_data	t_data;
 typedef struct s_vars	t_vars;
@@ -275,7 +275,8 @@ void		vec_normalize(t_vec *vec);
 float		vec_len(t_vec *vec);
 t_vec		*vec_sum(t_vec *vec1, t_vec *vec2);
 t_vec		*vec_subtraction(t_vec *vec1, t_vec *vec2);
-t_vec		*vec_mult(t_vec *vec, float num);
+t_vec		*new_vec_mult(t_vec *vec, float num);
+void		vec_mult_on(t_vec *vec, float num);
 void		print_vect(t_vec *vec, char *name);
 
 //Matrix

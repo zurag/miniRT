@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:28:04 by acollin          ###   ########.fr       */
+/*   Updated: 2022/04/29 14:21:37 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ t_matrix	*look_at(t_vec *from, t_vec *to)
 	cam_to_world->mat[3][0] = from->x;
 	cam_to_world->mat[3][1] = from->y;
 	cam_to_world->mat[3][2] = from->z;
+	free(tmp);
+	free(forward);
+	free(right);
+	free(up);
 	return (cam_to_world);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/19 18:02:24 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 13:59:30 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	parse_ambient(char *line, t_vars *vars)
 			break ;
 		}
 		nums = numbers(line, &i);
-		j++;
-		if (j == 2)
+		if (++j == 2)
 			put_numbers(nums, &vars->amb->l_rat, NULL, NULL);
 		if (j == 3)
 			put_numbers_atoi(nums, &vars->amb->red, &vars->amb->green,

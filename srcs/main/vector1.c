@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 19:29:09 by acollin           #+#    #+#             */
-/*   Updated: 2022/03/08 19:29:11 by acollin          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:52:52 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ float	dot_product(t_vec *vec1, t_vec *vec2)
 	return (res);
 }
 
-t_vec	*vec_mult(t_vec *vec, float num)
+t_vec	*new_vec_mult(t_vec *vec, float num)
 {
 	t_vec	*res;
 	float	x;
@@ -45,6 +45,13 @@ t_vec	*vec_mult(t_vec *vec, float num)
 	z = vec->z * num;
 	res = vec_new(x, y, z);
 	return (res);
+}
+
+void	vec_mult_on(t_vec *vec, float num)
+{
+	vec->x = vec->x * num;
+	vec->y = vec->y * num;
+	vec->z = vec->z * num;
 }
 
 t_vec	*cross_product(t_vec *vec1, t_vec *vec2)

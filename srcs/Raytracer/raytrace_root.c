@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/28 16:38:33 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/28 20:18:00 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	if (ret_inter->dist != -1)
 	{
 		color_from_light = get_color(vars, ret_inter, *figure, ray);
-//		printf("check\n");
+		free(ret_inter->point);
+		free(ret_inter->norm);
 		free(ret_inter);
 		return (color_from_light);
 	}
-	else
-		return (0);
+	free(ret_inter->point);
+	free(ret_inter->norm);
+	free(ret_inter);
+	return (0);
 }
 
 void	raytrace(t_vars *vars, t_flist **figure)
@@ -90,6 +93,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	free(vplane);
 	free(ray_new);
+	free(cam_to_world);
 }
 
 t_vplane	*get_view_plane(float width, float height, float fov)

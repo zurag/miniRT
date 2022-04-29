@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/03/08 19:26:57 by acollin          ###   ########.fr       */
+/*   Updated: 2022/04/28 19:53:16 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ void	parser(char **argv, t_vars *vars, t_flist **figure)
 	}
 	parse_line(line, vars, figure);
 	free(line);
+	close(fd);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere_intersect.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/29 13:54:12 by zurag             #+#    #+#             */
+/*   Updated: 2022/04/29 13:54:55 by zurag            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_vec	*sph_normal(t_vec *point, t_sph *sph)
@@ -14,12 +26,11 @@ float	sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere)
 	float	b;
 	float	c;
 	float	discr;
-	float	dist1;
-	float	dist2;
+	float	dist[2];
 	t_vec	*cam_sphere;
 
-	dist1 = 0;
-	dist2 = 0;
+	dist[0] = 0;
+	dist[1] = 0;
 	b = 0;
 	c = 0;
 	cam_sphere = vec_subtraction(ray_origin, sphere->center);
@@ -29,11 +40,9 @@ float	sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere)
 	free(cam_sphere);
 	if (discr < 0)
 		return (-1);
-	dist1 = (((b * -1) - sqrt(discr)) / (2));
-	dist2 = (((b * -1) + sqrt(discr)) / (2));
-	if (dist1 > 0.02)
-		return (dist1);
-//	t_vec	*hit_position = vect_multipl_on(ray, dist1); // точка
-//	соприкосновения
+	dist[0] = (((b * -1) - sqrt(discr)) / (2));
+	dist[1] = (((b * -1) + sqrt(discr)) / (2));
+	if (dist[0] > 0.02)
+		return (dist[0]);
 	return (-1);
 }

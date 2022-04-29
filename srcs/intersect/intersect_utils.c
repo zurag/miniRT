@@ -1,10 +1,16 @@
-#include "minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/29 13:46:27 by zurag             #+#    #+#             */
+/*   Updated: 2022/04/29 13:46:28 by zurag            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//
-//void	print_vect(t_vec *vec, char *name)
-//{
-//	printf("%s : x== %f, y == %f, z == %f\n", name, vec->x, vec->y, vec->z);
-//}
+#include "minirt.h"
 
 int	find_min_nbr(float	*arr, int size)
 {
@@ -25,7 +31,6 @@ int	find_min_nbr(float	*arr, int size)
 	return (min);
 }
 
-
 t_flist	*find_node_lst(t_flist *figure_lst, int nbr)
 {
 	int	i;
@@ -39,13 +44,13 @@ t_flist	*find_node_lst(t_flist *figure_lst, int nbr)
 	return (figure_lst);
 }
 
-
 t_vec	*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir)
 {
-	t_vec *point;
-	t_vec *new_raydir;
+	t_vec	*point;
+	t_vec	*new_raydir;
 
-	new_raydir = vec_mult(ray_dir, dist);
+	new_raydir = new_vec_mult(ray_dir, dist);
 	point = vec_sum(ray_origin, new_raydir);
+	free(new_raydir);
 	return (point);
 }
