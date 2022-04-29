@@ -1,65 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/29 15:16:58 by zurag             #+#    #+#             */
+/*   Updated: 2022/04/29 17:35:00 by zurag            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
-
-static t_inter	*cyl_intersect_value(t_inter *ret, t_flist *figure_lst,
-							float dist, t_vec *ray_origin, t_vec *ray_dir)
-{
-	t_cyl	*cyl;
-
-	cyl = (t_cyl *)figure_lst->content;
-	ret->type = CYLINDER;
-	ret->dist = dist;
-	ret->point = get_point(ray_origin, dist, ray_dir);
-	ret->norm = cyl_normal(ret->point, cyl, dist, ray_dir, ray_origin);
-	ret->dist = dist;
-	ret->figure = figure_lst->content;
-	return (ret);
-}
-
-static t_inter	*pl_intersect_value(t_inter *ret, t_flist *figure_lst,
-						float dist, t_vec *ray_origin, t_vec *ray_dir)
-{
-	t_plane	*plane;
-
-	plane = (t_plane *)figure_lst->content;
-	ret->type = PLANE;
-	ret->dist = dist;
-	ret->point = get_point(ray_origin, dist, ray_dir);
-	ret->norm = vec_new(plane->nv_orientation->x, plane->nv_orientation->y,		
-						plane->nv_orientation->z);
-	ret->figure = figure_lst->content;
-	return (ret);
-}
-
-static t_inter	*sph_intersect_value(t_inter *ret, t_flist *figure_lst,
-						float dist, t_vec *ray_origin, t_vec *ray_dir)
-{
-	t_sph	*sph;
-
-	sph = (t_sph *)figure_lst->content;
-	ret->type = SPHERE;
-	ret->point = get_point(ray_origin, dist, ray_dir);
-	ret->norm = sph_normal(ret->point, sph);
-	ret->dist = dist;
-	ret->figure = figure_lst->content;
-	return (ret);
-}
 
 static t_inter	*ret_intersect(t_flist *figure_lst,
 			float dist, t_vec *ray_origin, t_vec *ray_dir)
 {
-	t_inter	*ret_intersect;
+	t_inter	*ret;
+	t_ray	*ray;
 
-	ret_intersect = malloc(sizeof(t_inter));
+	ray = init_ray(ray_dir, ray_origin);
+	ret = malloc(sizeof(t_inter));
+	ret->point = get_point(ray_origin, dist, ray_dir);
+	ret->dist = dist;
+	ret->figure = figure_lst->content;
+	ret->type = figure_lst->type;
 	if (figure_lst->type == PLANE)
-		pl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
-			ray_dir);
+	{
+		ret->norm = vec_new(((t_plane *)figure_lst->content)->nv_orientation->x,
+				((t_plane *)figure_lst->content)->nv_orientation->y,
+				((t_plane *)figure_lst->content)->nv_orientation->z);
+	}
 	else if (figure_lst->type == SPHERE)
-		sph_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
-			ray_dir);
+	{
+		ret->norm = sph_normal(ret->point, figure_lst->content);
+	}
 	else if (figure_lst->type == CYLINDER)
-		cyl_intersect_value(ret_intersect, figure_lst, dist, ray_origin,
-			ray_dir);
-	return (ret_intersect);
+		ret->norm = cyl_normal(ret->point, figure_lst->content, dist, ray);
+	free(ray);
+	return (ret);
+}
+
+float	figure_dist(t_vec *ray, t_vec *ray_origin, t_flist *figure_lst)
+{
+	if (figure_lst->type == PLANE)
+		return (plane_intersect(ray_origin, ray, figure_lst->content));
+	else if (figure_lst->type == SPHERE)
+		return (sphere_intersect(ray_origin, ray, figure_lst->content));
+	else if (figure_lst->type == CYLINDER)
+		return (cylinder_intersect(ray_origin, ray, figure_lst->content));
+	else
+		return (-1);
 }
 
 t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
@@ -71,24 +61,11 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 	int		i;
 
 	i = 0;
-	norm_flag = 0;
 	start = figure_lst;
-	dist = malloc(sizeof(float) * ft_flstsize(start));
-	ft_memset(dist, '\0', sizeof(float) * ft_flstsize(start));
+	dist = ft_calloc(ft_flstsize(start), sizeof(float));
 	while (figure_lst)
 	{
-		if (figure_lst->type == PLANE)
-			dist[i] = plane_intersect(ray_origin, ray,
-								(t_plane *)figure_lst->content);
-		else if (figure_lst->type == SPHERE)
-			dist[i] = sphere_intersect(ray_origin, ray,
-									(t_sph *)figure_lst->content);
-		else if (figure_lst->type == CYLINDER) {
-			dist[i] = cylinder_intersect(ray_origin, ray, (t_cyl *)figure_lst->content);
-		}
-		else
-			dist[i] = -1;
-		i++;
+		dist[i++] = figure_dist(ray, ray_origin, figure_lst);
 		figure_lst = figure_lst->next;
 	}
 	min_nbr = find_min_nbr(dist, ft_flstsize(start));
@@ -98,9 +75,7 @@ t_inter	*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin)
 		return (NULL);
 	}
 	ret_inter = ret_intersect(find_node_lst(start, min_nbr), dist[min_nbr],
-				ray_origin, ray);
+			ray_origin, ray);
 	free(dist);
-	cyl_flag = 0;
-	norm_flag = 0;
 	return (ret_inter);
 }

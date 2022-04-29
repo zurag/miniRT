@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 19:25:31 by acollin           #+#    #+#             */
-/*   Updated: 2022/03/08 19:25:33 by acollin          ###   ########.fr       */
+/*   Updated: 2022/04/29 17:32:24 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ t_cyl	*new_cylinder(void)
 	cyl->red = 0;
 	cyl->green = 0;
 	cyl->blue = 0;
+	cyl->norm_flag = 0;
 	return (cyl);
 }

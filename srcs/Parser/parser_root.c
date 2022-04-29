@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/28 19:53:16 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 17:56:47 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	parse_line(char *line, t_vars *vars, t_flist **figure)
 	else if (line[i] == 'L')
 		parse_light(line, vars);
 	else if (line[i] == 'p' && line[i + 1] == 'l')
-		parse_plane(line, vars, figure);
+		parse_plane(line, figure);
 	else if (line[i] == 's' && line[i + 1] == 'p')
-		parse_sphere(line, vars, figure);
+		parse_sphere(line, figure);
 	else if (line[i] == 'c' && line[i + 1] == 'y')
-		parse_cylinder(line, vars, figure);
+		parse_cylinder(line, figure);
 }
 
 void	parser(char **argv, t_vars *vars, t_flist **figure)

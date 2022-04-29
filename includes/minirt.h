@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:47:20 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/29 12:53:31 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 17:56:19 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@
 # define COL_FIN 0xE8811A
 # define BLACK 0x000000
 
-int cyl_flag;
-int norm_flag;
-
 typedef struct s_data	t_data;
 typedef struct s_vars	t_vars;
 typedef struct s_amb	t_amb;
@@ -83,6 +80,12 @@ typedef struct s_data
 	int			line_len;
 	int			endian;
 }				t_data;
+
+typedef struct s_ray
+{
+	t_vec	*orig;
+	t_vec	*dir;
+}				t_ray;
 
 typedef struct s_vars
 {
@@ -153,6 +156,7 @@ typedef struct s_cyl
 	t_vec		*nv_orientation;
 	float		diam;
 	float		height;
+	int			norm_flag;
 	int			color;
 	int			red;
 	int			green;
@@ -199,9 +203,9 @@ void		parse_line(char *line, t_vars *vars, t_flist **figure);
 void		parse_ambient(char *line, t_vars *vars);
 void		parse_camera(char *line, t_vars *vars);
 void		parse_light(char *line, t_vars *vars);
-void		parse_plane(char *line, t_vars *vars, t_flist **figure);
-void		parse_sphere(char *line, t_vars *vars, t_flist **figure);
-void		parse_cylinder(char *line, t_vars *vars, t_flist **figure);
+void		parse_plane(char *line, t_flist **figure);
+void		parse_sphere(char *line, t_flist **figure);
+void		parse_cylinder(char *line, t_flist **figure);
 char		**numbers(char *line, int *i);
 void		put_numbers(char **num, float *x, float *y, float *z);
 void		put_numbers_atoi(char **num, int *x, int *y, int *z);
@@ -244,19 +248,19 @@ int			get_color(t_vars *vars, t_inter *ret_inter, t_flist *figure,
 int			get_sphere_color(t_vars *vars, t_inter *ret_inter,
 				t_flist *figure_lst, t_vec *ray_dir);
 int			get_plane_color(t_vars *vars, t_inter *ret_inter,
-				t_flist *figure_lst, t_vec *ray_dir);
+				t_flist *figure_lst);
 int			get_cylinder_color(t_vars *vars, t_inter *ret_inter,
-				t_flist *figure_lst, t_vec *ray_dir);
+				t_flist *figure_lst);
 float		plane_intersect(t_vec *ray_origin, t_vec *ray, t_plane *plane);
 float		sphere_intersect(t_vec *ray_origin, t_vec *ray, t_sph *sphere);
 float		cylinder_intersect(t_vec *ray_origin, t_vec *ray, t_cyl *cyl);
 t_vec		*get_point(t_vec *ray_origin, float dist, t_vec *ray_dir);
-t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_vec *ray,
-				t_vec *ray_origin);
+t_vec		*cyl_normal(t_vec *point, t_cyl *cyl, float dist, t_ray *ray);
 t_vec		*sph_normal(t_vec *point, t_sph *sph);
 int			find_min_nbr(float	*arr, int size);
 t_flist		*find_node_lst(t_flist *figure_lst, int nbr);
 t_inter		*intersect(t_vec *ray, t_flist *figure_lst, t_vec *ray_origin);
+t_ray		*init_ray(t_vec *dir, t_vec *orig);
 
 // FIGURES LIST
 t_flist		*ft_flstnew(void *content, int type);
