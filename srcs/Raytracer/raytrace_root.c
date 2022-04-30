@@ -6,7 +6,7 @@
 /*   By: zurag <zurag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 19:52:16 by zurag             #+#    #+#             */
-/*   Updated: 2022/04/29 20:59:44 by zurag            ###   ########.fr       */
+/*   Updated: 2022/04/29 21:18:46 by zurag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void	colcul_color(float angle_xy[2], t_vplane *vplane,
 		vars->x++;
 		angle_xy[0]++;
 	}
+	free(cam_to_world);
 	free(ray_new);
 }
 
