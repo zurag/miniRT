@@ -63,6 +63,7 @@ t_matrix	*look_at(t_vec *from, t_vec *to)
 	free(forward);
 	free(right);
 	free(up);
+	free(to);
 	return (cam_to_world);
 }
 

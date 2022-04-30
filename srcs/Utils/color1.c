@@ -24,11 +24,11 @@ int	color_sphere(t_vars *vars, t_sph *sph, float cos, float specular)
 		specular = 0;
 	}
 	red = sph->red * (vars->amb->l_rat + cos * vars->light->bright
-		+ specular);
+			+ specular);
 	green = sph->green * (vars->amb->l_rat + cos * vars->light->bright
-		+ specular);
+			+ specular);
 	blue = sph->blue * (vars->amb->l_rat + cos * vars->light->bright
-		+ specular);
+			+ specular);
 	return (ft_color(red, green, blue));
 }
 

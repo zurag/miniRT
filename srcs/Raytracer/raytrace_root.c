@@ -50,7 +50,7 @@ int	ft_pixel_color(t_vars *vars, t_vec *ray, t_flist **figure)
 	return (0);
 }
 
-static void	colcul_color(float angle_xy[2], t_vplane *vplane,
+static void	calc_color(float angle_xy[2], t_vplane *vplane,
 	t_vars *vars, t_flist **figure)
 {
 	t_vec		*ray_new;
@@ -61,7 +61,6 @@ static void	colcul_color(float angle_xy[2], t_vplane *vplane,
 
 	to = vec_new(0, 0, -1);
 	cam_to_world = look_at(vars->camera->nv_direction, to);
-	free(to);
 	ray_new = vec_new(0, 0, 0);
 	ray_xy[1] = angle_xy[1] * vplane->y_pixel;
 	angle_xy[0] = (WIDTH / 2) * (-1);
@@ -92,7 +91,7 @@ void	raytrace(t_vars *vars, t_flist **figure)
 	while (angle_xy[1] > (HEIGHT / 2) * (-1))
 	{
 		vars->x = 0;
-		colcul_color(angle_xy, vplane, vars, figure);
+		calc_color(angle_xy, vplane, vars, figure);
 		angle_xy[1]--;
 		vars->y++;
 	}
