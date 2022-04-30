@@ -59,32 +59,31 @@ t_matrix	*look_at(t_vec *from, t_vec *to)
 	vec_normalize(forward);
 	right = cross_product(tmp, forward);
 	up = cross_product(forward, right);
-	cam_to_world = new_matrix();
-	cam_to_world->mat[0][0] = right->x;
-	cam_to_world->mat[0][1] = right->y;
-	cam_to_world->mat[0][2] = right->z;
-	cam_to_world->mat[1][0] = up->x;
-	cam_to_world->mat[1][1] = up->y;
-	cam_to_world->mat[1][2] = up->z;
-	cam_to_world->mat[2][0] = forward->x;
-	cam_to_world->mat[2][1] = forward->y;
-	cam_to_world->mat[2][2] = forward->z;
-	cam_to_world->mat[3][0] = from->x;
-	cam_to_world->mat[3][1] = from->y;
-	cam_to_world->mat[3][2] = from->z;
-	free(tmp);
+	cam_to_world = new_matrix(right, up, forward, from);
 	free(forward);
 	free(right);
 	free(up);
 	return (cam_to_world);
 }
 
-t_matrix	*new_matrix(void)
+t_matrix	*new_matrix(t_vec *right, t_vec *up, t_vec *forward, t_vec *from)
 {
-	t_matrix	*m;
+	t_matrix	*mat;
 
-	m = (t_matrix *)malloc(sizeof(t_matrix));
-	if (NULL == m)
+	mat = (t_matrix *)malloc(sizeof(t_matrix));
+	if (NULL == mat)
 		return (NULL);
-	return (m);
+	mat->mat[0][0] = right->x;
+	mat->mat[0][1] = right->y;
+	mat->mat[0][2] = right->z;
+	mat->mat[1][0] = up->x;
+	mat->mat[1][1] = up->y;
+	mat->mat[1][2] = up->z;
+	mat->mat[2][0] = forward->x;
+	mat->mat[2][1] = forward->y;
+	mat->mat[2][2] = forward->z;
+	mat->mat[3][0] = from->x;
+	mat->mat[3][1] = from->y;
+	mat->mat[3][2] = from->z;
+	return (mat);
 }

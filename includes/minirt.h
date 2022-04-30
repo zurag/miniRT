@@ -288,6 +288,11 @@ void		print_vect(t_vec *vec, char *name);
 void		mult_dir_matrix(t_vec *src, t_vec *dst, t_matrix *m);
 t_matrix	*look_at(t_vec *from, t_vec *to);
 void		mult_vec_matrix(t_vec *src, t_vec *dst, t_matrix *m);
-t_matrix	*new_matrix(void);
+t_matrix	*new_matrix(t_vec *right, t_vec *up, t_vec *forward, t_vec *from);
+
+int			color_cyl(t_vars *vars, t_cyl *cyl, float cos, float specular);
+int			color_plane(t_vars *vars, t_plane *pl, float cos, float specular);
+int			color_sphere(t_vars *vars, t_sph *sph, float cos, float specular);
+void		shadow_check(t_inter *shadow, float cos_alpha, float len_light);
 
 #endif 

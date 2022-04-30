@@ -15,18 +15,16 @@
 int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 						t_vec *ray_dir)
 {
-	t_sph	*tmp_sph;
 	float	cos_alpha;
-	float	specular;
+	float	spec;
 	t_vec	*light;
-	int		color_from_light;
 	t_inter	*shadow;
 	float	len_light;
 
-	tmp_sph = (t_sph *)ret_inter->figure;
 	shadow = NULL;
 	cos_alpha = 0;
-	specular = 0;
+	len_light = 0;
+	spec = 0;
 	if (vars->light)
 	{
 		light = vec_subtraction(vars->light->d_point, ret_inter->point);
@@ -34,33 +32,11 @@ int	get_sphere_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst,
 		vec_normalize(light);
 		cos_alpha = dot_product(ret_inter->norm, light);
 		shadow = intersect(light, figure_lst, ret_inter->point);
-		specular = specular_light(ret_inter->norm, light, ray_dir);
+		spec = specular_light(ret_inter->norm, light, ray_dir);
 		free(light);
 	}
-	if (cos_alpha < 0)
-	{
-		specular = 0;
-		cos_alpha = 0;
-	}
-	if (shadow)
-	{
-		if (shadow->dist < len_light)
-		{
-			cos_alpha = 0;
-			specular = 0;
-		}
-		free(shadow->norm);
-		free(shadow->point);
-		free(shadow);
-	}
-	color_from_light = ft_color(
-			tmp_sph->red * (vars->amb->l_rat + cos_alpha * vars->light->bright
-				+ specular),
-			tmp_sph->green * (vars->amb->l_rat + cos_alpha * vars->light->bright
-				+ specular),
-			tmp_sph->blue * (vars->amb->l_rat + cos_alpha * vars->light->bright
-				+ specular));
-	return (color_from_light);
+	shadow_check(shadow, cos_alpha, len_light);
+	return (color_sphere(vars, (t_sph *)ret_inter->figure, cos_alpha, spec));
 }
 
 int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
@@ -69,7 +45,6 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	float	cos_alpha;
 	t_vec	*light;
 	float	len_light;
-	int		color_from_light;
 	t_inter	*shadow;
 
 	len_light = 0;
@@ -86,24 +61,8 @@ int	get_plane_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 		shadow = intersect(light, figure_lst, ret_inter->point);
 		free(light);
 	}
-	if (cos_alpha < 0)
-		cos_alpha = 0;
-	if (shadow)
-	{
-		if (shadow->dist < len_light)
-			cos_alpha = 0;
-		free(shadow->norm);
-		free(shadow->point);
-		free(shadow);
-	}
-	color_from_light = ft_color(
-			tmp_plane->red * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright),
-			tmp_plane->green * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright),
-			tmp_plane->blue * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright));
-	return (color_from_light);
+	shadow_check(shadow, cos_alpha, len_light);
+	return (color_plane(vars, tmp_plane, cos_alpha, 0));
 }
 
 int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
@@ -111,12 +70,12 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 	t_cyl	*tmp_cyl;
 	float	cos_alpha;
 	t_vec	*light;
-	int		color_from_light;
 	float	len_light;
 	t_inter	*shadow;
 
 	tmp_cyl = (t_cyl *)ret_inter->figure;
 	shadow = NULL;
+	len_light = 0;
 	cos_alpha = 0;
 	if (vars->light)
 	{
@@ -127,24 +86,8 @@ int	get_cylinder_color(t_vars *vars, t_inter *ret_inter, t_flist *figure_lst)
 		shadow = intersect(light, figure_lst, ret_inter->point);
 		free(light);
 	}
-	if (cos_alpha < 0)
-		cos_alpha = 0;
-	if (shadow)
-	{
-		if (shadow->dist < len_light)
-			cos_alpha = 0;
-		free(shadow->norm);
-		free(shadow->point);
-		free(shadow);
-	}
-	color_from_light = ft_color(
-			tmp_cyl->red * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright),
-			tmp_cyl->green * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright),
-			tmp_cyl->blue * (vars->amb->l_rat
-				+ cos_alpha * vars->light->bright));
-	return (color_from_light);
+	shadow_check(shadow, cos_alpha, len_light);
+	return (color_cyl(vars, tmp_cyl, cos_alpha, 0));
 }
 
 int	ft_color(int red, int green, int blue)

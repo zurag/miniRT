@@ -12,6 +12,7 @@ SOURCES_LIST	= 	srcs/main/main.c \
 					srcs/Parser/atof.c \
 					srcs/Utils/init_and_hooks.c \
 					srcs/Utils/color.c \
+					srcs/Utils/color1.c \
 					srcs/Utils/utils.c \
 					srcs/Utils/flist_utils.c \
 					srcs/Figures/camera.c \
